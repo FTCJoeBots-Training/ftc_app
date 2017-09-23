@@ -14,13 +14,6 @@
 // Include common definitions from above.
 apply from: '../build.common.gradle'
 
-<<<<<<< HEAD
-dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.0'   // Version 23+ is required
-}
-
-=======
->>>>>>> upstream/master
 android {
     buildToolsVersion '25.0.0'
 }
