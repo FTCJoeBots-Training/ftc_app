@@ -131,7 +131,9 @@ public class SensorREVColorDistance extends LinearOpMode {
                     relativeLayout.setBackgroundColor(Color.HSVToColor(0xff, values));
                 }
             });
-            //Use this For Blue
+
+            //------------------------------------------------------------
+            //Use this For Blue/Red
             telemetry.update();
             if (sensorColor.red() >= 28) {
                 telemetry.addLine("I see Red");
@@ -144,7 +146,7 @@ public class SensorREVColorDistance extends LinearOpMode {
 
 
             }
-
+/           //===================================================================
         }
 
         // Set the panel back to the default color
@@ -155,3 +157,25 @@ public class SensorREVColorDistance extends LinearOpMode {
         });
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
