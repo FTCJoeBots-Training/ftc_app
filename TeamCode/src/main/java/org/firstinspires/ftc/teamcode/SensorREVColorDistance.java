@@ -138,11 +138,11 @@ public class SensorREVColorDistance extends LinearOpMode {
             if (sensorColor.red() >= 28) {
                 telemetry.addLine("I see Red");
 
-            } else {
+            } else telemetry.addLine("Red Found Successfully"); {
                 if (sensorColor.red() <=26 ){
                     telemetry.addLine("I see Blue");
 
-                } else {
+                } else telemetry.addLine("Blue Found Successfully"); {
 
 
             }
