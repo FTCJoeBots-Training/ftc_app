@@ -133,9 +133,9 @@ public class SensorREVColorDistance extends LinearOpMode {
             });
 
             telemetry.update();
-            if (sensorColor.red() public void init() {
+            if (sensorColor.red() >= 28) {
 
-            }
+            } else{
 
 
             }
@@ -146,7 +146,7 @@ public class SensorREVColorDistance extends LinearOpMode {
         relativeLayout.post(new Runnable() {
             public void run() {
                 relativeLayout.setBackgroundColor(Color.WHITE);
-            }
+                }
         });
     }
 }
