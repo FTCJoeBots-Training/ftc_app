@@ -131,7 +131,7 @@ public class SensorREVColorDistance extends LinearOpMode {
                     relativeLayout.setBackgroundColor(Color.HSVToColor(0xff, values));
                 }
             });
-
+            //Use this For Blue
             telemetry.update();
             if (sensorColor.red() >= 28) {
                 telemetry.addLine("I see Red");
