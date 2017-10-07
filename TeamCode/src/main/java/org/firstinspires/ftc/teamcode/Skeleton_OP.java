@@ -5,22 +5,26 @@ package org.firstinspires.ftc.teamcode;
  */
 
 public class Skeleton_OP {
-//}
-//@Override
+}
+@Override
 public void init() {
 
 }
-//@Override
+@Override
 public void start(){
 
 }
-//@Override
+@Override
 public void loop(){
 
 }
 
-//@Override
-public void stop() {
+@Override
+public void stop(){
 
-//}
-}}
+}
+
+//Help me SO Much I need to die
+
+
+//Sample
