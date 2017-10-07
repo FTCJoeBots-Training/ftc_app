@@ -131,7 +131,7 @@ public class SensorREVColorDistance extends LinearOpMode {
                     relativeLayout.setBackgroundColor(Color.HSVToColor(0xff, values));
                 }
             });
-            //Sensor Color.Red  Greater than or Equals to 28 <-Red {} <-then Else= Future Code
+            //Sensor Color.Red  Greater than or Equals to 28 <-Red {} <-then Else= Future Code H
             telemetry.update();
             if (sensorColor.red() >= 28) {
 
