@@ -82,22 +82,9 @@ public class AutonomousSensors extends LinearOpMode {
         while(opModeIsActive()) {
 
 
-            // convert the RGB values to HSV values.
-            Color.RGBToHSV(robot.colorSensor.red() * 8, robot.colorSensor.green() * 8, robot.colorSensor.blue() * 8, hsvValues);
-
-            // send the info back to driver station using telemetry function.
-            telemetry.addData("Clear", robot.colorSensor.alpha());
-            telemetry.addData("Red  ", robot.colorSensor.red());
-            telemetry.addData("Green", robot.colorSensor.green());
-            telemetry.addData("Blue ", robot.colorSensor.blue());
-            telemetry.addData("Hue", hsvValues[0]);
 
 
-            // send range info back to Driver Station
-            telemetry.addData("raw ultrasonic", robot.rangeSensor.rawUltrasonic());
-            telemetry.addData("raw optical", robot.rangeSensor.rawOptical());
-            telemetry.addData("cm optical", "%.2f cm", robot.rangeSensor.cmOptical());
-            telemetry.addData("cm", "%.2f cm", robot.rangeSensor.getDistance(DistanceUnit.CM));
+
 
             // change the background color to match the color detected by the RGB sensor.
             // pass a reference to the hue, saturation, and value array as an argument
