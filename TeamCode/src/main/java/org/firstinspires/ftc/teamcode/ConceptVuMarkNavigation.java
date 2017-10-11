@@ -26,12 +26,14 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
@@ -65,13 +67,25 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * is explained in {@link ConceptVuforiaNavigation}.
  */
 
-@Autonomous(name="Concept: VuMark Id", group ="Concept")
-/*@Disabled*/
-public class ConceptVuMarkIdentification extends LinearOpMode {
+@Autonomous(name="Concept: Ethan'sVuMarkNav", group ="Concept")
+public class ConceptVuMarkNavigation extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Sample";
+    HardwareJoeBot         robot   = new HardwareJoeBot();   // Use a Pushbot's hardware
+    private ElapsedTime runtime = new ElapsedTime();
+
+    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     DRIVE_SPEED             = 0.6;
+    static final double     TURN_SPEED              = 0.5;
 
     OpenGLMatrix lastLocation = null;
+
+
+
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -79,7 +93,35 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
      */
     VuforiaLocalizer vuforia;
 
-    @Override public void runOpMode() {
+    @Override public void runOpMode() throws InterruptedException {
+
+         /*
+         * Initialize the drive system variables.
+         * The init() method of the hardware class does all the work here
+         */
+        robot.init(hardwareMap);
+
+        // Send telemetry message to signify robot waiting;
+        telemetry.addData("Status", "Resetting Encoders");    //
+        telemetry.update();
+
+        robot.motor_driveleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.motor_driveright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        idle();
+
+        robot.motor_driveleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motor_driveright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Send telemetry message to indicate successful Encoder reset
+        telemetry.addData("Path0",  "Starting at %7d :%7d",
+                robot.motor_driveleft.getCurrentPosition(),
+                robot.motor_driveright.getCurrentPosition());
+        telemetry.update();
+
+
+
+        /* Declare OpMode members. */
+
 
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
@@ -103,7 +145,7 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
          * Once you've obtained a license key, copy the string from the Vuforia web site
          * and paste it in to your code onthe next line, between the double quotes.
          */
-        parameters.vuforiaLicenseKey = "AAVzCl0v/////AAAAGcfsmNB0+Ecxi9nnFUli4RtGGZORFTsrkrZTsSaEZcnHNkxhb5NbskfqT531gL1cmgLFZ5xxeICDdBlPxxEbD4JcUvUuIdXxpVesR7/EAFZ+DTSJT3YQb0sKm2SlOlfiMf7ZdCEUaXuymCZPB4JeoYdogDUOdsOrd0BTDV2Z+CtO3eSsHWfcY6bDLh8VJKSbeFdk533EzcA26uhfhwBxYlzbOsjPSVCB66P6GbIP9/UjI3lbTNi+tpCpnOZa2gwPjoTSeEjo9ZKtkPe3a/DpLq3OMnVwVnUmsDvoW++UbtOmg9WNFC/YkN7DCtMt91uPaJPL5vOERkA+uXliC1i44IT4EyfoN1ccLaJiXMFH63DE";
+        parameters.vuforiaLicenseKey = "AVzCl0v/////AAAAGcfsmNB0+Ecxi9nnFUli4RtGGZORFTsrkrZTsSaEZcnHNkxhb5NbskfqT531gL1cmgLFZ5xxeICDdBlPxxEbD4JcUvUuIdXxpVesR7/EAFZ+DTSJT3YQb0sKm2SlOlfiMf7ZdCEUaXuymCZPB4JeoYdogDUOdsOrd0BTDV2Z+CtO3eSsHWfcY6bDLh8VJKSbeFdk533EzcA26uhfhwBxYlzbOsjPSVCB66P6GbIP9/UjI3lbTNi+tpCpnOZa2gwPjoTSeEjo9ZKtkPe3a/DpLq3OMnVwVnUmsDvoW++UbtOmg9WNFC/YkN7DCtMt91uPaJPL5vOERkA+uXliC1i44IT4EyfoN1ccLaJiXMFH63DE";
 
         /*
          * We also indicate which camera on the RC that we wish to use.
@@ -138,7 +180,30 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
              * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
              */
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+
+                //determine what coluem you have to put the glyph
+                if (vuMark == RelicRecoveryVuMark.LEFT) {
+                        telemetry.addLine("I seed da left");
+                        encoderDrive(TURN_SPEED,12,-12,4);
+
+                }
+
+                //determine what coluem you have to put the glyph
+                if (vuMark == RelicRecoveryVuMark.CENTER) {
+                    telemetry.addLine("I seed da center");
+                    encoderDrive(TURN_SPEED,12,12,4);
+                }
+
+                //determine what coluem you have to put the glyph
+                if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                    telemetry.addLine("I seed da right");
+                    encoderDrive(TURN_SPEED,-12,12,4);
+                }
+
+
+
 
                 /* Found an instance of the template. In the actual game, you will probably
                  * loop until this condition occurs, then move on to act accordingly depending
@@ -153,20 +218,7 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
 
                 /* We further illustrate how to decompose the pose into useful rotational and
                  * translational components */
-                if (pose != null) {
-                    VectorF trans = pose.getTranslation();
-                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
-                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
-                    double tX = trans.get(0);
-                    double tY = trans.get(1);
-                    double tZ = trans.get(2);
-
-                    // Extract the rotational components of the target relative to the robot
-                    double rX = rot.firstAngle;
-                    double rY = rot.secondAngle;
-                    double rZ = rot.thirdAngle;
-                }
             }
             else {
                 telemetry.addData("VuMark", "not visible");
@@ -175,6 +227,59 @@ public class ConceptVuMarkIdentification extends LinearOpMode {
             telemetry.update();
         }
     }
+
+    public void encoderDrive(double speed,
+                             double leftInches, double rightInches,
+                             double timeoutS) throws InterruptedException {
+        int newLeftTarget;
+        int newRightTarget;
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newLeftTarget = robot.motor_driveleft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+            newRightTarget = robot.motor_driveright.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+            robot.motor_driveleft.setTargetPosition(newLeftTarget);
+            robot.motor_driveright.setTargetPosition(newRightTarget);
+
+            // Turn On RUN_TO_POSITION
+            robot.motor_driveleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motor_driveright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            robot.motor_driveleft.setPower(Math.abs(speed));
+            robot.motor_driveright.setPower(Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (robot.motor_driveleft.isBusy() && robot.motor_driveright.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+                telemetry.addData("Path2", "Running at %7d :%7d",
+                        robot.motor_driveleft.getCurrentPosition(),
+                        robot.motor_driveright.getCurrentPosition());
+                telemetry.update();
+
+                // Allow time for other processes to run.
+                idle();
+            }
+
+            // Stop all motion;
+            robot.motor_driveleft.setPower(0);
+            robot.motor_driveright.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            robot.motor_driveleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motor_driveright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            //  sleep(250);   // optional pause after each move
+        }
+    }
+
 
     String format(OpenGLMatrix transformationMatrix) {
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
