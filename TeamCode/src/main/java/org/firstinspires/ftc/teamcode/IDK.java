@@ -5,16 +5,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @TeleOp (name ="TankToAll", group = "TeleOp")
-@Disabled
+//@Disabled
 //IDK what to call this so IDK will do... Don't ever question me.
 public class IDK extends LinearOpMode {
 
     HardwareJoeBot robot = new HardwareJoeBot();
 
 
-
-        @Override
-        public void runOpMode () throws InterruptedException {
+    @Override
+    public void runOpMode() throws InterruptedException {
         double left;
         double right;
         double rightTrigger;
@@ -43,17 +42,17 @@ public class IDK extends LinearOpMode {
             leftTrigger = gamepad1.left_trigger;
             rightTrigger = gamepad1.right_trigger;
             //If the right trigger is pressed, we're going to ignore left trigger
-            if (rightTrigger>0) {
+            if (rightTrigger > 0) {
                 // robot.motor_arm.setPower(rightTrigger);
-            } else if (leftTrigger>0) {
+            } else if (leftTrigger > 0) {
                 // robot.motor_arm.setPower(-leftTrigger);
             } else {
                 //robot.motor_arm.setPower(0);
             }
 
-
+3
         }
 
 
-
     }
+}

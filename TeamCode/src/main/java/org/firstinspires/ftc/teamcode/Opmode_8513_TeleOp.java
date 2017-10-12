@@ -128,6 +128,7 @@ public class Opmode_8513_TeleOp extends LinearOpMode {
             }
             bPrevStateB = bCurrStateB;
 
+            /**
             if (bIntakeOn == true) {
                 robot.Intake.setPower(intakePower);
             } else {
@@ -143,7 +144,7 @@ public class Opmode_8513_TeleOp extends LinearOpMode {
             }
             bPrevStateX = bCurrStateX;
 
-
+            **/
 
 
             // Toggle Intake Elevator On/Off
@@ -159,7 +160,7 @@ public class Opmode_8513_TeleOp extends LinearOpMode {
             }
             bPrevStateY = bCurrStateY;
 
-            if (Intake_eleon == true) {
+            /**if (Intake_eleon == true) {
                 robot.Intake_Elevator.setPower(elevatorPower);
             } else {
                 robot.Intake_Elevator.setPower(0);
@@ -262,6 +263,7 @@ public class Opmode_8513_TeleOp extends LinearOpMode {
             }
 
 
+            **/
 
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
