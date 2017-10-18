@@ -146,8 +146,7 @@ public class SensorREVColorDistance extends LinearOpMode {
 
 
             }
-/           //===================================================================
-        }
+       }
 
         // Set the panel back to the default color
         relativeLayout.post(new Runnable() {
