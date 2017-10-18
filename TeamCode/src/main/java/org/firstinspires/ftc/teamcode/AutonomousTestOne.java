@@ -68,7 +68,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  */
 
 @Autonomous(name="Autonomous Spin", group="Testing")
-//@Disabled
+@Disabled
 public class AutonomousTestOne extends LinearOpMode {
 
     /* Declare OpMode members. */
