@@ -49,7 +49,7 @@ This file demonstrates usage of sensors.
  */
 
 @Autonomous(name="Autonomous Sensors", group="Greg")
-//@Disabled
+@Disabled
 public class AutonomousSensors extends LinearOpMode {
 
     /* Declare OpMode members. */
