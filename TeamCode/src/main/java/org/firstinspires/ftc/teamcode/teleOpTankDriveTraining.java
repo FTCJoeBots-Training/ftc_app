@@ -31,7 +31,7 @@ public class teleOpTankDriveTraining extends LinearOpMode {
         speedConstant = 0.5;
         telemetry.addLine("Low Speed");
         bPrevStateA = false;
-        
+
 
 
 
