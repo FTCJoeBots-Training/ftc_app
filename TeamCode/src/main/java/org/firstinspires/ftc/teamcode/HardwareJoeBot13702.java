@@ -35,10 +35,10 @@ import java.util.Locale;
 public class HardwareJoeBot13702
 {
     /* Public OpMode members. */
-    public DcMotor                      motor1          = null;
-    public DcMotor                      motor2          = null;
-    public DcMotor                      motor3          = null;
-    public DcMotor                      motor4          = null;
+    public DcMotor  motor1 = null;
+    public DcMotor  motor2 = null;
+    public DcMotor  motor3 = null;
+    public DcMotor  motor4 = null;
 
     // The IMU sensor object
     public BNO055IMU imu;
@@ -128,6 +128,58 @@ public class HardwareJoeBot13702
         period.reset();
     }
 
+    /***
+     *
+     * turnDegrees Turns the robot to a heading based on feedback from the Rev IMU
+     *
+     * @param degreesToTurn Number of degrees to turn (+ turns clockwise).
+     * @throws InterruptedException
+     *
+     *
+     */
+
+    public void turnDegrees(double degreesToTurn) throws InterruptedException {
+
+        double turnError;
+        double turnSpeed;
+        double currHeading;
+        double targetHeading;
+
+
+        // Set currHeading based on IMU
+
+        currHeading = angles.firstAngle;
+
+        // Set targetHeading
+
+        targetHeading = currHeading + degreesToTurn;
+        if (targetHeading > 180) {
+            targetHeading = targetHeading - 360;
+        }
+
+        turnError = ((targetHeading - angles.firstAngle)+360) % 360;
+
+
+        // Determine if I should turn left or right
+
+        while (turnError > 1) {
+
+            turnError = ((targetHeading - angles.firstAngle)+360);
+            turnSpeed = (turnError/180);
+
+
+
+            motor1.setPower(turnSpeed);
+            motor2.setPower(turnSpeed);
+            motor3.setPower(turnSpeed);
+            motor4.setPower(turnSpeed);
+
+        }
+
+
+
+
+    }
 
 
 }
