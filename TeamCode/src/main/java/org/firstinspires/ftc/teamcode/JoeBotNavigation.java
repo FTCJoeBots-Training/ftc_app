@@ -15,6 +15,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
+
 import org.firstinspires.ftc.teamcode.R;
 
 import java.util.ArrayList;
@@ -41,12 +44,12 @@ import static android.view.View.X;
 public class JoeBotNavigation
 {
     // Constants
-    private static final int     MAX_TARGETS    =   4;
+    private static final int     MAX_TARGETS    =   1;
     private static final double  ON_AXIS        =  10;      // Within 1.0 cm of target center-line
     private static final double  CLOSE_ENOUGH   =  20;      // Within 2.0 cm of final target standoff
 
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.  Alt. is BACK
-    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = VuforiaLocalizer.CameraDirection.FRONT;
+    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = VuforiaLocalizer.CameraDirection.BACK;
 
     public  static final double  YAW_GAIN       =  0.018;   // Rate at which we respond to heading error
     public  static final double  LATERAL_GAIN   =  0.0027;  // Rate at which we respond to off-axis error
@@ -182,7 +185,7 @@ public class JoeBotNavigation
          * but differ in their instance id information.
          * @see VuMarkInstanceId
          */
-        VuforiaTrackables targets = vuforia.loadTrackablesFromAsset("RelicVuMark");
+        targets = vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = targets.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
@@ -218,9 +221,9 @@ public class JoeBotNavigation
          * In this example, it is centered (left to right), but 110 mm forward of the middle of the robot, and 200 mm above ground level.
          */
 
-        final int CAMERA_FORWARD_DISPLACEMENT  = 110;   // Camera is 110 mm in front of robot center
-        final int CAMERA_VERTICAL_DISPLACEMENT = 200;   // Camera is 200 mm above ground
-        final int CAMERA_LEFT_DISPLACEMENT     = 0;     // Camera is ON the robots center line
+        final int CAMERA_FORWARD_DISPLACEMENT  = 260;   // Camera is 110 mm in front of robot center
+        final int CAMERA_VERTICAL_DISPLACEMENT = 305;   // Camera is 200 mm above ground
+        final int CAMERA_LEFT_DISPLACEMENT     = 140;     // Camera is ON the robots center line
 
         OpenGLMatrix phoneLocationOnRobot = OpenGLMatrix
             .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)

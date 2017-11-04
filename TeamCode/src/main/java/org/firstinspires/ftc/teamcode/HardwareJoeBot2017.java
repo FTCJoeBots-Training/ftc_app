@@ -83,7 +83,7 @@ public class HardwareJoeBot2017
         //  (note: The joystick goes negative when pushed forwards, so negate it)
         setAxial(-myOpMode.gamepad1.left_stick_y);
         setLateral(myOpMode.gamepad1.left_stick_x);
-        setYaw(-myOpMode.gamepad1.right_stick_x);
+        setYaw(myOpMode.gamepad1.right_stick_x);
     }
 
 
