@@ -84,7 +84,7 @@ public class autoTestIMU extends LinearOpMode {
 
           // Initialize Robot
 
-          robot.init(hardwareMap);
+          robot.init(hardwareMap, this);
 
         // Set up our telemetry dashboard
         composeTelemetry();

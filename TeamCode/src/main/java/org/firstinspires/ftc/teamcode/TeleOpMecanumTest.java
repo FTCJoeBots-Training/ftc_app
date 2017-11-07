@@ -58,7 +58,7 @@ public class TeleOpMecanumTest extends LinearOpMode {
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, this);
         composeTelemetry();
 
         double forward;
