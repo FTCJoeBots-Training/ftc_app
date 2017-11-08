@@ -96,17 +96,17 @@ public class AutonomousTestOne extends LinearOpMode {
         telemetry.addData("Status", "Resetting Encoders");    //
         telemetry.update();
 
-        robot.motor_driveleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.motor_driveright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         idle();
 
-        robot.motor_driveleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motor_driveright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
-                          robot.motor_driveleft.getCurrentPosition(),
-                          robot.motor_driveright.getCurrentPosition());
+                          robot.leftmotor.getCurrentPosition(),
+                          robot.rightmotor.getCurrentPosition());
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -144,30 +144,30 @@ public class AutonomousTestOne extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot.motor_driveleft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = robot.motor_driveright.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            robot.motor_driveleft.setTargetPosition(newLeftTarget);
-            robot.motor_driveright.setTargetPosition(newRightTarget);
+            newLeftTarget = robot.leftmotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newRightTarget = robot.rightmotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            robot.leftmotor.setTargetPosition(newLeftTarget);
+            robot.rightmotor.setTargetPosition(newRightTarget);
 
             // Turn On RUN_TO_POSITION
-            robot.motor_driveleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.motor_driveright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leftmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.rightmotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.motor_driveleft.setPower(Math.abs(speed));
-            robot.motor_driveright.setPower(Math.abs(speed));
+            robot.leftmotor.setPower(Math.abs(speed));
+            robot.rightmotor.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             while (opModeIsActive() &&
                    (runtime.seconds() < timeoutS) &&
-                   (robot.motor_driveleft.isBusy() && robot.motor_driveright.isBusy())) {
+                   (robot.leftmotor.isBusy() && robot.rightmotor.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
                 telemetry.addData("Path2",  "Running at %7d :%7d",
-                                            robot.motor_driveleft.getCurrentPosition(),
-                                            robot.motor_driveright.getCurrentPosition());
+                                            robot.leftmotor.getCurrentPosition(),
+                                            robot.rightmotor.getCurrentPosition());
                 telemetry.update();
 
                 // Allow time for other processes to run.
@@ -175,12 +175,12 @@ public class AutonomousTestOne extends LinearOpMode {
             }
 
             // Stop all motion;
-            robot.motor_driveleft.setPower(0);
-            robot.motor_driveright.setPower(0);
+            robot.leftmotor.setPower(0);
+            robot.rightmotor.setPower(0);
 
             // Turn off RUN_TO_POSITION
-            robot.motor_driveleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.motor_driveright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.leftmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.rightmotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
         }

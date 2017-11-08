@@ -110,8 +110,8 @@ public class Opmode_8513_TeleOp extends LinearOpMode {
 
             left = -gamepad1.left_stick_y / -1.4;
             right = -gamepad1.right_stick_y / -1.5;
-            robot.motor_driveleft.setPower(left);
-            robot.motor_driveright.setPower(right);
+            robot.rightmotor.setPower(left);
+            robot.leftmotor.setPower(right);
 
             //-----------------------------------------------//
 

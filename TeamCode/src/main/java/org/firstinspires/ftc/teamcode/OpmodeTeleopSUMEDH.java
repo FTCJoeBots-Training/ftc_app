@@ -84,8 +84,8 @@ public class OpmodeTeleopSUMEDH extends LinearOpMode {
             // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
             left = -gamepad1.left_stick_y;
             right = -gamepad1.right_stick_y;
-            robot.motor_driveleft.setPower(left);
-            robot.motor_driveright.setPower(right);
+            robot.leftmotor.setPower(left);
+            robot.rightmotor.setPower(right);
 
 
 

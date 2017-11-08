@@ -80,8 +80,8 @@ public class autoTestServos extends LinearOpMode {
             telemetry.update();
 
             // Set the servo to the new position and pause;
-            robot.srv_left.setPosition(lPosition);
-            robot.srv_right.setPosition(rPosition);
+            //robot.srv_left.setPosition(lPosition);
+            //robot.srv_right.setPosition(rPosition);
             sleep(CYCLE_MS);
             idle();
         }

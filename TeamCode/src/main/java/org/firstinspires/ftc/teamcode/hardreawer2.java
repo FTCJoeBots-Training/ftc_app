@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -18,40 +16,33 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Note:  All names are lower case and some have single spaces between words.
  *
  * Motor channel:  Left  drive motor:        "motor-driveleft"
- * Motor channel:  Right drive motor:        "rightmotor"
-
+ * Motor channel:  Right drive motor:        "motor-driveright"
+ * Motor channel:  Arm drive motor:          "Arm"
  * Servo channel:  Servo for left wing:      "srv-left"
  * Servo channel:  Servo for right wing:     "srv-right"
  */
 
-public class HardwareJoeBot
+public class hardreawer2
 {
     /* Public OpMode members. */
-    public DcMotor                      leftmotor          = null;
-    public DcMotor                      rightmotor          = null;
-    
+    public DcMotor                      motor1          = null;
+    public DcMotor                      motor2          = null;
+    public DcMotor                      motor3          = null;
+    public DcMotor                      motor4          = null;
+
+    // The IMU sensor object
     public BNO055IMU imu;
 
     // Variables used for IMU tracking...
     public Orientation angles;
     public Acceleration gravity;
 
-    // public Servo                        srv_left          = null;
-    //public Servo                        srv_right         = null;
-
-
-
-    //public static final double RIGHT_SERVO_OUT   =  0.25 ;
-    //public static final double RIGHT_SERVO_IN   =  0.05 ;
-    //public static final double LEFT_SERVO_IN   =  0.75 ;
-    //public static final double LEFT_SERVO_OUT   =  0.55 ;
-
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public HardwareJoeBot(){
+    public hardreawer2(){
 
     }
 
@@ -61,36 +52,31 @@ public class HardwareJoeBot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-       leftmotor   = hwMap.dcMotor.get("leftmotor");
-        rightmotor= hwMap.dcMotor.get("rightmotor");
+        motor1 = hwMap.dcMotor.get("motor1");
+        motor2 = hwMap.dcMotor.get("motor2");
+        motor3 = hwMap.dcMotor.get("motor3");
+        motor4 = hwMap.dcMotor.get("motor4");
 
-
-
-        leftmotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightmotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-
-
-
-
+        motor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motor2.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        motor3.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motor4.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Set all motors to zero power
-        rightmotor.setPower(0);
-        leftmotor.setPower(0);
-
+        motor1.setPower(0);
+        motor2.setPower(0);
+        motor3.setPower(0);
+        motor4.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftmotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightmotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        // Define and initialize ALL installed servos.
-        //srv_left = hwMap.servo.get("srv-left");
-        //srv_right = hwMap.servo.get("srv-right");
-        //srv_left.setPosition(LEFT_SERVO_OUT);
-        //srv_right.setPosition(RIGHT_SERVO_OUT);
-        //srv_left.setPosition(LEFT_SERVO_IN);
-        //srv_right.setPosition(RIGHT_SERVO_IN);
-// IMU Initializaiton
+
+        // IMU Initializaiton
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
         // provide positional information.
@@ -107,6 +93,8 @@ public class HardwareJoeBot
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
+
     }
 
     /***
@@ -129,5 +117,8 @@ public class HardwareJoeBot
         // Reset the cycle clock for the next pass.
         period.reset();
     }
+
+
+
 }
 
