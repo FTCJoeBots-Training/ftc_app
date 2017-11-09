@@ -131,14 +131,14 @@ public class R1test extends LinearOpMode {
         telemetry.addData("heading: %7d", robot.angles);
 
         while (opModeIsActive()) {
-            encoderDrive(DRIVE_SPEED, 96.0, 96.0, 30);
+            encoderDrive(DRIVE_SPEED, -12.0, -12.0, 30);
             headingturn('l', 90);
             stopmotors();
-            /*encoderDrive(DRIVE_SPEED, 96.0, 96.0, 30);
+            encoderDrive(DRIVE_SPEED, -36.0, -36.0, 30);
             headingturn('l', 180);
             encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
             headingturn('l', 270);
-            encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
+            encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);
         }
 
         telemetry.addData("Path", "Complete");
@@ -157,7 +157,7 @@ public class R1test extends LinearOpMode {
         _dblheading= robot.angles.firstAngle;
         _intheading= Math.round(dublheading);
 
-        while (_intheading<targetheading)
+        while (opModeIsActive() && (_intheading<targetheading))
         {
             robot.angles =robot.imu.getAngularOrientation();
             //heading = formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
