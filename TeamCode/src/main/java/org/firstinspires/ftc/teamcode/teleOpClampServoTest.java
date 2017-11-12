@@ -46,7 +46,7 @@ import java.util.Locale;
 public class teleOpClampServoTest extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot13702 robot = new HardwareJoeBot13702();     // Use a JoeBot's hardware
+    HardwareJoeBot8513 robot = new HardwareJoeBot8513();     // Use a JoeBot's hardware
 
 
     @Override

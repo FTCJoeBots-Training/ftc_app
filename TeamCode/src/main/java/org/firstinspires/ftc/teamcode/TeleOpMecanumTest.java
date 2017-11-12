@@ -32,7 +32,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -49,7 +48,7 @@ import java.util.Locale; //yeowisdfnoaisndfoasdfonasodnifoansdfnasdofnaosdnfinas
 public class TeleOpMecanumTest extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot13702 robot = new HardwareJoeBot13702();     // Use a JoeBot's hardware
+    HardwareJoeBot8513 robot = new HardwareJoeBot8513();     // Use a JoeBot's hardware
 
 
     @Override

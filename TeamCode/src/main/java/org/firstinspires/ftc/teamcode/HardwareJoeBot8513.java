@@ -34,7 +34,7 @@ import java.util.Locale;
  * Servo channel:  Servo for right wing:     "srv-right"
  */
 
-public class HardwareJoeBot13702
+public class HardwareJoeBot8513
 {
     /* Public OpMode members. */
     public DcMotor  motor1 = null; // Left Front
@@ -90,7 +90,7 @@ public class HardwareJoeBot13702
     private double lastHeading = 0;
 
     /* Constructor */
-    public HardwareJoeBot13702(){
+    public HardwareJoeBot8513(){
 
     }
 
