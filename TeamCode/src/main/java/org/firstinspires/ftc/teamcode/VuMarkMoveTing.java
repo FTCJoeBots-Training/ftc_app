@@ -196,7 +196,7 @@ public class VuMarkMoveTing extends LinearOpMode {
 
 
 
-
+           
 
                 if (vuMark  != RelicRecoveryVuMark.RIGHT) {
 
