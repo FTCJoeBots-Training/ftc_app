@@ -79,12 +79,12 @@ public class R1test extends LinearOpMode {
     hardreawer2         robot   = new hardreawer2();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 510 ;    // eg: TETRIX Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 540 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.1;
+    static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
     String heading  ="";
     double dublheading=0.0;
@@ -130,16 +130,17 @@ public class R1test extends LinearOpMode {
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
 
-        while (opModeIsActive()) {
-            encoderDrive(DRIVE_SPEED, -12.0, -12.0, 30);
-            headingturn('l', 90);
+
+        encoderDrive(DRIVE_SPEED, 65.0, 65.0, 30);
+            headingturn('r', -90);
             stopmotors();
-            encoderDrive(DRIVE_SPEED, -36.0, -36.0, 30);
-            headingturn('l', 180);
+            encoderDrive(DRIVE_SPEED, 24.0, 24.0, 30);
+            stopmotors();
+            /*headingturn('l', 180);
             encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
             headingturn('l', 270);
-            encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);
-        }
+            encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -157,7 +158,7 @@ public class R1test extends LinearOpMode {
         _dblheading= robot.angles.firstAngle;
         _intheading= Math.round(dublheading);
 
-        while (opModeIsActive() && (_intheading<targetheading))
+        while (opModeIsActive() && (_intheading!=targetheading))
         {
             robot.angles =robot.imu.getAngularOrientation();
             //heading = formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
@@ -166,15 +167,15 @@ public class R1test extends LinearOpMode {
             telemetry.addData("heading: %7d ",_intheading);
             telemetry.update();
             if (leftorright=='l') {
+                robot.motor1.setPower(-.2);
+                robot.motor2.setPower(.2);
+                robot.motor3.setPower(-.2);
+                robot.motor4.setPower(.2);
+            } else {
                 robot.motor1.setPower(.2);
                 robot.motor2.setPower(-.2);
                 robot.motor3.setPower(.2);
                 robot.motor4.setPower(-.2);
-            } else {
-                robot.motor1.setPower(-2);
-                robot.motor2.setPower(.2);
-                robot.motor3.setPower(-2);
-                robot.motor4.setPower(.2);
             }
 
 
@@ -254,7 +255,9 @@ public void stopmotors()
                    (runtime.seconds() < timeoutS) &&
                    (robot.motor1.isBusy() && robot.motor2.isBusy() && robot.motor3.isBusy() && robot.motor4.isBusy())) {
 
+
                 // Display it for the driver.
+                telemetry.addData("heading: %7d ",robot.angles.firstAngle);
                 telemetry.addData("target1",  "Running to %7s", newLeftTarget );
                 telemetry.addData("target2",  "Running to %7s", newRightTarget );
                 telemetry.addData("target3",  "Running to %7s", newLeftTarget2 );
