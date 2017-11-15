@@ -70,9 +70,9 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="B1 test ", group="Testing")
+@Autonomous(name="B2 test  ", group="Testing")
 //Disabled
-public class B1test extends LinearOpMode {
+public class B2test extends LinearOpMode {
 
     /* Declare OpMode members. */
     hardreawer2         robot   = new hardreawer2();   // Use a Pushbot's hardware
@@ -130,15 +130,16 @@ public class B1test extends LinearOpMode {
         telemetry.addData("heading: %7d", robot.angles);
 
 
-        encoderDrive(DRIVE_SPEED, -75.0, -75.0, 30);
-            headingturn('r',-90 );
-            stopmotors();
-            encoderDrive(DRIVE_SPEED, 24.0, 24.0, 30);
-            stopmotors();
-            /*headingturn('l', 180);
-            encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
-            headingturn('l', 270);
-            encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
+        encoderDrive(DRIVE_SPEED, -48.0, -48.0, 30);
+        headingturn('l',90 );
+        stopmotors();
+        encoderDrive(DRIVE_SPEED, -15.0, -15.0, 30);
+        headingturn('l',180 );
+        stopmotors();
+        encoderDrive(DRIVE_SPEED, 6.0, 6.0, 30);
+        encoderDrive(DRIVE_SPEED, -12.0, -12.0, 30);
+        headingturn('r',-110 );
+            //encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
 
 
         telemetry.addData("Path", "Complete");

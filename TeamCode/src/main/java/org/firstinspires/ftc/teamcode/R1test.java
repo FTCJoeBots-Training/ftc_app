@@ -131,13 +131,14 @@ public class R1test extends LinearOpMode {
         telemetry.addData("heading: %7d", robot.angles);
 
 
-        encoderDrive(DRIVE_SPEED, 65.0, 65.0, 30);
+        encoderDrive(DRIVE_SPEED, 75.0, 75.0, 30);
             headingturn('r', -90);
             stopmotors();
-            encoderDrive(DRIVE_SPEED, 24.0, 24.0, 30);
+            encoderDrive(DRIVE_SPEED, 20.0, 20.0, 30);
             stopmotors();
-            /*headingturn('l', 180);
-            encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
+        encoderDrive(DRIVE_SPEED, -8.0, -8.0, 30);
+            headingturn('l', 90);
+            /*encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
             headingturn('l', 270);
             encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
 
