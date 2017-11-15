@@ -41,7 +41,7 @@ public class Finishing_Levi_Charlie_Controller_Mapping extends LinearOpMode  {
 
     OpenGLMatrix lastLocation = null;
     HardwareJoeBotMechTest robot    = new HardwareJoeBotMechTest();
-    private ElapsedTime runtime = new ElapsedTime();
+    //private ElapsedTime runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
@@ -63,12 +63,12 @@ public class Finishing_Levi_Charlie_Controller_Mapping extends LinearOpMode  {
         robot.motor3.setPower(+1);
         robot.motor4.setPower(+1);
         //Buttons-> Not Completed
-        gamepad2.x.();
-        gamepad2.y.();
-        gamepad2.b.();
+        //gamepad2.x.();
+        //gamepad2.y.();
+        //gamepad2.b.();
         //DPad->Not Complete Look At the notes right about here \/
-        gamepad1.dpad_up(robot.motorLift.setpower(+1));//<-Need to make a declaration for the motor connected to the lift
-        gamepad1.dpad_down(robot.motorlift.setpower(-1));
+        //gamepad1.dpad_up(robot.motorLift.setpower(+1));//<-Need to make a declaration for the motor connected to the lift
+        //gamepad1.dpad_down(robot.motorlift.setpower(-1));
 
 
     }
