@@ -2,35 +2,39 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+import java.util.Locale;
+
 /**
  * This is NOT an opmode.
  *
  * This hardware class assumes the following device names have been configured on the robot:
- * motor1 (left front)
- * motor2 (right front)
- * motor3 (left rear)
- * motor4 (right rear)
- * liftmotor (on the Modern Robotics controller)
- * clampservo
- * clamprotate
  * Note:  All names are lower case and some have single spaces between words.
  *
+ * Motor channel:  Left  drive motor:        "motor-driveleft"
+ * Motor channel:  Right drive motor:        "motor-driveright"
+ * Motor channel:  Arm drive motor:          "Arm"
+ * Servo channel:  Servo for left wing:      "srv-left"
+ * Servo channel:  Servo for right wing:     "srv-right"
  */
 
-public class HardwareJoeBot13702
+public class HardwareJoeBot8513
 {
     /* Public OpMode members. */
     public DcMotor  motor1 = null; // Left Front
@@ -39,13 +43,13 @@ public class HardwareJoeBot13702
     public DcMotor  motor4 = null; // Right Rear
     public DcMotor  liftMotor = null;
 
-    public Servo    clampServo = null; // left Side of Clamp
-    public Servo    clampRotate = null; // right side of clamp
+    public Servo    clampLeft = null; // left Side of Clamp
+    public Servo    clampRight = null; // right side of clamp
 
-    public static final double CLAMP_OPEN_POS = 0;
-    public static final double CLAMP_CLOSE_POS = 1;
-    public static final double CLAMP_DOWN_POS = 1;
-    public static final double CLAMP_UP_POS = 0;
+    public static final double RIGHT_CLAMP_OPEN_POS = 0;
+    public static final double RIGHT_CLAMP_CLOSE_POS = 0.2;
+    public static final double LEFT_CLAMP_OPEN_POS = 1;
+    public static final double LEFT_CLAMP_CLOSE_POS = 0.7;
 
     // Define static min/max for lift
     public static final int LIFT_MIN_POSITION = 0;
@@ -53,7 +57,6 @@ public class HardwareJoeBot13702
 
 
     public boolean bClampOpen = false;
-    public boolean bClampDown = false; //Is the clamp Rotated Down?
     public boolean bLiftRaised = false;
 
     // The IMU sensor object
@@ -87,7 +90,7 @@ public class HardwareJoeBot13702
     private double lastHeading = 0;
 
     /* Constructor */
-    public HardwareJoeBot13702(){
+    public HardwareJoeBot8513(){
 
     }
 
@@ -105,10 +108,10 @@ public class HardwareJoeBot13702
         motor4 = hwMap.dcMotor.get("motor4");
         liftMotor = hwMap.dcMotor.get("liftmotor");
 
-        motor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motor2.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        motor3.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motor4.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        motor1.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        motor2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        motor3.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        motor4.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
 
 
@@ -131,13 +134,11 @@ public class HardwareJoeBot13702
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Initialize the servos
-        clampServo = hwMap.servo.get("clampservo");
-        clampRotate = hwMap.servo.get("clamprotate");
-
-        // Open and close the clamps
-        //this.closeClamp();
-        //this.openClamp();
-        //this.closeClamp();
+        clampLeft = hwMap.servo.get("clampleft");
+        clampRight = hwMap.servo.get("clampright");
+        this.closeClamp();
+        this.openClamp();
+        this.closeClamp();
 
 
 
@@ -193,7 +194,8 @@ public class HardwareJoeBot13702
     public void openClamp() {
 
         // Set both clamps to open position;
-        clampServo.setPosition(CLAMP_OPEN_POS);
+        clampLeft.setPosition(LEFT_CLAMP_OPEN_POS);
+        clampRight.setPosition(RIGHT_CLAMP_OPEN_POS);
 
     }
 
@@ -206,7 +208,9 @@ public class HardwareJoeBot13702
     public void closeClamp() {
 
         // Set both clamps to open position;
-        clampServo.setPosition(CLAMP_CLOSE_POS);
+        clampLeft.setPosition(LEFT_CLAMP_CLOSE_POS);
+        clampRight.setPosition(RIGHT_CLAMP_CLOSE_POS);
+
     }
 
 

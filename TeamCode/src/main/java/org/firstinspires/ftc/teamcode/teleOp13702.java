@@ -41,12 +41,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import java.util.Locale;
 
 
-@TeleOp(name="JaredClampTest", group="TeleOp")
+@TeleOp(name="13702 Training", group="TeleOp")
 
-public class teleOpClampServoTest extends LinearOpMode {
+public class teleOp13702 extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot8513 robot = new HardwareJoeBot8513();     // Use a JoeBot's hardware
+    HardwareJoeBot13702 robot = new HardwareJoeBot13702();     // Use a JoeBot's hardware
 
 
     @Override
@@ -66,8 +66,8 @@ public class teleOpClampServoTest extends LinearOpMode {
         double power3;
         double power4;
         double max;
-        double leftServoPos = 1;
-        double rightServoPos = 0.3;
+        double clampServoPos = 0;
+        double rotateServoPos = 0;
         boolean bCurrStateA;
         boolean bPrevStateA = false;
         boolean bCurrStateX;
@@ -181,10 +181,44 @@ public class teleOpClampServoTest extends LinearOpMode {
             }
             robot.liftMotor.setPower(0);
 
+            // Open/Close Clamp Manually using bumpers
+            while (opModeIsActive() && gamepad1.left_bumper) {
+                clampServoPos += .05;
+                telemetry.addData("ClampServo Position", "%5.2f", clampServoPos);
+                telemetry.update();
+                robot.clampServo.setPosition(clampServoPos);
+                sleep(200);
+            }
+            while (opModeIsActive() && gamepad1.right_bumper){
+                clampServoPos -= .05;
+                telemetry.addData("ClampServo Position", "%5.2f", clampServoPos);
+                telemetry.update();
+                robot.clampServo.setPosition(clampServoPos);
+                sleep(200);
+            }
+
+            // Raise/Lower Clamp Manually using dpad
+            while (opModeIsActive() && gamepad1.dpad_left) {
+                rotateServoPos += .05;
+                telemetry.addData("ClampRotate Position: ", "%5.2f", rotateServoPos);
+                telemetry.update();
+                robot.clampRotate.setPosition(rotateServoPos);
+                sleep(200);
+            }
+            while (opModeIsActive() && gamepad1.dpad_right) {
+                rotateServoPos -= .05;
+                telemetry.addData("ClampRotate Position: ", "%5.2f", rotateServoPos);
+                telemetry.update();
+                robot.clampRotate.setPosition(rotateServoPos);
+                sleep(200);
+            }
+
 
 
             // Display the current value
             telemetry.addData("MotorPosition: ", robot.liftMotor.getCurrentPosition());
+            telemetry.addData("Clamp Position: ", "%5.2f", robot.clampServo.getPosition());
+            telemetry.addData("Rotate Position: ", "%5.2f", robot.clampRotate.getPosition());
             telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();
 

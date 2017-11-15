@@ -32,20 +32,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.ftcrobotcontroller.R;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.vuforia.HINT;
-import com.vuforia.Vuforia;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
  * This OpMode illustrates the basics of using the Vuforia localizer to determine
@@ -82,7 +73,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 //@Disabled
 public class autoTestDriveCommands extends LinearOpMode {
 
-    HardwareJoeBot13702 robot = new HardwareJoeBot13702();
+    HardwareJoeBot8513 robot = new HardwareJoeBot8513();
 
     @Override public void runOpMode() throws InterruptedException {
 
@@ -99,7 +90,7 @@ public class autoTestDriveCommands extends LinearOpMode {
 
         robot.turnDegrees(90, 0.3);
 
-        robot.simpleDriveDistance(HardwareJoeBot13702.simpleDirection.FORWARD,0.5,2);
+        robot.simpleDriveDistance(HardwareJoeBot8513.simpleDirection.FORWARD,0.5,2);
 
         robot.turnDegrees(-90, 0.3);
 
