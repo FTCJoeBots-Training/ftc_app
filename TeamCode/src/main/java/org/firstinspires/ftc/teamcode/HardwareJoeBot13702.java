@@ -56,6 +56,7 @@ public class HardwareJoeBot13702
     public boolean bClampDown = false; //Is the clamp Rotated Down?
     public boolean bLiftRaised = false;
 
+
     // The IMU sensor object
     public BNO055IMU imu;
 
@@ -194,6 +195,7 @@ public class HardwareJoeBot13702
 
         // Set both clamps to open position;
         clampServo.setPosition(CLAMP_OPEN_POS);
+        bClampOpen = true;
 
     }
 
@@ -207,6 +209,7 @@ public class HardwareJoeBot13702
 
         // Set both clamps to open position;
         clampServo.setPosition(CLAMP_CLOSE_POS);
+        bClampOpen = false;
     }
 
 
