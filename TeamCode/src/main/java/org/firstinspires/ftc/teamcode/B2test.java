@@ -75,7 +75,7 @@ import java.util.Locale;
 public class B2test extends LinearOpMode {
 
     /* Declare OpMode members. */
-    hardreawer2         robot   = new hardreawer2();   // Use a Pushbot's hardware
+    HardwareJoeBot13702         robot   = new HardwareJoeBot13702();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 540 ;    // eg: TETRIX Motor Encoder
@@ -95,7 +95,8 @@ public class B2test extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.init(hardwareMap);
+
+        robot.init(hardwareMap,this);
 
         // Send telemetry message to signify robot waiting;
         //telemetry.addData("Status", "Resetting Encoders");    //
@@ -137,6 +138,8 @@ public class B2test extends LinearOpMode {
         headingturn('l',180 );
         stopmotors();
         encoderDrive(DRIVE_SPEED, 10.0, 10.0, 30);
+        robot.openClamp();
+        robot.closeClamp();
         encoderDrive(DRIVE_SPEED, -12.0, -12.0, 30);
         headingturn('l',45 );
             //encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
