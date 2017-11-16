@@ -30,25 +30,22 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.archive;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
-import java.util.Locale; //yeowisdfnoaisndfoasdfonasodnifoansdfnasdofnaosdnfinasdfoinasdoifnaonisd
+import java.util.Locale;
 
 
-@TeleOp(name="JoeBotsMecanumTest", group="TeleOp")
+@TeleOp(name="DriverTraining-Mechanum", group="TeleOp")
 
-public class TeleOpMecanumTest extends LinearOpMode {
+public class TeleOpMechTestDriverTraining extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot8513 robot = new HardwareJoeBot8513();     // Use a JoeBot's hardware
+    HardwareJoeBotMechTest robot = new HardwareJoeBotMechTest();     // Use a JoeBot's hardware
 
 
     @Override
@@ -57,8 +54,7 @@ public class TeleOpMecanumTest extends LinearOpMode {
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.init(hardwareMap, this);
-        composeTelemetry();
+        robot.init(hardwareMap);
 
         double forward;
         double clockwise;
@@ -122,71 +118,12 @@ public class TeleOpMecanumTest extends LinearOpMode {
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             robot.waitForTick(40);
-            telemetry.update();
+
         }
     }
 
 
 
-    void composeTelemetry() {
-
-        // At the beginning of each telemetry update, grab a bunch of data
-        // from the IMU that we will then display in separate lines.
-        telemetry.addAction(new Runnable() { @Override public void run()
-        {
-            // Acquiring the angles is relatively expensive; we don't want
-            // to do that in each of the three items that need that info, as that's
-            // three times the necessary expense.
-            robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            robot.gravity  = robot.imu.getGravity();
-        }
-        });
-
-        telemetry.addLine()
-                .addData("status", new Func<String>() {
-                    @Override public String value() {
-                        return robot.imu.getSystemStatus().toShortString();
-                    }
-                })
-                .addData("calib", new Func<String>() {
-                    @Override public String value() {
-                        return robot.imu.getCalibrationStatus().toString();
-                    }
-                });
-
-        telemetry.addLine()
-                .addData("heading", new Func<String>() {
-                    @Override public String value() {
-                        return formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
-                    }
-                })
-                .addData("roll", new Func<String>() {
-                    @Override public String value() {
-                        return formatAngle(robot.angles.angleUnit, robot.angles.secondAngle);
-                    }
-                })
-                .addData("pitch", new Func<String>() {
-                    @Override public String value() {
-                        return formatAngle(robot.angles.angleUnit, robot.angles.thirdAngle);
-                    }
-                });
-
-        telemetry.addLine()
-                .addData("grvty", new Func<String>() {
-                    @Override public String value() {
-                        return robot.gravity.toString();
-                    }
-                })
-                .addData("mag", new Func<String>() {
-                    @Override public String value() {
-                        return String.format(Locale.getDefault(), "%.3f",
-                                Math.sqrt(robot.gravity.xAccel*robot.gravity.xAccel
-                                        + robot.gravity.yAccel*robot.gravity.yAccel
-                                        + robot.gravity.zAccel*robot.gravity.zAccel));
-                    }
-                });
-
-    }
 
     //----------------------------------------------------------------------------------------------
     // Formatting

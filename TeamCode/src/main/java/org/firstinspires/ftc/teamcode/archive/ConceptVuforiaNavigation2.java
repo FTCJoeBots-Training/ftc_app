@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.archive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -76,13 +76,13 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  *
- * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
+ * IMPORTANT: In order to use this OpMo1de, you need to obtain your own Vuforia license key as
  * is explained below.
  */
 
-@Autonomous(name="Concept: Vuforia Navigation", group ="Concept")
+@Autonomous(name="test ", group ="Concept")
 //Disabled
-public class vuforianavigation extends LinearOpMode {
+public class ConceptVuforiaNavigation2 extends LinearOpMode {
 
     public static final String TAG = "Vuforia Navigation Sample";
 
@@ -117,7 +117,7 @@ public class vuforianavigation extends LinearOpMode {
          * Once you've obtained a license key, copy the string from the Vuforia web site
          * and paste it in to your code onthe next line, between the double quotes.
          */
-        parameters.vuforiaLicenseKey = "AVzCl0v/////AAAAGcfsmNB0+Ecxi9nnFUli4RtGGZORFTsrkrZTsSaEZcnHNkxhb5NbskfqT531gL1cmgLFZ5xxeICDdBlPxxEbD4JcUvUuIdXxpVesR7/EAFZ+DTSJT3YQb0sKm2SlOlfiMf7ZdCEUaXuymCZPB4JeoYdogDUOdsOrd0BTDV2Z+CtO3eSsHWfcY6bDLh8VJKSbeFdk533EzcA26uhfhwBxYlzbOsjPSVCB66P6GbIP9/UjI3lbTNi+tpCpnOZa2gwPjoTSeEjo9ZKtkPe3a/DpLq3OMnVwVnUmsDvoW++UbtOmg9WNFC/YkN7DCtMt91uPaJPL5vOERkA+uXliC1i44IT4EyfoN1ccLaJiXMFH63DE";
+        parameters.vuforiaLicenseKey = "ATsODcD/////AAAAAVw2lR...d45oGpdljdOh5LuFB9nDNfckoxb8COxKSFX";
 
         /*
          * We also indicate which camera on the RC that we wish to use.
@@ -132,19 +132,19 @@ public class vuforianavigation extends LinearOpMode {
          * sets are stored in the 'assets' part of our application (you'll see them in the Android
          * Studio 'Project' view over there on the left of the screen). You can make your own datasets
          * with the Vuforia Target Manager: https://developer.vuforia.com/target-manager. PDFs for the
-         * example "relicvumark", datasets can be found in in this project in the
+         * example "StonesAndChips", datasets can be found in in this project in the
          * documentation directory.
          */
-        VuforiaTrackables relicvumark = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable redTarget = relicvumark.get(0);
+        VuforiaTrackables stonesAndChips = this.vuforia.loadTrackablesFromAsset("StonesAndChips");
+        VuforiaTrackable redTarget = stonesAndChips.get(0);
         redTarget.setName("RedTarget");  // Stones
 
-        VuforiaTrackable blueTarget  = relicvumark.get(1);
+        VuforiaTrackable blueTarget  = stonesAndChips.get(1);
         blueTarget.setName("BlueTarget");  // Chips
 
         /** For convenience, gather together all the trackable objects in one easily-iterable collection */
         List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
-        allTrackables.addAll(relicvumark);
+        allTrackables.addAll(stonesAndChips);
 
         /**
          * We use units of mm here because that's the recommended units of measurement for the
@@ -292,7 +292,7 @@ public class vuforianavigation extends LinearOpMode {
         waitForStart();
 
         /** Start tracking the data sets we care about. */
-        relicvumark.activate();
+        stonesAndChips.activate();
 
         while (opModeIsActive()) {
 

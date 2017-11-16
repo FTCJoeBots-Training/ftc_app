@@ -75,7 +75,7 @@ import java.util.Locale;
 public class r2test extends LinearOpMode {
 
     /* Declare OpMode members. */
-    hardreawer2         robot   = new hardreawer2();   // Use a Pushbot's hardware
+    HardwareJoeBot robot   = new HardwareJoeBot();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 540 ;    // eg: TETRIX Motor Encoder
@@ -95,7 +95,7 @@ public class r2test extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-        robot.init(hardwareMap);
+
 
         // Send telemetry message to signify robot waiting;
         //telemetry.addData("Status", "Resetting Encoders");    //
@@ -130,15 +130,21 @@ public class r2test extends LinearOpMode {
         telemetry.addData("heading: %7d", robot.angles);
 
 
-        encoderDrive(DRIVE_SPEED, 52.0, 22.0, 30);
-            headingturn('l',-90 );
+        encoderDrive(DRIVE_SPEED, 56.0, 56.0, 30);
+            headingturn('l',90 );
             stopmotors();
             encoderDrive(DRIVE_SPEED, 30.0, 30.0, 30);
-        headingturn('r',90 );
+        telemetry.addLine("turning right to 0");
+        telemetry.update();
+        headingturn('r',17);
+        telemetry.addLine("turning complete");
+        telemetry.update();
         stopmotors();
-        encoderDrive(DRIVE_SPEED, 10.0, 10.0, 30);
-        encoderDrive(DRIVE_SPEED, -12.0, -12.0, 30);
-        headingturn('l',110 );
+        encoderDrive(DRIVE_SPEED, 16.0, 16.0, 30);
+        robot.openClamp();
+        robot.closeClamp();
+        encoderDrive(DRIVE_SPEED, -15.0, -15.0, 30);
+        headingturn('l',120 );
         /*encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
             headingturn('l', 270);
             encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
@@ -151,8 +157,8 @@ public class r2test extends LinearOpMode {
     public void headingturn (char leftorright,int targetheading)
 
     {
-        double _dblheading=0.0;
-        long _intheading=0;
+        double _dblheading=181.0;
+        long _intheading=181;
         robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         //robot.angles =robot.imu.getAngularOrientation();

@@ -30,15 +30,13 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.archive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
  * This file illustrates the concept of driving a path based on encoder counts.
@@ -72,7 +70,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 public class AutonomousTestOne extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot         robot   = new HardwareJoeBot();   // Use a Pushbot's hardware
+    HardwareJoeBot robot   = new HardwareJoeBot();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
