@@ -1,9 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.archive;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -23,7 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Servo channel:  Servo for right wing:     "srv-right"
  */
 
-public class hardreawer2
+public class HardwareJoeBotMechTest
 {
     /* Public OpMode members. */
     public DcMotor                      motor1          = null;
@@ -31,8 +30,11 @@ public class hardreawer2
     public DcMotor                      motor3          = null;
     public DcMotor                      motor4          = null;
 
+    /** - Disable IMU Functionality in MecTest
     // The IMU sensor object
     public BNO055IMU imu;
+    **/
+
 
     // Variables used for IMU tracking...
     public Orientation angles;
@@ -43,7 +45,7 @@ public class hardreawer2
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public hardreawer2(){
+    public HardwareJoeBotMechTest(){
 
     }
 
@@ -58,10 +60,10 @@ public class hardreawer2
         motor3 = hwMap.dcMotor.get("motor3");
         motor4 = hwMap.dcMotor.get("motor4");
 
-        motor1.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        motor2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        motor3.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        motor4.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        motor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motor2.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        motor3.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motor4.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Set all motors to zero power
         motor1.setPower(0);
@@ -76,6 +78,8 @@ public class hardreawer2
         motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        /** IMU Disabled in MechTest
+         *
 
         // IMU Initializaiton
         // Set up the parameters with which we will use our IMU. Note that integration
@@ -94,7 +98,7 @@ public class hardreawer2
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-
+         **/
 
     }
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TestingGround;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -6,11 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 /*import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-*/import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.HardwareJoeBot13702;
-import org.firstinspires.ftc.teamcode.HardwareJoeBot8513;
-
-import java.util.Locale;
+*/
 
 /*
 Notes For this TeleOp Code. This code is for Comp and all proggramers should review over this
@@ -23,7 +19,7 @@ you should be able to explain in good detail everything in this code.
 
 public class ManuallyLists extends LinearOpMode {
 
-    HardwareJoeBot13702 robot = new HardwareJoeBot13702();
+    HardwareJoeBot robot = new HardwareJoeBot();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -48,6 +44,8 @@ public class ManuallyLists extends LinearOpMode {
         boolean bPrevStateX = false;
         double rightNumber = 0;
         double liftPower = .25;
+
+
         //start of loop
         while (opModeIsActive()) {
 

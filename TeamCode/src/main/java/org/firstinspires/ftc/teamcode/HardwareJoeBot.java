@@ -1,54 +1,95 @@
 package org.firstinspires.ftc.teamcode;
 
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
- * This is NOT an opmode.
+ * This is NOT an opmode. This is a hardware class used to abstract the hardware config for the
+ * 2017 FTC Relic Recovery challenge. This file has been generalized to work for both JoeBots
+ * teams FTC 11855 and 13702.
  *
  * This hardware class assumes the following device names have been configured on the robot:
+ *
+ * motor1 (left front)
+ * motor2 (right front)
+ * motor3 (left rear)
+ * motor4 (right rear)
+ * liftmotor (on the Modern Robotics controller) - lift glyph mechanism up/down
+ * clampservo - open/close clamp
+ * clamprotate - rotate clamp mechanism up/down
+ * jewelservo - rotate jewel arm up/down
+ * imu - navigation features
+ * jewelsensor - detect jewel colors
+ *
  * Note:  All names are lower case and some have single spaces between words.
  *
- * Motor channel:  Left  drive motor:        "motor-driveleft"
- * Motor channel:  Right drive motor:        "rightmotor"
-
- * Servo channel:  Servo for left wing:      "srv-left"
- * Servo channel:  Servo for right wing:     "srv-right"
  */
 
 public class HardwareJoeBot
 {
     /* Public OpMode members. */
-    public DcMotor                      leftmotor          = null;
-    public DcMotor                      rightmotor          = null;
-    
-    public BNO055IMU imu;
+
+    // Declare Motors
+    public DcMotor  motor1 = null; // Left Front
+    public DcMotor  motor2 = null; // Right Front
+    public DcMotor  motor3 = null; // Left Rear
+    public DcMotor  motor4 = null; // Right Rear
+    public DcMotor  liftMotor = null;
+
+    // Declare Servos
+    public Servo    clampServo = null;  // open/close clamp
+    public Servo    clampRotate = null; // rotate clamp up/down
+    public Servo    jewelServo = null;  // rotate jewel arm up/down
+
+    // Declare Sensors
+    public BNO055IMU imu;                  // The IMU sensor object
+    public ColorSensor jewelSensor = null; // Rev Robotics Color Sensor
+
+
+    // Declare static values
+    public static final double CLAMP_OPEN_POS = 0;
+    public static final double CLAMP_CLOSE_POS = 1;
+    public static final double CLAMP_DOWN_POS = 0.45;
+    public static final double CLAMP_UP_POS = 0;
+    public static final double JEWEL_ARM_UP_POS = 0.75;
+    public static final double JEWEL_ARM_DOWN_POS = 0.25;
+
+    // Define static min/max for lift
+    public static final int LIFT_MIN_POSITION = 0;
+    public static final int LIFT_MAX_POSITION = 5760;
+
+
+    // Variables used for tracking mechanism state
+    public boolean bClampOpen = false;
+    public boolean bClampDown = false; //Is the clamp Rotated Down?
+    public boolean bLiftRaised = false;
+    public boolean bJewelArmUp = false;
 
     // Variables used for IMU tracking...
     public Orientation angles;
     public Acceleration gravity;
 
-    // public Servo                        srv_left          = null;
-    //public Servo                        srv_right         = null;
-
-
-
-    //public static final double RIGHT_SERVO_OUT   =  0.25 ;
-    //public static final double RIGHT_SERVO_IN   =  0.05 ;
-    //public static final double LEFT_SERVO_IN   =  0.75 ;
-    //public static final double LEFT_SERVO_OUT   =  0.55 ;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
+
+    // Private Members
+    private LinearOpMode myOpMode;
 
     /* Constructor */
     public HardwareJoeBot(){
@@ -56,41 +97,51 @@ public class HardwareJoeBot
     }
 
     /* Initialize standard Hardware interfaces */
-    public void init(HardwareMap ahwMap) {
+    public void init(HardwareMap ahwMap, LinearOpMode opMode) {
         // Save reference to Hardware map
         hwMap = ahwMap;
 
+        myOpMode = opMode;
+
         // Define and Initialize Motors
-       leftmotor   = hwMap.dcMotor.get("leftmotor");
-        rightmotor= hwMap.dcMotor.get("rightmotor");
+        motor1 = hwMap.dcMotor.get("motor1");
+        motor2 = hwMap.dcMotor.get("motor2");
+        motor3 = hwMap.dcMotor.get("motor3");
+        motor4 = hwMap.dcMotor.get("motor4");
+        liftMotor = hwMap.dcMotor.get("liftmotor");
 
-
-
-        leftmotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightmotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-
-
-
-
+        // Set Default Motor Directions
+        motor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motor2.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if using AndyMark motors
+        motor3.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motor4.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if using AndyMark motors
+        liftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
-        rightmotor.setPower(0);
-        leftmotor.setPower(0);
+        motor1.setPower(0);
+        motor2.setPower(0);
+        motor3.setPower(0);
+        motor4.setPower(0);
+        liftMotor.setPower(0);
+
+        // Set all drive motors to run without encoders.
+        // May want to switch to  RUN_USING_ENCODERS during autonomous
+        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        // Set lift motor to run using encoder...
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Initialize the servos
+        clampServo = hwMap.servo.get("clampservo");
+        clampRotate = hwMap.servo.get("clamprotate");
+        jewelServo = hwMap.servo.get("jewelservo");
 
 
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftmotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightmotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        // Define and initialize ALL installed servos.
-        //srv_left = hwMap.servo.get("srv-left");
-        //srv_right = hwMap.servo.get("srv-right");
-        //srv_left.setPosition(LEFT_SERVO_OUT);
-        //srv_right.setPosition(RIGHT_SERVO_OUT);
-        //srv_left.setPosition(LEFT_SERVO_IN);
-        //srv_right.setPosition(RIGHT_SERVO_IN);
-// IMU Initializaiton
+        // IMU Initializaiton
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
         // provide positional information.
@@ -107,6 +158,8 @@ public class HardwareJoeBot
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
+
     }
 
     /***
@@ -129,5 +182,95 @@ public class HardwareJoeBot
         // Reset the cycle clock for the next pass.
         period.reset();
     }
+
+
+    /**
+     *
+     * openClamp sets the servos to the open Position and requires no parameters
+     *
+     */
+
+    public void openClamp() {
+
+        // Set both clamps to open position;
+        clampServo.setPosition(CLAMP_OPEN_POS);
+        bClampOpen = true;
+
+    }
+
+    /**
+     *
+     * openClamp sets the servos to the open Position and requires no parameters
+     *
+     */
+
+    public void closeClamp() {
+
+        // Set both clamps to open position;
+        clampServo.setPosition(CLAMP_CLOSE_POS);
+        bClampOpen = false;
+    }
+
+    /**
+     *
+     * raiseJewelArm rotates jewelServo to Up Position
+     *
+     */
+    public void raiseJewelArm() {
+
+        jewelServo.setPosition(JEWEL_ARM_UP_POS);
+        bJewelArmUp = true;
+
+    }
+
+    /**
+     *
+     * lowerJewelArm rotates jewelServo to Up Position
+     *
+     */
+    public void lowerJewelArm() {
+
+        jewelServo.setPosition(JEWEL_ARM_DOWN_POS);
+        bJewelArmUp = false;
+
+    }
+
+    /**
+     *
+     * raiseClamp rotates clampRotate Servo to Up Position
+     *
+     */
+    public void raiseClamp() {
+
+        clampRotate.setPosition(CLAMP_UP_POS);
+        bClampDown = false;
+
+    }
+
+    /**
+     *
+     * raiseClamp rotates clampRotate Servo to Up Position
+     *
+     */
+    public void lowerClamp() {
+
+        clampRotate.setPosition(CLAMP_DOWN_POS);
+        bClampDown = true;
+
+    }
+
+
+    /***
+     * void setMode(DcMotor.RunMode mode ) Set all drive motors to same mode.
+     * @param mode    Desired Motor mode.
+     */
+    public void setMode(DcMotor.RunMode mode ) {
+        motor1.setMode(mode);
+        motor2.setMode(mode);
+        motor3.setMode(mode);
+        motor4.setMode(mode);
+    }
+
+
 }
 

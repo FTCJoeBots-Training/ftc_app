@@ -75,7 +75,7 @@ import java.util.Locale;
 public class r2test extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot13702        robot   = new HardwareJoeBot13702();   // Use a Pushbot's hardware
+    HardwareJoeBot robot   = new HardwareJoeBot();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 540 ;    // eg: TETRIX Motor Encoder

@@ -46,7 +46,7 @@ import java.util.Locale;
 public class teleOp13702 extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot13702 robot = new HardwareJoeBot13702();     // Use a JoeBot's hardware
+    HardwareJoeBot robot = new HardwareJoeBot();     // Use a JoeBot's hardware
 
 
     @Override
