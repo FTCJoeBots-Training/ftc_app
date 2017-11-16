@@ -15,9 +15,9 @@ you should be able to explain in good detail everything in this code.
 
 
 */
-@TeleOp(name="ManuallyLists", group="TeleOp")
+@TeleOp(name="JoeBot TeleOp", group="TeleOp")
 
-public class ManuallyLists extends LinearOpMode {
+public class teleOp2017JoeBot extends LinearOpMode {
 
     HardwareJoeBot robot = new HardwareJoeBot();
 
@@ -40,8 +40,12 @@ public class ManuallyLists extends LinearOpMode {
         double rightServoPos = 0.3;
         boolean bCurrStateA;
         boolean bPrevStateA = false;
+        boolean bCurrStateB;
+        boolean bPrevStateB = false;
         boolean bCurrStateX;
         boolean bPrevStateX = false;
+        boolean bCurrStateY;
+        boolean bPrevStateY = false;
         double rightNumber = 0;
         double liftPower = .25;
 
@@ -97,133 +101,68 @@ public class ManuallyLists extends LinearOpMode {
 
 
 
-            // Code to Test start/stop position of servos... Just increase/decrease positions and read telemetry
+            // Open/Close Clamps based on "B" Button Press
             // -------------------------------------------
-            //clamps, Manual Clamp Via "A" (Toggle)
-            bCurrStateA = gamepad1.a;
 
-            if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
+            bCurrStateB = gamepad1.b;
+
+            if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
 
                 if (robot.bClampOpen) {
                     //Clamp is open. Close it.
                     robot.closeClamp();
-                    robot.bClampOpen = false;
-                    telemetry.addLine("Clamp is Closed");
                 } else {
                     //Clamp must be closed. Open it.
                     robot.openClamp();
-                    robot.bClampOpen = true;
-                    telemetry.addLine("Clamp is Open");
                 }
 
             }
 
-            bPrevStateA = bCurrStateA;
+            bPrevStateB = bCurrStateB;
 
 
+            // Rotate Clamps based on "Y" Button Press
+            // -------------------------------------------
 
+            bCurrStateY = gamepad1.y;
 
+            if ((bCurrStateY == true) && (bCurrStateY != bPrevStateY)) {
 
-
-
-            //------------------------------------------------------
-            //Auto Lift Lifter Via "X" (Toggle)
-            /*
-            bCurrStateX = gamepad1.x;
-
-            if ((bCurrStateX == true) && (bCurrStateX != bPrevStateX)) {
-
-                // if Clamp is up, lower it, otherwise, raise it.
-
-                if (robot.bLiftRaised) {
-                    robot.liftMotor.setTargetPosition(robot.LIFT_MIN_POSITION);
+                if (robot.bClampDown) {
+                    //Clamp is down. Raise it.
+                    robot.raiseClamp();
                 } else {
-                    robot.liftMotor.setTargetPosition(2880);
+                    //Clamp is up. Lower it.
+                    robot.lowerClamp();
                 }
-                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.liftMotor.setPower(0.5);
-                }
-                robot.liftMotor.setPower(0);
-                robot.bLiftRaised = !robot.bLiftRaised;
-
-                robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             }
-                */
-           //------------------------------------------------
+
+            bPrevStateY = bCurrStateY;
 
 
 
-
-
-
-
-            //Manually Lift
-            //Raise the lift manually via "D-PAD" (NOT Toggle)
-            //make a if statement
+            // Manually Lift
+            // Raise the lift manually via "D-PAD" (NOT Toggle)
+            // make a if statement
             if( gamepad1.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
                 robot.liftMotor.setPower(liftPower);
-            }
-            else {
-                robot.liftMotor.setPower(0);
-            }
-            telemetry.update();
-            //lower the lift Manually
-            if( gamepad1.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
+            } else if (gamepad1.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
                 robot.liftMotor.setPower(-liftPower);
-            }
-            else {
+            } else {
                 robot.liftMotor.setPower(0);
             }
-            telemetry.update();
 
-            // Display the current value
-            telemetry.addData("MotorPosition: ", robot.liftMotor.getCurrentPosition());
+
+
+            // Update Telemetry
+            telemetry.addData("Clamp Open?: ", robot.bClampOpen);
+            telemetry.addData("Clamp Down?: ", robot.bClampDown);
+            telemetry.addData("Lift Position: %5.2f", robot.liftMotor.getCurrentPosition());
             telemetry.addData(">", "Press Stop to end test.");
             telemetry.update();
             idle();
 
-
-            //---------------
-
-
-
-        /*
-            //Rotate (Toggle)
-            //Rotate Lift piviting down and up in verticle positioning
-            bCurrStateX = gamepad1.x;
-
-            if ((bCurrStateX == true) && (bCurrStateX != bPrevStateX)) {
-
-                if (robot.bRotateDown) {
-                    //Clamp is open. Close it.
-                    robot.rotateUp();
-                } else {
-                    //Clamp must be closed. Open it.
-                    robot.rotateDown();
-                }
-
-            }
-
-            bPrevStateX = bCurrStateX;
-        */
-            bCurrStateX = gamepad1.x;
-
-            if ((bCurrStateX == true) && (bCurrStateX != bPrevStateX)) {
-
-                if (robot.bClampOpen) {
-                robot.closeClamp();
-                }
-                else{
-                    robot.openClamp();
-                }
-
-               telemetry.update();
-
-
-            }
-
-            bPrevStateX = bCurrStateX;
 
 
         }

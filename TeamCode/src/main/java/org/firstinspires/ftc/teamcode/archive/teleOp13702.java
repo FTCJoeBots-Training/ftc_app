@@ -30,13 +30,14 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.archive;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.*;
 
 import java.util.Locale;
 
@@ -46,7 +47,7 @@ import java.util.Locale;
 public class teleOp13702 extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot robot = new HardwareJoeBot();     // Use a JoeBot's hardware
+    org.firstinspires.ftc.teamcode.HardwareJoeBot robot = new org.firstinspires.ftc.teamcode.HardwareJoeBot();     // Use a JoeBot's hardware
 
 
     @Override
