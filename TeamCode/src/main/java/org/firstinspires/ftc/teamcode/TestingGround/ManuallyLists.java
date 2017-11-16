@@ -16,7 +16,7 @@ import java.util.Locale;
 Notes For this TeleOp Code. This code is for Comp and all proggramers should review over this
 code and understand this code for the possibility that a question may be asked related to TeleOp and
 you should be able to explain in good detail everything in this code.
-
+11/16/17-> Cleaned Code so all gamepads are correct in correlation to the functionality of each controller.
 
 */
 @TeleOp(name="ManuallyLists", group="TeleOp")
@@ -48,6 +48,7 @@ public class ManuallyLists extends LinearOpMode {
         boolean bPrevStateX = false;
         double rightNumber = 0;
         double liftPower = .25;
+        double dblRotatePosition = 0;
         //start of loop
         while (opModeIsActive()) {
 
@@ -102,7 +103,7 @@ public class ManuallyLists extends LinearOpMode {
             // Code to Test start/stop position of servos... Just increase/decrease positions and read telemetry
             // -------------------------------------------
             //clamps, Manual Clamp Via "A" (Toggle)
-            bCurrStateA = gamepad1.a;
+            bCurrStateA = gamepad2.a;
 
             if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
 
@@ -163,7 +164,7 @@ public class ManuallyLists extends LinearOpMode {
             //Manually Lift
             //Raise the lift manually via "D-PAD" (NOT Toggle)
             //make a if statement
-            if( gamepad1.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
+            if( gamepad2.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
                 robot.liftMotor.setPower(liftPower);
             }
             else {
@@ -171,7 +172,7 @@ public class ManuallyLists extends LinearOpMode {
             }
             telemetry.update();
             //lower the lift Manually
-            if( gamepad1.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
+            if( gamepad2.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
                 robot.liftMotor.setPower(-liftPower);
             }
             else {
@@ -193,7 +194,7 @@ public class ManuallyLists extends LinearOpMode {
         /*
             //Rotate (Toggle)
             //Rotate Lift piviting down and up in verticle positioning
-            bCurrStateX = gamepad1.x;
+            bCurrStateX = gamepad2.x;
 
             if ((bCurrStateX == true) && (bCurrStateX != bPrevStateX)) {
 
@@ -209,7 +210,7 @@ public class ManuallyLists extends LinearOpMode {
 
             bPrevStateX = bCurrStateX;
         */
-            bCurrStateX = gamepad1.x;
+            bCurrStateX = gamepad2.x;
 
             if ((bCurrStateX == true) && (bCurrStateX != bPrevStateX)) {
 
@@ -226,6 +227,50 @@ public class ManuallyLists extends LinearOpMode {
             }
 
             bPrevStateX = bCurrStateX;
+
+            //max positions
+            //up=0 down=.4
+           /* while (gamepad2.right_bumper) {
+                dblRotatePosition += .05;
+                robot.clampRotate.setPosition(dblRotatePosition);
+                telemetry.addData("Rotate Position: ", dblRotatePosition);
+                telemetry.update();
+                sleep(200);
+            }
+            while (gamepad2.left_bumper) {
+                dblRotatePosition -= .05;
+                robot.clampRotate.setPosition(dblRotatePosition);
+                telemetry.addData("Rotate Position: ", dblRotatePosition);
+                telemetry.update();
+                sleep(200);
+            }
+
+
+
+
+            //Jewels
+            //Up Position= 0.75 Down=0.25 Look at phone for readings.!
+            */
+           while (gamepad2.right_bumper) {
+                dblRotatePosition += .05;
+                robot.jewelLift.setPosition(dblRotatePosition);
+                telemetry.addData("Rotate Position: ", dblRotatePosition);
+                telemetry.update();
+                sleep(200);
+           }
+            telemetry.addData("Rotate Position: ", dblRotatePosition);
+            telemetry.update();
+           while (gamepad2.left_bumper) {
+                dblRotatePosition -= .05;
+                robot.jewelLift.setPosition(dblRotatePosition);
+                telemetry.addData("Rotate Position: ", dblRotatePosition);
+                telemetry.update();
+                sleep(200);
+           }
+            telemetry.addData("Rotate Position: ", dblRotatePosition);
+            telemetry.update();
+
+
 
 
         }

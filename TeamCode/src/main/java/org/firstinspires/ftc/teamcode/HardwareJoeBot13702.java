@@ -42,6 +42,7 @@ public class HardwareJoeBot13702
 
     public Servo    clampServo = null; // left Side of Clamp
     public Servo    clampRotate = null; // right side of clamp
+    public Servo    jewelLift = null; //Move Jewel arm
 
     public static final double CLAMP_OPEN_POS = 0;
     public static final double CLAMP_CLOSE_POS = 1;
@@ -135,6 +136,8 @@ public class HardwareJoeBot13702
         // Initialize the servos
         clampServo = hwMap.servo.get("clampservo");
         clampRotate = hwMap.servo.get("clamprotate");
+        //Jewel arm
+        jewelLift = hwMap.servo.get("jewelLift");
 
         // Open and close the clamps
         //this.closeClamp();
