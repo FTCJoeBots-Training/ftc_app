@@ -33,7 +33,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -71,9 +70,9 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="R1", group="Testing")
+@Autonomous(name="B2 test  ", group="Testing")
 //Disabled
-public class R1test extends LinearOpMode {
+public class B2test extends LinearOpMode {
 
     /* Declare OpMode members. */
     hardreawer2         robot   = new hardreawer2();   // Use a Pushbot's hardware
@@ -131,16 +130,16 @@ public class R1test extends LinearOpMode {
         telemetry.addData("heading: %7d", robot.angles);
 
 
-        encoderDrive(DRIVE_SPEED, 75.0, 75.0, 30);
-            headingturn('r', -90);
-            stopmotors();
-            encoderDrive(DRIVE_SPEED, 20.0, 20.0, 30);
-            stopmotors();
-        encoderDrive(DRIVE_SPEED, -8.0, -8.0, 30);
-            headingturn('l', 90);
-            /*encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
-            headingturn('l', 270);
-            encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
+        encoderDrive(DRIVE_SPEED, -52.0, -52.0, 30);
+        headingturn('l',90 );
+        stopmotors();
+        encoderDrive(DRIVE_SPEED, 30.0, .0, 30);
+        headingturn('l',180 );
+        stopmotors();
+        encoderDrive(DRIVE_SPEED, 10.0, 10.0, 30);
+        encoderDrive(DRIVE_SPEED, -12.0, -12.0, 30);
+        headingturn('l',45 );
+            //encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
 
 
         telemetry.addData("Path", "Complete");
