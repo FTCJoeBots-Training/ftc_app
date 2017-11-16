@@ -57,6 +57,7 @@ public class HardwareJoeBot13702
     public boolean bClampDown = false; //Is the clamp Rotated Down?
     public boolean bLiftRaised = false;
 
+
     // The IMU sensor object
     public BNO055IMU imu;
 
@@ -106,10 +107,10 @@ public class HardwareJoeBot13702
         motor4 = hwMap.dcMotor.get("motor4");
         liftMotor = hwMap.dcMotor.get("liftmotor");
 
-        motor1.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        motor2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        motor3.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        motor4.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        motor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motor2.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        motor3.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motor4.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
 
 
@@ -195,6 +196,7 @@ public class HardwareJoeBot13702
 
         // Set both clamps to open position;
         clampServo.setPosition(CLAMP_OPEN_POS);
+        bClampOpen = true;
 
     }
 
@@ -208,6 +210,7 @@ public class HardwareJoeBot13702
 
         // Set both clamps to open position;
         clampServo.setPosition(CLAMP_CLOSE_POS);
+        bClampOpen = false;
     }
 
 
