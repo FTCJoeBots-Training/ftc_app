@@ -130,15 +130,15 @@ public class B2test extends LinearOpMode {
         telemetry.addData("heading: %7d", robot.angles);
 
 
-        encoderDrive(DRIVE_SPEED, -48.0, -48.0, 30);
+        encoderDrive(DRIVE_SPEED, -52.0, -52.0, 30);
         headingturn('l',90 );
         stopmotors();
-        encoderDrive(DRIVE_SPEED, -15.0, -15.0, 30);
+        encoderDrive(DRIVE_SPEED, 30.0, .0, 30);
         headingturn('l',180 );
         stopmotors();
-        encoderDrive(DRIVE_SPEED, 6.0, 6.0, 30);
+        encoderDrive(DRIVE_SPEED, 10.0, 10.0, 30);
         encoderDrive(DRIVE_SPEED, -12.0, -12.0, 30);
-        headingturn('r',-110 );
+        headingturn('l',45 );
             //encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
 
 

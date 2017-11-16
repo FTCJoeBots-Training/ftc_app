@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -106,10 +107,10 @@ public class HardwareJoeBot13702
         motor4 = hwMap.dcMotor.get("motor4");
         liftMotor = hwMap.dcMotor.get("liftmotor");
 
-        motor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motor2.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        motor3.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motor4.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        motor1.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        motor2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        motor3.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        motor4.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
 
 

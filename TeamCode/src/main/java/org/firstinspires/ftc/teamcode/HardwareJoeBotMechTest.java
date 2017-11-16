@@ -60,10 +60,10 @@ public class HardwareJoeBotMechTest
         motor3 = hwMap.dcMotor.get("motor3");
         motor4 = hwMap.dcMotor.get("motor4");
 
-        motor1.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        motor2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        motor3.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        motor4.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        motor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motor2.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        motor3.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motor4.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Set all motors to zero power
         motor1.setPower(0);
