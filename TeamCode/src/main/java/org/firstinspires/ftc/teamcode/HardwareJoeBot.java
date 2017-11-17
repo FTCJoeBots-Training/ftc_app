@@ -115,6 +115,7 @@ public class HardwareJoeBot
         motor4 = hwMap.dcMotor.get("motor4");
         liftMotor = hwMap.dcMotor.get("liftmotor");
 
+        jewelSensor = hwMap.get(ColorSensor.class, "jewels  ensor");
         // Set Default Motor Directions
         motor1.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         motor2.setDirection(DcMotor.Direction.FORWARD); // Set to FORWARD if using AndyMark motors
