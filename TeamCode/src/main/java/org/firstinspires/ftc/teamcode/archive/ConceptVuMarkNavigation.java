@@ -29,6 +29,7 @@
 package org.firstinspires.ftc.teamcode.archive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -63,6 +64,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  */
 
 @Autonomous(name="Concept: Ethan'sVuMarkNav", group ="Concept")
+@Disabled
 public class ConceptVuMarkNavigation extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Sample";

@@ -32,6 +32,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode.archive;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -41,7 +42,7 @@ import java.util.Locale;
 
 
 @TeleOp(name="DriverTraining-Mechanum", group="TeleOp")
-
+@Disabled
 public class TeleOpMechTestDriverTraining extends LinearOpMode {
 
     /* Declare OpMode members. */

@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.archive;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -52,7 +53,7 @@ import java.util.Locale;
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
 @Autonomous(name = "IMU Test", group = "Testing")
-//@Disabled                            // Comment this out to add to the opmode list
+@Disabled                           // Comment this out to add to the opmode list
 public class autoTestIMU extends LinearOpMode {
 
     HardwareJoeBot8513 robot   = new HardwareJoeBot8513();   // Use a Pushbot's hardware
