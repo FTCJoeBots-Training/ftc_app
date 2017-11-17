@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /*import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -46,8 +47,11 @@ public class teleOp2017JoeBot extends LinearOpMode {
         boolean bPrevStateX = false;
         boolean bCurrStateY;
         boolean bPrevStateY = false;
+        boolean bCurrStateLB;
+        boolean bPrevStateLB = false;
+        boolean bLiftinMotion;
         double rightNumber = 0;
-        double liftPower = .25;
+        double liftPower = .6;
 
         waitForStart();
 
@@ -147,13 +151,39 @@ public class teleOp2017JoeBot extends LinearOpMode {
             // Manually Lift
             // Raise the lift manually via "D-PAD" (NOT Toggle)
             // make a if statement
-            if( gamepad1.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
+            if( gamepad2.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
                 robot.liftMotor.setPower(liftPower);
             } else if (gamepad2.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
                 robot.liftMotor.setPower(-liftPower);
             } else {
                 robot.liftMotor.setPower(0);
             }
+
+
+
+
+           /* bCurrStateLB = gamepad2.left_bumper;
+
+            if ((bCurrStateLB == true) && (bCurrStateLB != bPrevStateLB)) {
+
+                if (Math.abs(robot.LIFT_STARTING_POS - robot.liftMotor.getCurrentPosition() ) < 50 ) {
+                    robot.liftMotor.setPower(0);
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                } else {
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+                    robot.liftMotor.setPower(.5);
+                }
+
+            }
+
+            bPrevStateLB = bCurrStateLB;
+        */
+
+
+
+
+
 
 
 
@@ -164,6 +194,9 @@ public class teleOp2017JoeBot extends LinearOpMode {
             telemetry.addData(">", "Press Stop to end test.");
             telemetry.update();
             idle();
+
+
+
 
 
 
