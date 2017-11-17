@@ -62,7 +62,7 @@ public class HardwareJoeBot8513
     public static final int LIFT_MIN_POSITION = 0;
     public static final int LIFT_MAX_POSITION = 5760;
     public static final double JEWEL_ARM_UP_POS = 0;
-    public static final double JEWEL_ARM_DOWN_POS = 0.5;
+    public static final double JEWEL_ARM_DOWN_POS = 0.75;
     public static final int LIFT_STARTING_POS = 500;
     public static final int LIFT_GLYPH_ONE_POS = 2400;
     public static final int LIFT_GLYPH_TWO_POS = 4180;
