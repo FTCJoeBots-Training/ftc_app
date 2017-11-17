@@ -49,7 +49,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
         boolean bPrevStateY = false;
         boolean bCurrStateLB;
         boolean bPrevStateLB = false;
-        boolean bLiftinMotion;
+        boolean bLiftinMotion;  //TODO Put this in for tommor the 17Th so that the robot can see if the lift is in motion or not.
         double rightNumber = 0;
         double liftPower = .6;
 
