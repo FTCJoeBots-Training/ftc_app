@@ -72,7 +72,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             //Set initial motion parameters to Gamepad1 Inputs
             forward = -gamepad1.left_stick_y;
             right = gamepad1.left_stick_x;
-            clockwise = -gamepad1.right_stick_x;
+            clockwise = gamepad1.right_stick_x;
 
             // Add a tuning constant "K" to tune rotate axis sensitivity
             k = .6;
@@ -231,7 +231,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             // Right Bumper toggles between Position 1 and Position 2. First Press should be
             // Position 1
 
-            bCurrStateRB = gamepad2.left_bumper;
+            bCurrStateRB = gamepad2.right_bumper;
 
             if ((bCurrStateRB == true) && (bCurrStateRB != bPrevStateRB)) {
 
@@ -304,7 +304,9 @@ public class teleOp2017JoeBot extends LinearOpMode {
                 // "up" position, then lower the lift to the "driving" (or "base") position
 
                 robot.closeClamp();
+                sleep(500);
                 robot.raiseClamp();
+                sleep(500);
 
                 bAutomatedLiftMotion = true;
                 iLiftTargetPos = robot.LIFT_STARTING_POS;
@@ -327,7 +329,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             // Update Telemetry
             telemetry.addData("Clamp Open?: ", robot.bClampOpen);
             telemetry.addData("Clamp Down?: ", robot.bClampDown);
-            telemetry.addData("Lift Position: ",  "%5.2f", robot.liftMotor.getCurrentPosition());
+            telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
             telemetry.addData("Lift Target: ", iLiftTargetPos);
             telemetry.addData("RB Target: ", iRightBumperTarget);
             telemetry.addData(">", "Press Stop to end test.");

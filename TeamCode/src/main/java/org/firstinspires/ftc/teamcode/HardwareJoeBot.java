@@ -71,7 +71,7 @@ public class HardwareJoeBot
     public static final int LIFT_STARTING_POS = 500;
     public static final int LIFT_GLYPH_ONE_POS = 300;   //TODO Make the "300" correct #
     public static final int LIFT_GLYPH_TWO_POS = 450;   //TODO Do that ^ for the "450"
-    public static final int LIFT_SEARCHING_POS = 2150;
+    public static final int LIFT_SEARCHING_POS = 2400;
 
     // Define static min/max for lift
     public static final int LIFT_MIN_POSITION = 0;

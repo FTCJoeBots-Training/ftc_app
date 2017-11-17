@@ -20,7 +20,7 @@ you should be able to explain in good detail everything in this code.
 
 public class teleOp2017JoeBot8513 extends LinearOpMode {
 
-    HardwareJoeBot robot = new HardwareJoeBot();
+    HardwareJoeBot8513 robot = new HardwareJoeBot8513();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -58,6 +58,12 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
         double liftPower = .6;
 
 
+        // Make sure Clamps are open in TeleOp
+        robot.openClamp();
+
+        waitForStart();
+
+
         //start of loop
         while (opModeIsActive()) {
 
@@ -66,7 +72,7 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
             //Set initial motion parameters to Gamepad1 Inputs
             forward = -gamepad1.left_stick_y;
             right = gamepad1.left_stick_x;
-            clockwise = -gamepad1.right_stick_x;
+            clockwise = gamepad1.right_stick_x;
 
             // Add a tuning constant "K" to tune rotate axis sensitivity
             k = .6;
@@ -112,7 +118,7 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
             // Open/Close Clamps based on "A" Button Press
             // -------------------------------------------
 
-            bCurrStateA = gamepad1.a;
+            bCurrStateA = gamepad2.a;
 
             if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
 
@@ -130,7 +136,7 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
 
 
 
-// Manually Lift
+            // Manually Lift
             // Raise the lift manually via "D-PAD" (NOT Toggle)
             // make a if statement
             if( gamepad2.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
@@ -163,6 +169,14 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
                 }
             }
 
+            // For Testing Only -- Manually move jewel Arm
+            if (gamepad2.dpad_left && (robot.jewelServo.getPosition() > 0)) {
+                robot.jewelServo.setPosition(robot.jewelServo.getPosition() - .05);
+                sleep(200);
+            } else if (gamepad2.dpad_right && (robot.jewelServo.getPosition() < 1)) {
+                robot.jewelServo.setPosition(robot.jewelServo.getPosition() + .05);
+                sleep(200);
+            }
 
             // Left Bumper Press moves lift to "base" position
 
@@ -188,7 +202,7 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
             // Right Bumper toggles between Position 1 and Position 2. First Press should be
             // Position 1
 
-            bCurrStateRB = gamepad2.left_bumper;
+            bCurrStateRB = gamepad2.right_bumper;
 
             if ((bCurrStateRB == true) && (bCurrStateRB != bPrevStateRB)) {
 
@@ -229,7 +243,11 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
 
             // Update Telemetry
             telemetry.addData("Clamp Open?: ", robot.bClampOpen);
-            telemetry.addData("Lift Position: ", "%5.2f", robot.liftMotor.getCurrentPosition());
+            telemetry.addData("Jewel Arm Pos: ", robot.jewelServo.getPosition());
+            telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
+            telemetry.addData("Lift Target: ", iLiftTargetPos);
+            telemetry.addData("Right Bumper: ", iRightBumperTarget);
+            telemetry.addData("Automated Lift?", bAutomatedLiftMotion);
             telemetry.addData(">", "Press Stop to end test.");
             telemetry.update();
             idle();

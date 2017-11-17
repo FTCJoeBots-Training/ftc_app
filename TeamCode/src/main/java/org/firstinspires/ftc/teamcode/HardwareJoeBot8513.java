@@ -51,6 +51,7 @@ public class HardwareJoeBot8513
 
     public Servo    clampLeft = null; // left Side of Clamp
     public Servo    clampRight = null; // right side of clamp
+    public Servo    jewelServo = null; // Jewel Arm
 
     public static final double RIGHT_CLAMP_OPEN_POS = 0;
     public static final double RIGHT_CLAMP_CLOSE_POS = 0.2;
@@ -60,16 +61,18 @@ public class HardwareJoeBot8513
     // Define static min/max for lift
     public static final int LIFT_MIN_POSITION = 0;
     public static final int LIFT_MAX_POSITION = 5760;
-    public static final double JEWEL_ARM_UP_POS = 0.75;
-    public static final double JEWEL_ARM_DOWN_POS = 0.25;
+    public static final double JEWEL_ARM_UP_POS = 0;
+    public static final double JEWEL_ARM_DOWN_POS = 0.5;
     public static final int LIFT_STARTING_POS = 500;
-    public static final int LIFT_GLYPH_ONE_POS = 300;   //TODO Make the "300" correct #
-    public static final int LIFT_GLYPH_TWO_POS = 450;   //TODO Do that ^ for the "450"
+    public static final int LIFT_GLYPH_ONE_POS = 2400;
+    public static final int LIFT_GLYPH_TWO_POS = 4180;
 
     public ColorSensor jewelSensor = null; // Rev Robotics Color Sensor
 
     public boolean bClampOpen = false;
     public boolean bLiftRaised = false;
+    public boolean bJewelArmUp = false;
+
 
     // The IMU sensor object
     public BNO055IMU imu;
@@ -107,10 +110,10 @@ public class HardwareJoeBot8513
         motor4 = hwMap.dcMotor.get("motor4");
         liftMotor = hwMap.dcMotor.get("liftmotor");
 
-        motor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motor2.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        motor3.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motor4.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        motor1.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        motor2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        motor3.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        motor4.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
 
 
@@ -135,8 +138,8 @@ public class HardwareJoeBot8513
         // Initialize the servos
         clampLeft = hwMap.servo.get("clampleft");
         clampRight = hwMap.servo.get("clampright");
+        jewelServo = hwMap.servo.get("jewelservo");
 
-        this.closeClamp();
 
 
         // IMU Initializaiton
@@ -159,6 +162,16 @@ public class HardwareJoeBot8513
 
         // Initialize the Jewel Sensor
         jewelSensor = hwMap.get(ColorSensor.class, "jewelsensor");
+
+
+
+        // Raise the JewelArm
+        // close the clamps
+        this.raiseJewelArm();
+        this.closeClamp();
+
+
+
 
     }
 
@@ -225,6 +238,29 @@ public class HardwareJoeBot8513
         motor4.setMode(mode);
     }
 
+    /**
+     *
+     * raiseJewelArm rotates jewelServo to Up Position
+     *
+     */
+    public void raiseJewelArm() {
+
+        jewelServo.setPosition(JEWEL_ARM_UP_POS);
+        bJewelArmUp = true;
+
+    }
+
+    /**
+     *
+     * lowerJewelArm rotates jewelServo to Up Position
+     *
+     */
+    public void lowerJewelArm() {
+
+        jewelServo.setPosition(JEWEL_ARM_DOWN_POS);
+        bJewelArmUp = false;
+
+    }
 
 }
 
