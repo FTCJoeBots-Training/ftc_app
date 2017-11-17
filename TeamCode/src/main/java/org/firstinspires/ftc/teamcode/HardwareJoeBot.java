@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -64,9 +65,13 @@ public class HardwareJoeBot
     public static final double CLAMP_OPEN_POS = 0;
     public static final double CLAMP_CLOSE_POS = 1;
     public static final double CLAMP_DOWN_POS = 0.45;
-    public static final double CLAMP_UP_POS = .15;
+    public static final double CLAMP_UP_POS = .15; //This position ".25" is for 1813 to fix the consistent flicking motion during "init" faz
     public static final double JEWEL_ARM_UP_POS = 0.75;
     public static final double JEWEL_ARM_DOWN_POS = 0.25;
+    public static final int LIFT_STARTING_POS = 500;
+    public static final int LIFT_GLYPH_ONE_POS = 300;   //TODO Make the "300" correct #
+    public static final int LIFT_GLYPH_TWO_POS = 450;   //TODO Do that ^ for the "450"
+    public static final int LIFT_SEARCHING_POS = 2400;
 
     // Define static min/max for lift
     public static final int LIFT_MIN_POSITION = 0;
@@ -116,7 +121,7 @@ public class HardwareJoeBot
         motor2.setDirection(DcMotor.Direction.FORWARD); // Set to FORWARD if using AndyMark motors
         motor3.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         motor4.setDirection(DcMotor.Direction.FORWARD); // Set to FORWARD if using AndyMark motors
-        liftMotor.setDirection(DcMotor.Direction.FORWARD);//TODO Check to see if this direction is correct
+        liftMotor.setDirection(DcMotor.Direction.REVERSE);//TODO Check to see if this direction is correct
 
         // Set all motors to zero power
         motor1.setPower(0);
@@ -160,6 +165,8 @@ public class HardwareJoeBot
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
+        // Initialize the Jewel Sensor
+        jewelSensor = hwMap.get(ColorSensor.class, "jewelsensor");
 
 
         //Set servos to start position
@@ -281,5 +288,11 @@ public class HardwareJoeBot
     }
 
 
+
 }
+
+
+
+
+
 

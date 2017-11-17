@@ -32,6 +32,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode.archive;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -47,7 +48,7 @@ import org.firstinspires.ftc.teamcode.archive.HardwareJoeBot;
  */
 
 @TeleOp(name="8513_Drive", group="TeleOp")
-
+@Disabled
 public class Opmode_8513_TeleOp extends LinearOpMode {
 
     /* Declare OpMode members. */

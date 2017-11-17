@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /*import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -46,10 +47,21 @@ public class teleOp2017JoeBot extends LinearOpMode {
         boolean bPrevStateX = false;
         boolean bCurrStateY;
         boolean bPrevStateY = false;
-        double rightNumber = 0;
-        double liftPower = .25;
+        boolean bCurrStateLB;
+        boolean bPrevStateLB = false;
+        boolean bCurrStateRB;
+        boolean bPrevStateRB = false;
+        boolean bAutomatedLiftMotion = false;
+        int iLiftTargetPos = 1;
+        int iRightBumperTarget = 1;
+        double liftPower = .6;
+
+        robot.jewelSensor.enableLed(false);
 
         waitForStart();
+
+        // In Teleop, we want to start with open clamp
+        robot.openClamp();
 
 
         //start of loop
@@ -60,7 +72,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             //Set initial motion parameters to Gamepad1 Inputs
             forward = -gamepad1.left_stick_y;
             right = gamepad1.left_stick_x;
-            clockwise = -gamepad1.right_stick_x;
+            clockwise = gamepad1.right_stick_x;
 
             // Add a tuning constant "K" to tune rotate axis sensitivity
             k = .6;
@@ -143,27 +155,189 @@ public class teleOp2017JoeBot extends LinearOpMode {
             bPrevStateY = bCurrStateY;
 
 
+            // Check on lift state.. If automated lift motion is active, check to see if lift is
+            // near its destination. If lift motion is at destination, turn off automated lift
+            // motion.
+
+            if (bAutomatedLiftMotion) {
+                // The lift is in Auto mode. Check to see if we're near our target
+                if (Math.abs(iLiftTargetPos - robot.liftMotor.getCurrentPosition()) < 50 ) {
+                    // We're close enough to the target to shut down auto mode.
+                    robot.liftMotor.setPower(0);
+                    bAutomatedLiftMotion = false;
+
+                    // Set Motors to run without encoder
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+                }
+            }
+
 
             // Manually Lift
             // Raise the lift manually via "D-PAD" (NOT Toggle)
             // make a if statement
-            if( gamepad1.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
+            if( gamepad2.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
+                // Check to see if the lift is already in auto mode. If it is, disable it.
+                if (bAutomatedLiftMotion) {
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    robot.liftMotor.setPower(0);
+                    bAutomatedLiftMotion = false;
+
+                    // reset iRightBumperTarget
+                    iRightBumperTarget = 1;
+                }
                 robot.liftMotor.setPower(liftPower);
             } else if (gamepad2.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
+                // Check to see if the lift is already in auto mode. If it is, disable it.
+                if (bAutomatedLiftMotion) {
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    robot.liftMotor.setPower(0);
+                    bAutomatedLiftMotion = false;
+
+                    // reset iRightBumperTarget
+                    iRightBumperTarget = 1;
+                }
                 robot.liftMotor.setPower(-liftPower);
             } else {
-                robot.liftMotor.setPower(0);
+                // Check to see if the lift is already in an automated motion. If it is not,
+                // set power to 0
+                if (!bAutomatedLiftMotion) {
+                    robot.liftMotor.setPower(0);
+                }
             }
+
+
+            // Left Bumper Press moves lift to "base" position
+
+           bCurrStateLB = gamepad2.left_bumper;
+
+            if ((bCurrStateLB == true) && (bCurrStateLB != bPrevStateLB)) {
+
+                // Left Bumper has been pressed. We should set the lift into Auto Mode with the
+                // Correct target position.
+
+                bAutomatedLiftMotion = true;
+                iLiftTargetPos = robot.LIFT_STARTING_POS;
+
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                robot.liftMotor.setPower(0.6);
+
+
+            }
+
+            bPrevStateLB = bCurrStateLB;
+
+            // Right Bumper toggles between Position 1 and Position 2. First Press should be
+            // Position 1
+
+            bCurrStateRB = gamepad2.right_bumper;
+
+            if ((bCurrStateRB == true) && (bCurrStateRB != bPrevStateRB)) {
+
+                // Check to see if this is the first or second button press
+                if (iRightBumperTarget == 1) {
+                    // This is the first button press, or it has rolled over...
+                    // Set lift into Auto Mode and head for position 1
+                    bAutomatedLiftMotion = true;
+                    iLiftTargetPos = robot.LIFT_GLYPH_ONE_POS;
+
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                    robot.liftMotor.setPower(0.6);
+
+                } else if (iRightBumperTarget == 2) {
+                    // Set lift into Auto Mode and head for position 2
+                    bAutomatedLiftMotion = true;
+                    iLiftTargetPos = robot.LIFT_GLYPH_TWO_POS;
+
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                    robot.liftMotor.setPower(0.6);
+                } else {
+                    // We've received an invalid command
+                    // Don't do anything right now.. May want to add cleanup code later.
+                }
+
+                // Set new Lift Target for next button press.
+                iRightBumperTarget += 1;
+                if (iRightBumperTarget>2) { iRightBumperTarget = 1; }
+
+            }
+
+            bPrevStateRB = bCurrStateRB;
+
+            // Toggle Search Mode - raise Lift to search position; Open clamp; rotate clamp
+
+            bCurrStateA = gamepad2.a;
+
+            if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
+
+                // Would like to Raise Clamp before moving lift because it moves better vertically
+                // but can't figure out in short term how to know when lift is finished moving
+                // and search mode is active to drop and open clamp. For now, will move clamp
+                // while lift is in motion.
+
+                bAutomatedLiftMotion = true;
+                iLiftTargetPos = robot.LIFT_SEARCHING_POS;
+
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                robot.liftMotor.setPower(0.6);
+
+                // Lower Clamp and Open
+                if (!robot.bClampDown) { robot.lowerClamp(); }
+                if (!robot.bClampOpen) { robot.openClamp();}
+
+            }
+
+            bPrevStateA = bCurrStateA;
+
+
+            // Pick up Glyphs and prepare to drive
+
+            bCurrStateX = gamepad2.x;
+
+            if ((bCurrStateX == true) && (bCurrStateX != bPrevStateX)) {
+
+                // This code should close the clamp on the glyphs, rotate the glyph clamp to the
+                // "up" position, then lower the lift to the "driving" (or "base") position
+
+                robot.closeClamp();
+                sleep(500);
+                robot.raiseClamp();
+                sleep(500);
+
+                bAutomatedLiftMotion = true;
+                iLiftTargetPos = robot.LIFT_STARTING_POS;
+
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                robot.liftMotor.setPower(0.6);
+
+
+            }
+
+            bPrevStateX = bCurrStateX;
+
+
+
+
 
 
 
             // Update Telemetry
             telemetry.addData("Clamp Open?: ", robot.bClampOpen);
             telemetry.addData("Clamp Down?: ", robot.bClampDown);
-            telemetry.addData("Lift Position: %5.2f", robot.liftMotor.getCurrentPosition());
+            telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
+            telemetry.addData("Lift Target: ", iLiftTargetPos);
+            telemetry.addData("RB Target: ", iRightBumperTarget);
             telemetry.addData(">", "Press Stop to end test.");
             telemetry.update();
             idle();
+
+
+
 
 
 
