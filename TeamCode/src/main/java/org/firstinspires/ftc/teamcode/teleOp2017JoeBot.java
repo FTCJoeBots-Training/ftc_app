@@ -49,11 +49,18 @@ public class teleOp2017JoeBot extends LinearOpMode {
         boolean bPrevStateY = false;
         boolean bCurrStateLB;
         boolean bPrevStateLB = false;
-        boolean bLiftinMotion;  //TODO Put this in for tommor the 17Th so that the robot can see if the lift is in motion or not.
-        double rightNumber = 0;
+        boolean bCurrStateRB;
+        boolean bPrevStateRB = false;
+        boolean bLiftinMotion = false;
+        int iLiftTargetPos = 1;
         double liftPower = .6;
 
+        robot.jewelSensor.enableLed(false);
+
         waitForStart();
+
+        // In Teleop, we want to start with open clamp
+        robot.openClamp();
 
 
         //start of loop
@@ -152,24 +159,32 @@ public class teleOp2017JoeBot extends LinearOpMode {
             // Raise the lift manually via "D-PAD" (NOT Toggle)
             // make a if statement
             if( gamepad2.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.liftMotor.setPower(liftPower);
             } else if (gamepad2.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.liftMotor.setPower(-liftPower);
             } else {
-                robot.liftMotor.setPower(0);
+                // Check to see if the lift is already in an automated motion. If it is not,
+                // set power to 0
+                if (!bLiftinMotion) {
+                    robot.liftMotor.setPower(0);
+                }
             }
 
 
 
 
-           /* bCurrStateLB = gamepad2.left_bumper;
+           bCurrStateLB = gamepad2.left_bumper;
 
             if ((bCurrStateLB == true) && (bCurrStateLB != bPrevStateLB)) {
 
                 if (Math.abs(robot.LIFT_STARTING_POS - robot.liftMotor.getCurrentPosition() ) < 50 ) {
+                    bLiftinMotion = false;
                     robot.liftMotor.setPower(0);
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 } else {
+                    bLiftinMotion = true;
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
                     robot.liftMotor.setPower(.5);
@@ -178,7 +193,30 @@ public class teleOp2017JoeBot extends LinearOpMode {
             }
 
             bPrevStateLB = bCurrStateLB;
-        */
+
+            // Toggle Search Mode - raise Lift to search position; Open clamp; rotate clamp
+
+            bCurrStateA = gamepad2.a;
+
+            if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
+
+                if (Math.abs(robot.LIFT_SEARCHING_POS - robot.liftMotor.getCurrentPosition() ) < 50 ) {
+                    bLiftinMotion = false;
+                    robot.liftMotor.setPower(0);
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                } else {
+                    bLiftinMotion = true;
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setTargetPosition(robot.LIFT_SEARCHING_POS);
+                    robot.liftMotor.setPower(.5);
+                }
+
+                if (!robot.bClampDown) { robot.lowerClamp(); }
+                if (!robot.bClampOpen) { robot.openClamp();}
+
+            }
+
+            bPrevStateA = bCurrStateA;
 
 
 

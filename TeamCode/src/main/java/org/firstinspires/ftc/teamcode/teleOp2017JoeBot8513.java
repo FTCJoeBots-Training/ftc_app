@@ -47,7 +47,7 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
         boolean bCurrStateY;
         boolean bPrevStateY = false;
         double rightNumber = 0;
-        double liftPower = .25;
+        double liftPower = .6;
 
 
         //start of loop
@@ -137,7 +137,7 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
 
             // Update Telemetry
             telemetry.addData("Clamp Open?: ", robot.bClampOpen);
-            telemetry.addData("Lift Position: %5.2f", robot.liftMotor.getCurrentPosition());
+            telemetry.addData("Lift Position: ", "%5.2f", robot.liftMotor.getCurrentPosition());
             telemetry.addData(">", "Press Stop to end test.");
             telemetry.update();
             idle();
