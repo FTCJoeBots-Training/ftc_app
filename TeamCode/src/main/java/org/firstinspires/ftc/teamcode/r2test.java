@@ -32,6 +32,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -86,6 +88,13 @@ public class r2test extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
     String heading  ="";
+    float hsvValues[] = {0F, 0F, 0F};
+
+    final float values[] = hsvValues;
+
+    // sometimes it helps to multiply the raw RGB values with a scale factor
+    // to amplify/attentuate the measured values.
+    final double SCALE_FACTOR = 255;
     double dublheading=0.0;
     long intheading=0;
     @Override
@@ -95,7 +104,7 @@ public class r2test extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-
+        robot.init(hardwareMap, this);
 
         // Send telemetry message to signify robot waiting;
         //telemetry.addData("Status", "Resetting Encoders");    //
@@ -129,8 +138,21 @@ public class r2test extends LinearOpMode {
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
 
+        robot.lowerJewelArm();
+        Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
+                (int) (robot.jewelSensor.green() * SCALE_FACTOR),
+                (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
+                hsvValues);
+        if (robot.jewelSensor.red() >= 28) {
+            encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
+            encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
+        }
+        else {
+            encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
 
-        encoderDrive(DRIVE_SPEED, 56.0, 56.0, 30);
+        }
+        robot.raiseJewelArm();
+        encoderDrive(DRIVE_SPEED, 52.0, 52.0, 30);
             headingturn('l',90 );
             stopmotors();
             encoderDrive(DRIVE_SPEED, 30.0, 30.0, 30);
