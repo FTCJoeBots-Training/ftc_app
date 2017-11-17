@@ -196,6 +196,7 @@ public class HardwareJoeBot8513
         // Set both clamps to open position;
         clampLeft.setPosition(LEFT_CLAMP_OPEN_POS);
         clampRight.setPosition(RIGHT_CLAMP_OPEN_POS);
+        bClampOpen = true;
 
     }
 
@@ -210,6 +211,7 @@ public class HardwareJoeBot8513
         // Set both clamps to open position;
         clampLeft.setPosition(LEFT_CLAMP_CLOSE_POS);
         clampRight.setPosition(RIGHT_CLAMP_CLOSE_POS);
+        bClampOpen = false;
 
     }
 

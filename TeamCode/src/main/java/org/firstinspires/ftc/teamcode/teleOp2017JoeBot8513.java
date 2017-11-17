@@ -19,7 +19,7 @@ you should be able to explain in good detail everything in this code.
 
 public class teleOp2017JoeBot8513 extends LinearOpMode {
 
-    HardwareJoeBot robot = new HardwareJoeBot();
+    HardwareJoeBot8513 robot = new HardwareJoeBot8513();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -101,10 +101,10 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
 
 
 
-            // Open/Close Clamps based on "B" Button Press
+            // Open/Close Clamps based on "A" Button Press
             // -------------------------------------------
 
-            bCurrStateA = gamepad1.a;
+            bCurrStateA = gamepad2.a;
 
             if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
 
@@ -125,9 +125,9 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
             // Manually Lift
             // Raise the lift manually via "D-PAD" (NOT Toggle)
             // make a if statement
-            if( gamepad1.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
+            if( gamepad2.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
                 robot.liftMotor.setPower(liftPower);
-            } else if (gamepad1.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
+            } else if (gamepad2.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
                 robot.liftMotor.setPower(-liftPower);
             } else {
                 robot.liftMotor.setPower(0);
