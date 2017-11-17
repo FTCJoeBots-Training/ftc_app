@@ -64,7 +64,7 @@ public class HardwareJoeBot
     public static final double CLAMP_OPEN_POS = 0;
     public static final double CLAMP_CLOSE_POS = 1;
     public static final double CLAMP_DOWN_POS = 0.45;
-    public static final double CLAMP_UP_POS = 0;
+    public static final double CLAMP_UP_POS = .15;
     public static final double JEWEL_ARM_UP_POS = 0.75;
     public static final double JEWEL_ARM_DOWN_POS = 0.25;
 
@@ -111,11 +111,11 @@ public class HardwareJoeBot
         liftMotor = hwMap.dcMotor.get("liftmotor");
 
         // Set Default Motor Directions
-        motor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motor2.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if using AndyMark motors
-        motor3.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motor4.setDirection(DcMotor.Direction.REVERSE); // Set to FORWARD if using AndyMark motors
-        liftMotor.setDirection(DcMotor.Direction.REVERSE);
+        motor1.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        motor2.setDirection(DcMotor.Direction.FORWARD); // Set to FORWARD if using AndyMark motors
+        motor3.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
+        motor4.setDirection(DcMotor.Direction.FORWARD); // Set to FORWARD if using AndyMark motors
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);//TODO Check to see if this direction is correct
 
         // Set all motors to zero power
         motor1.setPower(0);
@@ -158,6 +158,14 @@ public class HardwareJoeBot
         // and named "imu".
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
+
+
+        //Set servos to start position
+        this.raiseClamp();
+        this.closeClamp();
+        this.raiseJewelArm();
+
 
 
     }

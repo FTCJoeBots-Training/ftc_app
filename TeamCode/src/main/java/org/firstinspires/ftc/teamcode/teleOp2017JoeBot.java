@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 Notes For this TeleOp Code. This code is for Comp and all proggramers should review over this
 code and understand this code for the possibility that a question may be asked related to TeleOp and
 you should be able to explain in good detail everything in this code.
-
+11/16/17-> Changed all gamepad's in code to correct gamepad (i.e some gamepad1's to gamepad2)
 
 */
 @TeleOp(name="JoeBot TeleOp", group="TeleOp")
@@ -49,6 +49,8 @@ public class teleOp2017JoeBot extends LinearOpMode {
         double rightNumber = 0;
         double liftPower = .25;
 
+        waitForStart();
+
 
         //start of loop
         while (opModeIsActive()) {
@@ -58,11 +60,11 @@ public class teleOp2017JoeBot extends LinearOpMode {
             //Set initial motion parameters to Gamepad1 Inputs
             forward = -gamepad1.left_stick_y;
             right = gamepad1.left_stick_x;
-            clockwise = gamepad1.right_stick_x;
+            clockwise = -gamepad1.right_stick_x;
 
             // Add a tuning constant "K" to tune rotate axis sensitivity
             k = .6;
-            clockwise = clockwise * k;
+            clockwise = clockwise * k; //Make sure the "= Clockwise" is "= -clockwise"
 
 
             // Calculate motor power
@@ -104,7 +106,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             // Open/Close Clamps based on "B" Button Press
             // -------------------------------------------
 
-            bCurrStateB = gamepad1.b;
+            bCurrStateB = gamepad2.b;
 
             if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
 
@@ -124,7 +126,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             // Rotate Clamps based on "Y" Button Press
             // -------------------------------------------
 
-            bCurrStateY = gamepad1.y;
+            bCurrStateY = gamepad2.y;
 
             if ((bCurrStateY == true) && (bCurrStateY != bPrevStateY)) {
 
@@ -147,7 +149,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             // make a if statement
             if( gamepad1.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
                 robot.liftMotor.setPower(liftPower);
-            } else if (gamepad1.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
+            } else if (gamepad2.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
                 robot.liftMotor.setPower(-liftPower);
             } else {
                 robot.liftMotor.setPower(0);
