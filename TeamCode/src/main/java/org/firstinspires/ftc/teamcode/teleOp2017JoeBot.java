@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  *code and understand this code for the possibility that a question may be asked related to TeleOp and
  *you should be able to explain in good detail everything in this code.
  *11/16/17-> Changed all gamepad's in code to correct gamepad (i.e some gamepad1's to gamepad2)
- *11/18/17-> Competition Notes below
+ ***11/18/17-> Competition Notes below
  *Notes-> Autonomous is incorrect, Not much was wrong from a software sandpoint but hardware issues were fixed
  *Autonomous issues included: Incorrect spinning causing us to move out of destination,
  *To much time on the down motion of the clamp and arm.
