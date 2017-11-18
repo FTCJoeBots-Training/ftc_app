@@ -32,8 +32,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -72,12 +70,12 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue 1 twins ", group="Testing")
+@Autonomous(name="red 2 8513", group="Testing")
 //Disabled
-public class B1test extends LinearOpMode {
+public class r2test8513 extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot robot  = new HardwareJoeBot();   // Use a Pushbot's hardware
+    HardwareJoeBot8513 robot   = new HardwareJoeBot8513();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 540 ;    // eg: TETRIX Motor Encoder
@@ -99,12 +97,12 @@ public class B1test extends LinearOpMode {
     long intheading=0;
     @Override
     public void runOpMode() throws InterruptedException {
-        robot.init(hardwareMap, this);
+
         /*4
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-
+        robot.init(hardwareMap, this);
 
         // Send telemetry message to signify robot waiting;
         //telemetry.addData("Status", "Resetting Encoders");    //
@@ -138,32 +136,37 @@ public class B1test extends LinearOpMode {
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
 
-        robot.lowerJewelArm();
+        /*robot.lowerJewelArm();
         Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
         if (robot.jewelSensor.red() >= 28) {
-            encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
             encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
+            encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
         }
         else {
-            encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
+            encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
 
         }
-        robot.raiseJewelArm();
-        encoderDrive(DRIVE_SPEED, -71.0, -71.0, 30);
-            headingturn('r',-90 );
+        ?*/  robot.raiseJewelArm();
+        encoderDrive(DRIVE_SPEED, 52.0, 52.0, 30);
+            headingturn('l',90 );
             stopmotors();
-            encoderDrive(DRIVE_SPEED, 48.0, 48.0, 30);
-            stopmotors();
-            robot.openClamp();
+            encoderDrive(DRIVE_SPEED, 30.0, 30.0, 30);
+        telemetry.addLine("turning right to 0");
+        telemetry.update();
+        headingturn('r',17);
+        telemetry.addLine("turning complete");
+        telemetry.update();
+        stopmotors();
+        encoderDrive(DRIVE_SPEED, 16.0, 16.0, 30);
+        robot.openClamp();
         sleep(750);
         robot.closeClamp();
-        encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
-        headingturn('l',90 );
-        /*headingturn('l', 180);
-            encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
+        encoderDrive(DRIVE_SPEED, -15.0, -15.0, 30);
+        headingturn('l',120 );
+        /*encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
             headingturn('l', 270);
             encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
 
@@ -175,8 +178,8 @@ public class B1test extends LinearOpMode {
     public void headingturn (char leftorright,int targetheading)
 
     {
-        double _dblheading=0.0;
-        long _intheading=0;
+        double _dblheading=181.0;
+        long _intheading=181;
         robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         //robot.angles =robot.imu.getAngularOrientation();

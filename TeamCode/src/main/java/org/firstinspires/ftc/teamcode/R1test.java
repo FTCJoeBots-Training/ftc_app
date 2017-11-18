@@ -72,12 +72,12 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="R1", group="Testing")
+@Autonomous(name="Red 1 twins", group="Testing")
 //Disabled
 public class R1test extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot8513 robot   = new HardwareJoeBot8513();   // Use a Pushbot's hardware
+    HardwareJoeBot robot   = new HardwareJoeBot();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 540 ;    // eg: TETRIX Motor Encoder
@@ -156,15 +156,17 @@ public class R1test extends LinearOpMode {
 
         }
         robot.raiseJewelArm();
-        encoderDrive(DRIVE_SPEED, 71.0, 71.0, 30);
+
+        encoderDrive(DRIVE_SPEED, 75.0, 75.0, 30);
         headingturn('r', -90);
             stopmotors();
             encoderDrive(DRIVE_SPEED, 20.0, 20.0, 30);
             stopmotors();
         robot.openClamp();
+        sleep(750);
         robot.closeClamp();
         encoderDrive(DRIVE_SPEED, -8.0, -8.0, 30);
-            headingturn('l', 90);
+            headingturn('l', 180);
             /*encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
             headingturn('l', 270);
             encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/

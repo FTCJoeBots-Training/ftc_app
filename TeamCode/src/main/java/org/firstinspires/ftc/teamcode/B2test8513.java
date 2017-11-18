@@ -72,12 +72,12 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue 1 twins ", group="Testing")
+@Autonomous(name="Blue 2 8513  ", group="Testing")
 //Disabled
-public class B1test extends LinearOpMode {
+public class B2test8513 extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot robot  = new HardwareJoeBot();   // Use a Pushbot's hardware
+    HardwareJoeBot8513 robot   = new HardwareJoeBot8513();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 540 ;    // eg: TETRIX Motor Encoder
@@ -99,12 +99,13 @@ public class B1test extends LinearOpMode {
     long intheading=0;
     @Override
     public void runOpMode() throws InterruptedException {
-        robot.init(hardwareMap, this);
+
         /*4
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
 
+        robot.init(hardwareMap,this);
 
         // Send telemetry message to signify robot waiting;
         //telemetry.addData("Status", "Resetting Encoders");    //
@@ -138,7 +139,8 @@ public class B1test extends LinearOpMode {
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
 
-        robot.lowerJewelArm();
+
+        /*robot.lowerJewelArm();
         Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
@@ -151,21 +153,20 @@ public class B1test extends LinearOpMode {
             encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
 
         }
-        robot.raiseJewelArm();
-        encoderDrive(DRIVE_SPEED, -71.0, -71.0, 30);
-            headingturn('r',-90 );
-            stopmotors();
-            encoderDrive(DRIVE_SPEED, 48.0, 48.0, 30);
-            stopmotors();
-            robot.openClamp();
+        */robot.raiseJewelArm();
+        encoderDrive(DRIVE_SPEED, -48.0, -48.0, 30);
+        headingturn('l',90 );
+        stopmotors();
+        encoderDrive(DRIVE_SPEED, 30.0, .0, 30);
+        headingturn('l',180 );
+        stopmotors();
+        encoderDrive(DRIVE_SPEED, 10.0, 10.0, 30);
+        robot.openClamp();
         sleep(750);
         robot.closeClamp();
-        encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
-        headingturn('l',90 );
-        /*headingturn('l', 180);
-            encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
-            headingturn('l', 270);
-            encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
+        encoderDrive(DRIVE_SPEED, -12.0, -12.0, 30);
+        headingturn('l',45 );
+            //encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
 
 
         telemetry.addData("Path", "Complete");

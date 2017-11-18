@@ -72,12 +72,12 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue 1 twins ", group="Testing")
+@Autonomous(name="Blue 1 8513", group="Testing")
 //Disabled
-public class B1test extends LinearOpMode {
+public class B1test8513 extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot robot  = new HardwareJoeBot();   // Use a Pushbot's hardware
+    HardwareJoeBot8513 robot   = new HardwareJoeBot8513();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 540 ;    // eg: TETRIX Motor Encoder
@@ -138,7 +138,7 @@ public class B1test extends LinearOpMode {
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
 
-        robot.lowerJewelArm();
+        /*robot.lowerJewelArm();
         Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
@@ -151,13 +151,13 @@ public class B1test extends LinearOpMode {
             encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
 
         }
-        robot.raiseJewelArm();
+        */robot.raiseJewelArm();
         encoderDrive(DRIVE_SPEED, -71.0, -71.0, 30);
             headingturn('r',-90 );
             stopmotors();
-            encoderDrive(DRIVE_SPEED, 48.0, 48.0, 30);
+            encoderDrive(DRIVE_SPEED, 42.0, 42.0, 30);
             stopmotors();
-            robot.openClamp();
+        robot.openClamp();
         sleep(750);
         robot.closeClamp();
         encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);

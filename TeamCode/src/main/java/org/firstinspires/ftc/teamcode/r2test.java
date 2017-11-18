@@ -72,7 +72,7 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="r2 test", group="Testing")
+@Autonomous(name="red 2 twins ", group="Testing")
 //Disabled
 public class r2test extends LinearOpMode {
 
@@ -138,7 +138,7 @@ public class r2test extends LinearOpMode {
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
 
-        robot.lowerJewelArm();
+        /*robot.lowerJewelArm();
         Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
@@ -151,7 +151,7 @@ public class r2test extends LinearOpMode {
             encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
 
         }
-        robot.raiseJewelArm();
+        ?*/  robot.raiseJewelArm();
         encoderDrive(DRIVE_SPEED, 52.0, 52.0, 30);
             headingturn('l',90 );
             stopmotors();
@@ -164,6 +164,7 @@ public class r2test extends LinearOpMode {
         stopmotors();
         encoderDrive(DRIVE_SPEED, 16.0, 16.0, 30);
         robot.openClamp();
+        sleep(750);
         robot.closeClamp();
         encoderDrive(DRIVE_SPEED, -15.0, -15.0, 30);
         headingturn('l',120 );

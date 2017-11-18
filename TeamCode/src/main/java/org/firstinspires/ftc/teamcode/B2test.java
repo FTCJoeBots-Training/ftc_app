@@ -72,7 +72,7 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="B2 test  ", group="Testing")
+@Autonomous(name="Blue 2 twins  ", group="Testing")
 //Disabled
 public class B2test extends LinearOpMode {
 
@@ -88,9 +88,9 @@ public class B2test extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
     String heading  ="";
-    float hsvValues[] = {0F, 0F, 0F};
+    //float hsvValues[] = {0F, 0F, 0F};
 
-    final float values[] = hsvValues;
+    //final float values[] = hsvValues;
 
     // sometimes it helps to multiply the raw RGB values with a scale factor
     // to amplify/attentuate the measured values.
@@ -136,7 +136,7 @@ public class B2test extends LinearOpMode {
         //Find it using compass
         //Read the vu mark
         //encoder drive to cryptobox(based on vu mark
-        robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        /*robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
 
         robot.lowerJewelArm();
@@ -152,7 +152,7 @@ public class B2test extends LinearOpMode {
             encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
 
         }
-        robot.raiseJewelArm();
+        */robot.raiseJewelArm();
         encoderDrive(DRIVE_SPEED, -48.0, -48.0, 30);
         headingturn('l',90 );
         stopmotors();
@@ -161,6 +161,7 @@ public class B2test extends LinearOpMode {
         stopmotors();
         encoderDrive(DRIVE_SPEED, 10.0, 10.0, 30);
         robot.openClamp();
+        sleep(750);
         robot.closeClamp();
         encoderDrive(DRIVE_SPEED, -12.0, -12.0, 30);
         headingturn('l',45 );

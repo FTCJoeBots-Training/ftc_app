@@ -72,12 +72,12 @@ import java.util.Locale;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Blue 1 twins ", group="Testing")
+@Autonomous(name="Red 1 8513 ", group="Testing")
 //Disabled
-public class B1test extends LinearOpMode {
+public class R1test8513 extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot robot  = new HardwareJoeBot();   // Use a Pushbot's hardware
+    HardwareJoeBot8513 robot   = new HardwareJoeBot8513();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 540 ;    // eg: TETRIX Motor Encoder
@@ -88,6 +88,7 @@ public class B1test extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
     String heading  ="";
+    double dublheading=0.0;
     float hsvValues[] = {0F, 0F, 0F};
 
     final float values[] = hsvValues;
@@ -95,10 +96,11 @@ public class B1test extends LinearOpMode {
     // sometimes it helps to multiply the raw RGB values with a scale factor
     // to amplify/attentuate the measured values.
     final double SCALE_FACTOR = 255;
-    double dublheading=0.0;
+
     long intheading=0;
     @Override
     public void runOpMode() throws InterruptedException {
+
         robot.init(hardwareMap, this);
         /*4
          * Initialize the drive system variables.
@@ -138,32 +140,34 @@ public class B1test extends LinearOpMode {
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
 
+
+
         robot.lowerJewelArm();
         Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
         if (robot.jewelSensor.red() >= 28) {
-            encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
             encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
+            encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
         }
         else {
-            encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
+            encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
 
         }
         robot.raiseJewelArm();
-        encoderDrive(DRIVE_SPEED, -71.0, -71.0, 30);
-            headingturn('r',-90 );
+
+        encoderDrive(DRIVE_SPEED, 75.0, 75.0, 30);
+        headingturn('r', -90);
             stopmotors();
-            encoderDrive(DRIVE_SPEED, 48.0, 48.0, 30);
+            encoderDrive(DRIVE_SPEED, 20.0, 20.0, 30);
             stopmotors();
-            robot.openClamp();
+        robot.openClamp();
         sleep(750);
         robot.closeClamp();
-        encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
-        headingturn('l',90 );
-        /*headingturn('l', 180);
-            encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
+        encoderDrive(DRIVE_SPEED, -8.0, -8.0, 30);
+            headingturn('l', 180);
+            /*encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
             headingturn('l', 270);
             encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
 
