@@ -304,7 +304,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
                 // "up" position, then lower the lift to the "driving" (or "base") position
 
                 robot.closeClamp();
-                sleep(1000);
+                sleep(1500);
                 robot.raiseClamp();
                 sleep(500);
 
