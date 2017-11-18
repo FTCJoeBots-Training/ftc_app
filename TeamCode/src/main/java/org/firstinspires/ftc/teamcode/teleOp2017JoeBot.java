@@ -4,10 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-/*import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
-*/
+/**
+ *import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+ *import com.qualcomm.robotcore.hardware.DcMotor;
+ *
+ *
+ */
 
 /**
  *Notes For this TeleOp Code. This code is for Comp and all proggramers should review over this
