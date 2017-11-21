@@ -140,7 +140,7 @@ public class R1test extends LinearOpMode {
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
 
-
+        //Make sure that all the power distrubution lines correct.
 
         robot.lowerJewelArm();
         Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
@@ -174,9 +174,9 @@ sleep(500);
         headingturn('l', 180);
             /*encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
             headingturn('l', 270);
-            encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
-
-
+            encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);
+            */
+        telemetry.update();
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }
