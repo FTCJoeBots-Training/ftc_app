@@ -136,10 +136,10 @@ public class B2test extends LinearOpMode {
         //Find it using compass
         //Read the vu mark
         //encoder drive to cryptobox(based on vu mark
-        /*robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
 
-        robot.lowerJewelArm();
+      /*robot.lowerJewelArm();
         Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),

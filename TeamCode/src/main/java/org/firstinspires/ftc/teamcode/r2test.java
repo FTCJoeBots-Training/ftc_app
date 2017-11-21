@@ -152,8 +152,8 @@ public class r2test extends LinearOpMode {
 
         }
         ?*/  robot.raiseJewelArm();
-        encoderDrive(DRIVE_SPEED, 52.0, 52.0, 30);
-            headingturn('l',90 );
+        encoderDrive(DRIVE_SPEED, 71.0, 71.0, 30);
+            /*headingturn('l',90 );
             stopmotors();
             encoderDrive(DRIVE_SPEED, 30.0, 30.0, 30);
         telemetry.addLine("turning right to 0");

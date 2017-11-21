@@ -152,10 +152,10 @@ public class B1test8513 extends LinearOpMode {
 
         }
         */robot.raiseJewelArm();
-        encoderDrive(DRIVE_SPEED, -71.0, -71.0, 30);
+        encoderDrive(DRIVE_SPEED, -58.0, -58.0, 30);
             headingturn('r',-90 );
             stopmotors();
-            encoderDrive(DRIVE_SPEED, 42.0, 42.0, 30);
+            encoderDrive(DRIVE_SPEED, 40.0, 40.0, 30);
             stopmotors();
         robot.openClamp();
         sleep(750);
