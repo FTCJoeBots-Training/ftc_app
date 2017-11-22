@@ -142,36 +142,38 @@ public class R1test extends LinearOpMode {
 
         //Make sure that all the power distrubution lines correct.
 
-        robot.lowerJewelArm();
+        /*robot.lowerJewelArm();
         Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
-        sleep(5000);
+        sleep(1500);
         telemetry.addData("Red: ", robot.jewelSensor.red());
         telemetry.addData("Blue: ", robot.jewelSensor.blue());
         telemetry.update();
 
         if (robot.jewelSensor.red() >= 28) {
-            encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
+            encoderDrive(DRIVE_SPEED, 8.0, 8.0, 30);
 
         }
         else {
-            encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
+            encoderDrive(DRIVE_SPEED, -8.0, -8.0, 30);
         }
-        robot.raiseJewelArm();
-sleep(500);
-        encoderDrive(DRIVE_SPEED, 71.0, 71.0, 30);
-        headingturn('r', -90);
+        */robot.raiseJewelArm();
+
+        encoderDrive(DRIVE_SPEED, 69.0, 69.0, 30);
+        headingturn('r', -53);
         stopmotors();
-        encoderDrive(DRIVE_SPEED, 17.0, 17.0, 30);
+        encoderDrive(DRIVE_SPEED, 16.0, 16.0, 30);
         stopmotors();
         robot.openClamp();
         sleep(750);
+        encoderDrive(DRIVE_SPEED, -12.0, -12.0, 30);
+        sleep(750);
         robot.closeClamp();
-        encoderDrive(DRIVE_SPEED, 5.0, 5.0, 30);
-        encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
-        headingturn('l', 180);
+
+        encoderDrive(DRIVE_SPEED, -8.0, -8.0, 30);
+        headingturn('l', 70);
             /*encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
             headingturn('l', 270);
             encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);
