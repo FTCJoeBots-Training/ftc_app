@@ -141,10 +141,16 @@ public class autoRedOneJewelTest extends LinearOpMode {
             //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
             //a "Red" opMode, we want to knock the blue jewel off the table.
             telemetry.addLine("Red Wins");
-            headingturn('r',15);
+            //headingturn('r', -9);
+            encoderDrive(.3,-10,-10,5);
+            robot.raiseJewelArm();
+            encoderDrive(.3,10,10,5);
 
         } else {
             telemetry.addLine("Blue Wins");
+            encoderDrive(.3,10,10,5);
+            robot.raiseJewelArm();
+            encoderDrive(.3,-10,-10,5);
         }
 
         telemetry.update();
@@ -156,8 +162,33 @@ public class autoRedOneJewelTest extends LinearOpMode {
 
         robot.raiseJewelArm();
 
+        encoderDrive(DRIVE_SPEED, 75.0, 75.0, 30);
+        headingturn('r', -90);
+        stopmotors();
+        encoderDrive(DRIVE_SPEED, 8.0, 8.0, 30);
+        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+        robot.liftMotor.setPower(-.5);
+        while (robot.liftMotor.isBusy()) {
+            idle();
+        }
+        robot.liftMotor.setPower(0);
+        robot.openClamp();
+        encoderDrive(DRIVE_SPEED, -13.0, -13.0, 30);
+//        headingturn(180);
+
+//        robot.openClamp();
+//        robot.lowerClamp();
+
+
+
         sleep(10000);
+
+
+
+
+
     }
+
 
 
 
@@ -182,15 +213,15 @@ public class autoRedOneJewelTest extends LinearOpMode {
             telemetry.addData("heading: %7d ",_intheading);
             telemetry.update();
             if (leftorright=='l') {
-                robot.motor1.setPower(-.2);
-                robot.motor2.setPower(.2);
-                robot.motor3.setPower(-.2);
-                robot.motor4.setPower(.2);
+                robot.motor1.setPower(-.1);
+                robot.motor2.setPower(.1);
+                robot.motor3.setPower(-.1);
+                robot.motor4.setPower(.1);
             } else {
-                robot.motor1.setPower(.2);
-                robot.motor2.setPower(-.2);
-                robot.motor3.setPower(.2);
-                robot.motor4.setPower(-.2);
+                robot.motor1.setPower(.1);
+                robot.motor2.setPower(-.1);
+                robot.motor3.setPower(.1);
+                robot.motor4.setPower(-.1);
             }
 
 
