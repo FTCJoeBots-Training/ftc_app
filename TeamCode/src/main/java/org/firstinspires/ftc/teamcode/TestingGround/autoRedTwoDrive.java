@@ -69,9 +69,9 @@ import java.util.Locale;
  *
  */
 
-@Autonomous(name="Red 1 - Drive Test", group="Auto")
+@Autonomous(name="Red 2 - Drive Test", group="Auto")
 //Disabled
-public class autoRedOneDrive extends LinearOpMode {
+public class autoRedTwoDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareJoeBot robot   = new HardwareJoeBot();   // Use a Pushbot's hardware
@@ -84,14 +84,17 @@ public class autoRedOneDrive extends LinearOpMode {
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
-    static final double     CENTER_COLUEM           = -48;
-    static final double     CENTER_DISTANCE         =  22.0;
-    static final double     LEFT_COLUEM             = -28;
-    static final double     LEFT_DISTANCE           = 38;
-    static final double     RIGHT_COLUEM            = -65;
-    static final double     RIGHT_DISTANCE          = 10.0;
+    static final double     CENTER_COLUEM           = 18;
+    static final double     CENTER_DISTANCE         = 69.0;
+    static final double     LEFT_COLUEM             = 28;
+    static final double     LEFT_DISTANCE           = 77;
+    static final double     RIGHT_COLUEM            = 5;
+    static final double     RIGHT_DISTANCE          = 63;
 
 
+
+
+    
     String heading  ="";
     double dublheading=0.0;
     float hsvValues[] = {0F, 0F, 0F};
@@ -172,13 +175,15 @@ public class autoRedOneDrive extends LinearOpMode {
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
-
+//LEFT RIGHT NOW
 //        robot.raiseJewelArm();
-
-        encoderDrive(DRIVE_SPEED, 41.0, 41.0, 30);
-        headingturn('r', -65);
+        encoderDrive(DRIVE_SPEED, 2.0, 2.0, 30);
+        headingturn('l', 5);
         stopmotors();
-        encoderDrive(DRIVE_SPEED, 10.0, 10.0, 30);
+        encoderDrive(DRIVE_SPEED, 63.0, 63.0, 30);
+
+
+
 //        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
 //        robot.liftMotor.setPower(-.5);
 //        while (robot.liftMotor.isBusy()) {
