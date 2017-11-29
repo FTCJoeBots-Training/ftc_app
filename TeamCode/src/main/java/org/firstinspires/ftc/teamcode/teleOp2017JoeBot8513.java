@@ -154,7 +154,7 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
                 // Check to see if the lift is already in auto mode. If it is, disable it.
                 if (bAutomatedLiftMotion) {
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                    robot.liftMotor.setPower(0);
+                    robot.liftMotor.setPower(.1);
                     bAutomatedLiftMotion = false;
 
                     // reset iRightBumperTarget

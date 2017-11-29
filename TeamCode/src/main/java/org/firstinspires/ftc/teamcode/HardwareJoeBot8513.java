@@ -53,14 +53,14 @@ public class HardwareJoeBot8513
     public Servo    clampRight = null; // right side of clamp
     public Servo    jewelServo = null; // Jewel Arm
 
-    public static final double RIGHT_CLAMP_OPEN_POS = 0;
-    public static final double RIGHT_CLAMP_CLOSE_POS = 0.2;
-    public static final double LEFT_CLAMP_OPEN_POS = 1;
-    public static final double LEFT_CLAMP_CLOSE_POS = 0.7;
+    public static final double RIGHT_CLAMP_OPEN_POS = 0.4;
+    public static final double RIGHT_CLAMP_CLOSE_POS = 0.7;
+    public static final double LEFT_CLAMP_OPEN_POS = 0.4;
+    public static final double LEFT_CLAMP_CLOSE_POS = 0.1;
 
     // Define static min/max for lift
     public static final int LIFT_MIN_POSITION = 0;
-    public static final int LIFT_MAX_POSITION = 5760;
+    public static final int LIFT_MAX_POSITION = 3810;
     public static final double JEWEL_ARM_UP_POS = 0;
     public static final double JEWEL_ARM_DOWN_POS = 0.75;
     public static final int LIFT_STARTING_POS = 500;

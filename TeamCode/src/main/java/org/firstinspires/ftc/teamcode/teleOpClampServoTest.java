@@ -66,8 +66,8 @@ public class teleOpClampServoTest extends LinearOpMode {
         double power3;
         double power4;
         double max;
-        double leftServoPos = 1;
-        double rightServoPos = 0.3;
+        double leftServoPos = 0;
+        double rightServoPos = 0;
         boolean bCurrStateA;
         boolean bPrevStateA = false;
         boolean bCurrStateX;
@@ -169,7 +169,7 @@ public class teleOpClampServoTest extends LinearOpMode {
             }
 
             //Raise the lift manually
-
+            /*
             while (opModeIsActive() && gamepad1.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
                 robot.liftMotor.setPower(.2);
             }
@@ -180,11 +180,62 @@ public class teleOpClampServoTest extends LinearOpMode {
                 robot.liftMotor.setPower(-.2);
             }
             robot.liftMotor.setPower(0);
+            */
+
+
+
+
+
+
+            //.70000000002 is starting position.
+
+
+            //Moving Clamp Left to open position and closed position.
+            while (opModeIsActive() && gamepad1.dpad_up && (robot.clampRight.getPosition() <=1) ) {
+                rightServoPos += .1;
+                robot.clampRight.setPosition(rightServoPos);
+                sleep(250);
+
+            }
+            //Moving Clamp Left to closed position and open position.
+            while (opModeIsActive() && gamepad1.dpad_down && (robot.clampRight.getPosition() >=0) ) {
+                rightServoPos -=.1;
+                robot.clampRight.setPosition(rightServoPos);
+                sleep(250);
+            }
+
+
+            //Moving Clamp Left to open position and closed position.
+            while (opModeIsActive() && gamepad1.dpad_left && (robot.clampLeft.getPosition() <=1) ) {
+                leftServoPos += .1;
+                robot.clampLeft.setPosition(leftServoPos);
+                sleep(250);
+
+            }
+            //Moving Clamp Left to closed position and open position.
+            while (opModeIsActive() && gamepad1.dpad_right && (robot.clampLeft.getPosition() >=0) ) {
+                leftServoPos -=.1;
+                robot.clampLeft.setPosition(leftServoPos);
+                sleep(250);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
             // Display the current value
-            telemetry.addData("MotorPosition: ", robot.liftMotor.getCurrentPosition());
+            telemetry.addData("leftServoPos: ", robot.clampLeft.getPosition());
+            telemetry.addData("rightServoPos:", robot.clampRight.getPosition());
             telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();
 

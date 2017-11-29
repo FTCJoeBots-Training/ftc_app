@@ -55,6 +55,9 @@ public class HardwareJoeBot
     public Servo    clampServo = null;  // open/close clamp
     public Servo    clampRotate = null; // rotate clamp up/down
     public Servo    jewelServo = null;  // rotate jewel arm up/down
+    public Servo    clampServoLeft = null; //Open/close Clamp Left
+    public Servo    clampServoRight = null; //Open/close Clamp Right
+
 
     // Declare Sensors
     public BNO055IMU imu;                  // The IMU sensor object
@@ -66,6 +69,10 @@ public class HardwareJoeBot
     public static final double CLAMP_CLOSE_POS = 1;
     public static final double CLAMP_DOWN_POS = 0.45;
     public static final double CLAMP_UP_POS = .15; //This position ".25" is for 1813 to fix the consistent flicking motion during "init" faz
+    public static final double Clamp_Left_Pos_Close=0;
+    public static final double Clamp_Left_Pos=1;
+    public static final double Clamp_right_Pos_Close=0;
+    public static final double Clamp_right_Pos=1;
     public static final double JEWEL_ARM_UP_POS = 0.75;
     public static final double JEWEL_ARM_DOWN_POS = 0.25;
     public static final int LIFT_STARTING_POS = 500;
@@ -83,6 +90,7 @@ public class HardwareJoeBot
     public boolean bClampDown = false; //Is the clamp Rotated Down?
     public boolean bLiftRaised = false;
     public boolean bJewelArmUp = false;
+    public boolean xClampOpen = false;
 
     // Variables used for IMU tracking...
     public Orientation angles;
@@ -226,6 +234,7 @@ public class HardwareJoeBot
         clampServo.setPosition(CLAMP_CLOSE_POS);
         bClampOpen = false;
     }
+
 
     /**
      *
