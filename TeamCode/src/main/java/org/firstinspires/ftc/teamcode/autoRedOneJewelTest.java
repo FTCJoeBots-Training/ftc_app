@@ -93,25 +93,31 @@ public class autoRedOneJewelTest extends LinearOpMode {
     // to amplify/attentuate the measured values.
     final double SCALE_FACTOR = 255;
 
-    long intheading=0;
+    long intheading = 0;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, this);
+        telemetry.addLine("Initialization Complete.");
+        telemetry.update();
 
         waitForStart();
 
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
+        telemetry.update();
 
         // Close the clamp on the pre-loaded glyph
+        robot.openClamp();
+        sleep(1000);
         robot.closeClamp();
         sleep(1000);
 
 
         // Raise the clamp to a safe driving height
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.liftMotor.setTargetPosition(robot.LIFT_GLYPH_ONE_POS);
         robot.liftMotor.setPower(.5);
         while (robot.liftMotor.isBusy()) {
