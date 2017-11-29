@@ -228,7 +228,7 @@ public class HardwareJoeBot
         bClampOpen = false;
     }
 
-    /**
+     /**
      *
      * raiseJewelArm rotates jewelServo to Up Position
      *
