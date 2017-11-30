@@ -32,8 +32,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode.TestingGround;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -46,6 +44,7 @@ import org.firstinspires.ftc.teamcode.HardwareJoeBot8513;
 
 import java.util.Locale;
 //TODO Push the code!
+
 /**
  *
  * This is a test autonomous opMode and assumes starting the "Red One" position (on the left
@@ -69,9 +68,9 @@ import java.util.Locale;
  *
  */
 
-@Autonomous(name="Blue 2 - Autonomous", group="Auto")
+@Autonomous(name="Red 1 - Autonomous", group="Auto")
 //Disabled
-public class autoBlueTwoTest extends LinearOpMode {
+public class autoRedTwoTest extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareJoeBot8513 robot   = new HardwareJoeBot8513();   // Use a Pushbot's hardware
@@ -153,28 +152,62 @@ public class autoBlueTwoTest extends LinearOpMode {
             telemetry.addLine("Red Wins");
             telemetry.update();
             //headingturn('r', -9);
-            timeDrive(.15,.5);
-            robot.raiseJewelArm();
             timeDrive(-.15,.5);
+            robot.raiseJewelArm();
+            timeDrive(.15,.5);
         } else {
             telemetry.addLine("Blue Wins");
             telemetry.update();
-            timeDrive(-.15,.5);
-            robot.raiseJewelArm();
             timeDrive(.15,.5);
+            robot.raiseJewelArm();
+            timeDrive(-.15,.5);
         }
 
         telemetry.update();
-
+        /*
         Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
 //Distance is fine-tuned for the position in corilation to the turn
         robot.raiseJewelArm();
-        headingturn('r', -5);
+       */ headingturn('r', 5);
         stopmotors();
     }
+
+
+
+
+
+
+    //Math/Telemetry
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
