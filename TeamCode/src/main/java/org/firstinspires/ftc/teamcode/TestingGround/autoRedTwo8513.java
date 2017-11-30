@@ -68,9 +68,9 @@ import java.util.Locale;
  *
  */
 
-@Autonomous(name="Red 1 - Autonomous", group="Auto")
+@Autonomous(name="Red 2 - 8513", group="Auto")
 //Disabled
-public class autoRedTwoTest extends LinearOpMode {
+public class autoRedTwo8513 extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareJoeBot8513 robot   = new HardwareJoeBot8513();   // Use a Pushbot's hardware
