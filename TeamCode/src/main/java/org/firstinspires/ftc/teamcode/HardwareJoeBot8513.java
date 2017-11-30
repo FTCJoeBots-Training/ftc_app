@@ -60,12 +60,13 @@ public class HardwareJoeBot8513
 
     // Define static min/max for lift
     public static final int LIFT_MIN_POSITION = 0;
-    public static final int LIFT_MAX_POSITION = 5760;
+    public static final int LIFT_MAX_POSITION = 5000;
     public static final double JEWEL_ARM_UP_POS = 0;
     public static final double JEWEL_ARM_DOWN_POS = 0.75;
-    public static final int LIFT_STARTING_POS = 500;
+    public static final int LIFT_STARTING_POS = 600;
     public static final int LIFT_GLYPH_ONE_POS = 600;
     public static final int LIFT_GLYPH_TWO_POS = 4180;
+
 
     public ColorSensor jewelSensor = null; // Rev Robotics Color Sensor
 
@@ -114,7 +115,7 @@ public class HardwareJoeBot8513
         motor2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         motor3.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         motor4.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        liftMotor.setDirection(DcMotor.Direction.REVERSE);
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);
 
 
 

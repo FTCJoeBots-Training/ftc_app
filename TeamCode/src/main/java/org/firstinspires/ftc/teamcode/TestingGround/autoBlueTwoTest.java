@@ -30,7 +30,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TestingGround;
 
 import android.graphics.Color;
 
@@ -42,7 +42,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.teamcode.HardwareJoeBot;
+import org.firstinspires.ftc.teamcode.HardwareJoeBot8513;
 
 import java.util.Locale;
 
@@ -69,9 +69,9 @@ import java.util.Locale;
  *
  */
 
-@Autonomous(name="Blue 1 - Autonomous", group="Auto")
+@Autonomous(name="Blue 2 - Autonomous", group="Auto")
 //Disabled
-public class autoBlueOneTest extends LinearOpMode {
+public class autoBlueTwoTest extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareJoeBot8513 robot   = new HardwareJoeBot8513();   // Use a Pushbot's hardware
@@ -173,42 +173,7 @@ public class autoBlueOneTest extends LinearOpMode {
 //Distance is fine-tuned for the position in corilation to the turn
         robot.raiseJewelArm();
         headingturn('r', -5);
-        timeDrive(-.2, 4.50);
-        //Point -79=POS RIGHT ROW
-        headingturn('r', -73);
         stopmotors();
-       //---- Robot has turned to position
-        idle();
-        robot.liftMotor.setTargetPosition(0);
-        robot.liftMotor.setPower(-.5);
-        while (robot.liftMotor.isBusy()) {
-            idle();
-        }
-
-        robot.openClamp();
-        timeDrive(.15,.5);
-
-        /*encoderDrive(DRIVE_SPEED, 8.0, 8.0, 30);
-        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
-        robot.liftMotor.setPower(-.5);
-        while (robot.liftMotor.isBusy()) {
-            idle();
-         }robot.liftMotor.setPower(0);
-        robot.openClamp();
-        encoderDrive(DRIVE_SPEED, -13.0, -13.0, 30);
-        headingturn(180);
-
-        robot.openClamp();
-        robot.closeClamp();
-
-
-
-        sleep(10000);
-        */
-
-
-
-
     }
 
 
@@ -221,55 +186,11 @@ public class autoBlueOneTest extends LinearOpMode {
         long _intheading=0;
         robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        //robot.angles =robot.imu.getAngularOrientation();
-        //heading = formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
-        _dblheading= robot.angles.firstAngle;
-        _intheading= Math.round(dublheading);
-
-        while (opModeIsActive() && (_intheading!=targetheading))
-        {
-            robot.angles =robot.imu.getAngularOrientation();
-            //heading = formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
-            _dblheading= robot.angles.firstAngle;
-            _intheading= Math.round(_dblheading);
-            telemetry.addData("heading: %7d ",_intheading);
-            telemetry.update();
-            if (leftorright=='l') {
-                robot.motor1.setPower(-.1);
-                robot.motor2.setPower(.1);
-                robot.motor3.setPower(-.1);
-                robot.motor4.setPower(.1);
-            } else {
-                robot.motor1.setPower(.1);
-                robot.motor2.setPower(-.1);
-                robot.motor3.setPower(.1);
-                robot.motor4.setPower(-.1);
-            }
-
-
-
-        }
-
-
-
         telemetry.addData("heading: %7d",robot.angles.firstAngle);
         telemetry.update();
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 public void stopmotors()
     {

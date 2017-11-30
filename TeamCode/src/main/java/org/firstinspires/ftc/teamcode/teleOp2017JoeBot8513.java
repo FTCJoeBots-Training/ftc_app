@@ -143,18 +143,19 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
                 // Check to see if the lift is already in auto mode. If it is, disable it.
                 if (bAutomatedLiftMotion) {
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                    robot.liftMotor.setPower(0);
+                    robot.liftMotor.setPower(.1);
                     bAutomatedLiftMotion = false;
 
                     // reset iRightBumperTarget
                     iRightBumperTarget = 1;
+
                 }
                 robot.liftMotor.setPower(liftPower);
             } else if (gamepad2.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
                 // Check to see if the lift is already in auto mode. If it is, disable it.
                 if (bAutomatedLiftMotion) {
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                    robot.liftMotor.setPower(0);
+                    robot.liftMotor.setPower(.1);
                     bAutomatedLiftMotion = false;
 
                     // reset iRightBumperTarget
@@ -242,6 +243,7 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
 
 
             // Update Telemetry
+            //Third line down Finds Lift's current position.
             telemetry.addData("Clamp Open?: ", robot.bClampOpen);
             telemetry.addData("Jewel Arm Pos: ", robot.jewelServo.getPosition());
             telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
