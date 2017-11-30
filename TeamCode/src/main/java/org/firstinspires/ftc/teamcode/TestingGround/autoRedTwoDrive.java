@@ -199,6 +199,13 @@ public class autoRedTwoDrive extends LinearOpMode {
 //        robot.openClamp();
 //        robot.lowerClamp();
 
+        // Lower the clamp to 0
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+        robot.liftMotor.setPower(.5);
+        while (robot.liftMotor.isBusy()) {
+            idle();
+        }
 
 
         sleep(10000);

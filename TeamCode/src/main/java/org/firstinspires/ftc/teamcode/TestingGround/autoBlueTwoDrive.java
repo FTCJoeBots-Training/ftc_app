@@ -39,14 +39,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.HardwareJoeBot;
 
 import java.util.Locale;
@@ -74,9 +69,9 @@ import java.util.Locale;
  *
  */
 
-@Autonomous(name="Red 1 - Drive Test", group="Auto")
+@Autonomous(name="Blue 2 - Drive Test", group="Auto")
 //Disabled
-public class autoRedOneDrive extends LinearOpMode {
+public class autoBlueTwoDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareJoeBot robot   = new HardwareJoeBot();   // Use a Pushbot's hardware
@@ -89,19 +84,17 @@ public class autoRedOneDrive extends LinearOpMode {
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
-    static final double     CENTER_DEGREES           = -48;
-    static final double     CENTER_DISTANCE         =  22.0;
-    static final int     LEFT_DEGREES             = -28;
-    static final double     LEFT_DISTANCE           = 38.0;
-    static final double     RIGHT_DEGREES            = -65;
-    static final double     RIGHT_DISTANCE          = 10.0;
-
-    int iVuMark = 0;
+    static final int     CENTER_DEGREES           = 18;
+    static final double     CENTER_DISTANCE         = 69.0;
+    static final int     LEFT_DEGREES             = 28;
+    static final double     LEFT_DISTANCE           = 77;
+    static final int     RIGHT_DEGREES            = 5;
+    static final double     RIGHT_DISTAaqNCE          = 63;
 
 
 
 
-
+    
     String heading  ="";
     double dublheading=0.0;
     float hsvValues[] = {0F, 0F, 0F};
@@ -114,33 +107,15 @@ public class autoRedOneDrive extends LinearOpMode {
 
     long intheading = 0;
 
-    VuforiaLocalizer vuforia;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, this);
-
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-
-        parameters.vuforiaLicenseKey = "AVzCl0v/////AAAAGcfsmNB0+Ecxi9nnFUli4RtGGZORFTsrkrZTsSaEZcnHNkxhb5NbskfqT531gL1cmgLFZ5xxeICDdBlPxxEbD4JcUvUuIdXxpVesR7/EAFZ+DTSJT3YQb0sKm2SlOlfiMf7ZdCEUaXuymCZPB4JeoYdogDUOdsOrd0BTDV2Z+CtO3eSsHWfcY6bDLh8VJKSbeFdk533EzcA26uhfhwBxYlzbOsjPSVCB66P6GbIP9/UjI3lbTNi+tpCpnOZa2gwPjoTSeEjo9ZKtkPe3a/DpLq3OMnVwVnUmsDvoW++UbtOmg9WNFC/YkN7DCtMt91uPaJPL5vOERkA+uXliC1i44IT4EyfoN1ccLaJiXMFH63DE";
-
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
-
         telemetry.addLine("Initialization Complete.");
         telemetry.update();
 
         waitForStart();
-
-        relicTrackables.activate();
-
 
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
@@ -163,32 +138,6 @@ public class autoRedOneDrive extends LinearOpMode {
         // Read the VuMark and store the Key Column
         // Need to add the VuMark Code here...
 
-        encoderDrive(DRIVE_SPEED, 2, 2, 10);
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-            //Using VuMark to determine which coluem is the key coluem
-
-            if (vuMark == RelicRecoveryVuMark.LEFT) {
-                telemetry.addLine("Left VuMark Discovered");
-                telemetry.update();
-                iVuMark = 1;
-            } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-                telemetry.addLine("Center VuMark Discovered");
-                telemetry.update();
-                iVuMark = 2;
-            } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                telemetry.addLine("Right VuMark Discovered");
-                telemetry.update();
-                iVuMark = 3;
-            }
-        }
-
-            sleep(5000);
-        encoderDrive(DRIVE_SPEED, -2, -2, 10);
-            sleep(1000);
-
-
-
         // Drop the jewel arm
         robot.lowerJewelArm();
         sleep(1000);
@@ -198,25 +147,26 @@ public class autoRedOneDrive extends LinearOpMode {
         telemetry.addData("Blue: ", robot.jewelSensor.blue());
         telemetry.addData("Red: ", robot.jewelSensor.red());
         telemetry.update();
-//
-//
+
+
         telemetry.addData("Blue: ", robot.jewelSensor.blue());
         telemetry.addData("Red: ", robot.jewelSensor.red());
 //
 //        // Based on the color of the jewel, rotate the bot either CW or CCW to knock off the right jewel
         if (robot.jewelSensor.red() > robot.jewelSensor.blue()) {
-            //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
-            //a "Red" opMode, we want to knock the blue jewel off the table.
+//            //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
+//            //a "Red" opMode, we want to knock the blue jewel off the table.
             telemetry.addLine("Red Wins");
-            encoderDrive(.3,-10,-10,5);
-            robot.raiseJewelArm();
+            //headingturn('r', -9);
             encoderDrive(.3,10,10,5);
-//
+            robot.raiseJewelArm();
+            encoderDrive(.3,-10,-10,5);
+
         } else {
             telemetry.addLine("Blue Wins");
-            encoderDrive(.3,10,10,5);
-            robot.raiseJewelArm();
             encoderDrive(.3,-10,-10,5);
+            robot.raiseJewelArm();
+            encoderDrive(.3,10,10,5);
         }
 
         telemetry.update();
@@ -225,16 +175,14 @@ public class autoRedOneDrive extends LinearOpMode {
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
+//LEFT RIGHT NOW
+    //       robot.raiseJewelArm();
+        encoderDrive(DRIVE_SPEED, 2, 2, 30);
+        headingturn('r', -25);
+        stopmotors();
+        encoderDrive(DRIVE_SPEED, -50, -50, 30);
 
-        // Drive off the balancing stone
-        encoderDrive(DRIVE_SPEED, 41.0, 41.0, 30);
 
-        // Turn based on vuMark
-        if (iVuMark == 1) {
-            headingturn('r', LEFT_DEGREES);
-            stopmotors();
-            encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
-        }
 
 //        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
 //        robot.liftMotor.setPower(-.5);
@@ -250,6 +198,7 @@ public class autoRedOneDrive extends LinearOpMode {
 //        robot.openClamp();
 //        robot.lowerClamp();
 
+
         // Lower the clamp to 0
         robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
@@ -257,6 +206,7 @@ public class autoRedOneDrive extends LinearOpMode {
         while (robot.liftMotor.isBusy()) {
             idle();
         }
+
 
         sleep(10000);
 
@@ -272,8 +222,8 @@ public class autoRedOneDrive extends LinearOpMode {
     public void headingturn (char leftorright,int targetheading)
 
     {
-        double _dblheading=0.0;
-        long _intheading=0;
+        double _dblheading = 0.0;
+        long _intheading = 0;
         robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         //robot.angles =robot.imu.getAngularOrientation();

@@ -74,7 +74,7 @@ import java.util.Locale;
  *
  */
 
-@Autonomous(name="Red 1 - Drive Test", group="Auto")
+@Autonomous(name="Blue 1 - Drive Test", group="Auto")
 //Disabled
 public class autoBlueOneDrive extends LinearOpMode {
 
@@ -208,15 +208,15 @@ public class autoBlueOneDrive extends LinearOpMode {
             //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
             //a "Red" opMode, we want to knock the blue jewel off the table.
             telemetry.addLine("Red Wins");
-            encoderDrive(.3,-10,-10,5);
-            robot.raiseJewelArm();
             encoderDrive(.3,10,10,5);
+            robot.raiseJewelArm();
+            encoderDrive(.3,-10,-10,5);
 //
         } else {
             telemetry.addLine("Blue Wins");
-            encoderDrive(.3,10,10,5);
-            robot.raiseJewelArm();
             encoderDrive(.3,-10,-10,5);
+            robot.raiseJewelArm();
+            encoderDrive(.3,10,10,5);
         }
 
         telemetry.update();
@@ -227,7 +227,7 @@ public class autoBlueOneDrive extends LinearOpMode {
                 hsvValues);
 
         // Drive off the balancing stone
-        encoderDrive(DRIVE_SPEED, -41.0,- 41.0, 30);
+        encoderDrive(DRIVE_SPEED, -80.0,- 80.0, 30);
 
 //        // Turn based on vuMark
 //        if (iVuMark == 1) {
@@ -251,6 +251,14 @@ public class autoBlueOneDrive extends LinearOpMode {
 //        robot.lowerClamp();
 
 
+        // Lower the clamp to 0
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+        robot.liftMotor.setPower(.5);
+        while (robot.liftMotor.isBusy()) {
+            idle();
+        }
+        robot.liftMotor.setPower(0);
 
         sleep(10000);
 
