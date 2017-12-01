@@ -144,7 +144,7 @@ public class autoRedTwo8513 extends LinearOpMode {
         telemetry.addData("Red: ", robot.jewelSensor.red());
 
 
-//Edited to BLue at 11/28/17
+//Edited to Red at 11/28/17
         // Based on the color of the jewel, rotate the bot either CW or CCW to knock off the right jewel
         if (robot.jewelSensor.red() > robot.jewelSensor.blue()) {
             //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
@@ -154,24 +154,42 @@ public class autoRedTwo8513 extends LinearOpMode {
             //headingturn('r', -9);
             timeDrive(-.15,.5);
             robot.raiseJewelArm();
-            timeDrive(.15,.5);
+            timeDrive(.15,1.15);
         } else {
             telemetry.addLine("Blue Wins");
             telemetry.update();
             timeDrive(.15,.5);
             robot.raiseJewelArm();
-            timeDrive(-.15,.5);
+            timeDrive(-.15,.60);
         }
 
+
+
+
         telemetry.update();
-        /*
-        Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
-                (int) (robot.jewelSensor.green() * SCALE_FACTOR),
-                (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
-                hsvValues);
+
 //Distance is fine-tuned for the position in corilation to the turn
         robot.raiseJewelArm();
-       */ headingturn('r', 5);
+        headingturn('l', 10);
+        timeDrive(.2,2.5);
+        sleep(500);
+        //Return lift to zero position
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotor.setTargetPosition(0);
+        robot.liftMotor.setPower(.5);
+
+        while (robot.liftMotor.isBusy()) {
+            telemetry.addLine("Lift in Motion");
+            telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
+            telemetry.update();
+            idle();
+        }
+        robot.liftMotor.setPower(0);
+
+        robot.openClamp();
+        timeDrive(-.2,.5);
+
+        idle();
         stopmotors();
     }
 
@@ -215,13 +233,40 @@ public class autoRedTwo8513 extends LinearOpMode {
     public void headingturn (char leftorright,int targetheading)
 
     {
-        double _dblheading=0.0;
-        long _intheading=0;
-        robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double _dblheading = 0.0;
+        long _intheading = 0;
+        robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        telemetry.addData("heading: %7d",robot.angles.firstAngle);
+        telemetry.addData("heading: %7d", robot.angles.firstAngle);
         telemetry.update();
 
+
+        //robot.angles =robot.imu.getAngularOrientation();
+        //heading = formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
+        _dblheading = robot.angles.firstAngle;
+        _intheading = Math.round(dublheading);
+
+        while (opModeIsActive() && (_intheading != targetheading)) {
+            robot.angles = robot.imu.getAngularOrientation();
+            //heading = formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
+            _dblheading = robot.angles.firstAngle;
+            _intheading = Math.round(_dblheading);
+            telemetry.addData("heading: %7d ", _intheading);
+            telemetry.update();
+            if (leftorright == 'l') {
+                robot.motor1.setPower(-.2);
+                robot.motor2.setPower(.2);
+                robot.motor3.setPower(-.2);
+                robot.motor4.setPower(.2);
+            } else {
+                robot.motor1.setPower(.2);
+                robot.motor2.setPower(-.2);
+                robot.motor3.setPower(.2);
+                robot.motor4.setPower(-.2);
+            }
+
+
+        }
 
     }
 

@@ -155,13 +155,13 @@ public class autoBlueTwo8513 extends LinearOpMode {
             //headingturn('r', -9);
             timeDrive(.15,.5);
             robot.raiseJewelArm();
-            timeDrive(-.15,.5);
+            timeDrive(-.15,.7);
         } else {
             telemetry.addLine("Blue Wins");
             telemetry.update();
             timeDrive(-.15,.5);
             robot.raiseJewelArm();
-            timeDrive(.15,.5);
+            timeDrive(.15,.7);
         }
 
         telemetry.update();
@@ -170,11 +170,47 @@ public class autoBlueTwo8513 extends LinearOpMode {
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
+
+
 //Distance is fine-tuned for the position in corilation to the turn
         robot.raiseJewelArm();
-        headingturn('r', -5);
+        timeDrive(-.2,1.85);
+        idle();
+        headingturn('l',112);
+        idle();
+        timeDrive(.2,1);
+        idle();
+        idle();
+        idle();
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotor.setTargetPosition(0);
+        robot.liftMotor.setPower(.5);
+
+        while (robot.liftMotor.isBusy()) {
+            telemetry.addLine("Lift in Motion");
+            telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
+            telemetry.update();
+            idle();
+        }
+
+        robot.liftMotor.setPower(0);
+        robot.openClamp();
+        timeDrive(-.2,.5);
+        stopmotors();
+
+
+
+
+
         stopmotors();
     }
+
+
+
+
+
+
+
 
 
 
@@ -189,7 +225,36 @@ public class autoBlueTwo8513 extends LinearOpMode {
         telemetry.addData("heading: %7d",robot.angles.firstAngle);
         telemetry.update();
 
+//robot.angles =robot.imu.getAngularOrientation();
+        //heading = formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
+        _dblheading = robot.angles.firstAngle;
+        _intheading = Math.round(dublheading);
 
+        robot.motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+        while (opModeIsActive() && (_intheading != targetheading)) {
+            robot.angles = robot.imu.getAngularOrientation();
+            //heading = formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
+            _dblheading = robot.angles.firstAngle;
+            _intheading = Math.round(_dblheading);
+            telemetry.addData("heading: %7d ", _intheading);
+            telemetry.update();
+            if (leftorright == 'l') {
+                robot.motor1.setPower(-.1);
+                robot.motor2.setPower(.1);
+                robot.motor3.setPower(-.1);
+                robot.motor4.setPower(.1);
+            } else {
+                robot.motor1.setPower(.1);
+                robot.motor2.setPower(-.1);
+                robot.motor3.setPower(.1);
+                robot.motor4.setPower(-.1);
+            }
+        }
     }
 
 public void stopmotors()

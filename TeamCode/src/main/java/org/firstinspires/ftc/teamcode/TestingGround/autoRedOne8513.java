@@ -120,6 +120,7 @@ public class autoRedOne8513 extends LinearOpMode {
         // Raise the clamp to a safe driving height
         robot.liftMotor.setTargetPosition(robot.LIFT_GLYPH_ONE_POS);
         robot.liftMotor.setPower(.5);
+        idle();
         while (robot.liftMotor.isBusy()) {
             telemetry.addLine("Lift in Motion");
             telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
@@ -146,34 +147,55 @@ public class autoRedOne8513 extends LinearOpMode {
         telemetry.addData("Red: ", robot.jewelSensor.red());
 
 
-//Edited to BLue at 11/28/17
+//Edited to Red at 11/28/17
         // Based on the color of the jewel, rotate the bot either CW or CCW to knock off the right jewel
         if (robot.jewelSensor.red() > robot.jewelSensor.blue()) {
             //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
             //a "Red" opMode, we want to knock the blue jewel off the table.
             telemetry.addLine("Red Wins");
             telemetry.update();
-            //headingturn('r', -9);
             timeDrive(-.15,.5);
             robot.raiseJewelArm();
-            timeDrive(.15,.5);
+            timeDrive(.15,.7);
         } else {
             telemetry.addLine("Blue Wins");
             telemetry.update();
             timeDrive(.15,.5);
             robot.raiseJewelArm();
-            timeDrive(-.15,.5);
+            timeDrive(-.15,.7);
         }
 
         telemetry.update();
-        /*
+
         Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
 //Distance is fine-tuned for the position in corilation to the turn
         robot.raiseJewelArm();
-       */ headingturn('r', 5);
+
+        idle();
+        timeDrive(.3,1.6);
+        idle();
+        headingturn('r',-40);
+        idle();
+        timeDrive(.2,1);
+        idle();
+        idle();
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotor.setTargetPosition(0);
+        robot.liftMotor.setPower(.5);
+
+        while (robot.liftMotor.isBusy()) {
+            telemetry.addLine("Lift in Motion");
+            telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
+            telemetry.update();
+            idle();
+        }
+
+        robot.liftMotor.setPower(0);
+        robot.openClamp();
+        timeDrive(-.2,.5);
         stopmotors();
     }
 
@@ -217,17 +239,45 @@ public class autoRedOne8513 extends LinearOpMode {
     public void headingturn (char leftorright,int targetheading)
 
     {
-        double _dblheading=0.0;
-        long _intheading=0;
-        robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double _dblheading = 0.0;
+        long _intheading = 0;
+        robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        telemetry.addData("heading: %7d",robot.angles.firstAngle);
+        telemetry.addData("heading: %7d", robot.angles.firstAngle);
         telemetry.update();
 
 
+        //robot.angles =robot.imu.getAngularOrientation();
+        //heading = formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
+        _dblheading = robot.angles.firstAngle;
+        _intheading = Math.round(dublheading);
+
+        while (opModeIsActive() && (_intheading != targetheading)) {
+            robot.angles = robot.imu.getAngularOrientation();
+            //heading = formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
+            _dblheading = robot.angles.firstAngle;
+            _intheading = Math.round(_dblheading);
+            telemetry.addData("heading: %7d ", _intheading);
+            telemetry.update();
+            if (leftorright == 'l') {
+                robot.motor1.setPower(-.2);
+                robot.motor2.setPower(.2);
+                robot.motor3.setPower(-.2);
+                robot.motor4.setPower(.2);
+            } else {
+                robot.motor1.setPower(.2);
+                robot.motor2.setPower(-.2);
+                robot.motor3.setPower(.2);
+                robot.motor4.setPower(-.2);
+            }
+
+
+        }
+
     }
 
-public void stopmotors()
+
+    public void stopmotors()
     {
         robot.motor1.setPower(0);
         robot.motor2.setPower(0);
