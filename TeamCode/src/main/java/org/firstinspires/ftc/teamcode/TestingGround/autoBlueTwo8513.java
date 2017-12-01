@@ -230,11 +230,6 @@ public class autoBlueTwo8513 extends LinearOpMode {
         _dblheading = robot.angles.firstAngle;
         _intheading = Math.round(dublheading);
 
-        robot.motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
 
         while (opModeIsActive() && (_intheading != targetheading)) {
             robot.angles = robot.imu.getAngularOrientation();
@@ -244,15 +239,15 @@ public class autoBlueTwo8513 extends LinearOpMode {
             telemetry.addData("heading: %7d ", _intheading);
             telemetry.update();
             if (leftorright == 'l') {
-                robot.motor1.setPower(-.1);
-                robot.motor2.setPower(.1);
-                robot.motor3.setPower(-.1);
-                robot.motor4.setPower(.1);
+                robot.motor1.setPower(-.2);
+                robot.motor2.setPower(.2);
+                robot.motor3.setPower(-.2);
+                robot.motor4.setPower(.2);
             } else {
-                robot.motor1.setPower(.1);
-                robot.motor2.setPower(-.1);
-                robot.motor3.setPower(.1);
-                robot.motor4.setPower(-.1);
+                robot.motor1.setPower(.2);
+                robot.motor2.setPower(-.2);
+                robot.motor3.setPower(.2);
+                robot.motor4.setPower(-.2);
             }
         }
     }
