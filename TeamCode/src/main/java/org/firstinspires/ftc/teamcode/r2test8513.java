@@ -71,7 +71,7 @@ import java.util.Locale;
  */
 
 @Autonomous(name="red 2 8513", group="Testing")
-//Disabled
+
 public class r2test8513 extends LinearOpMode {
 
     /* Declare OpMode members. */

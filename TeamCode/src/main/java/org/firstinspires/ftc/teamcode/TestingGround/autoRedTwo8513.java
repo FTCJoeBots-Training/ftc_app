@@ -116,7 +116,7 @@ public class autoRedTwo8513 extends LinearOpMode {
         telemetry.update();
 
         // Raise the clamp to a safe driving height
-        robot.liftMotor.setTargetPosition(robot.LIFT_GLYPH_ONE_POS);
+        robot.liftMotor.setTargetPosition(robot.LIFT_PLATFORM_POS);
         robot.liftMotor.setPower(.5);
         while (robot.liftMotor.isBusy()) {
             telemetry.addLine("Lift in Motion");
@@ -130,6 +130,7 @@ public class autoRedTwo8513 extends LinearOpMode {
         // Need to add the VuMark Code here...
 
         // Drop the jewel arm
+        //Jewel Arm disabled becuase of servo issues
         robot.lowerJewelArm();
         sleep(1000);
 
@@ -146,6 +147,7 @@ public class autoRedTwo8513 extends LinearOpMode {
 
 //Edited to Red at 11/28/17
         // Based on the color of the jewel, rotate the bot either CW or CCW to knock off the right jewel
+        //Jewel Arm disabled becuase of servo issues
         if (robot.jewelSensor.red() > robot.jewelSensor.blue()) {
             //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
             //a "Red" opMode, we want to knock the blue jewel off the table.
@@ -171,7 +173,7 @@ public class autoRedTwo8513 extends LinearOpMode {
 //Distance is fine-tuned for the position in corilation to the turn
         robot.raiseJewelArm();
         headingturn('l', 10);
-        timeDrive(.2,2.5);
+        timeDrive(.2,2.8);
         sleep(500);
         //Return lift to zero position
         robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -187,7 +189,7 @@ public class autoRedTwo8513 extends LinearOpMode {
         robot.liftMotor.setPower(0);
 
         robot.openClamp();
-        timeDrive(-.2,.5);
+        timeDrive(-.2,.3);
 
         idle();
         stopmotors();

@@ -118,7 +118,7 @@ public class autoRedOne8513 extends LinearOpMode {
         telemetry.update();
 
         // Raise the clamp to a safe driving height
-        robot.liftMotor.setTargetPosition(robot.LIFT_GLYPH_ONE_POS);
+        robot.liftMotor.setTargetPosition(robot.LIFT_PLATFORM_POS);
         robot.liftMotor.setPower(.5);
         idle();
         while (robot.liftMotor.isBusy()) {
@@ -133,6 +133,7 @@ public class autoRedOne8513 extends LinearOpMode {
         // Need to add the VuMark Code here...
 
         // Drop the jewel arm
+        //Jewel Arm disabled becuase of servo issues
         robot.lowerJewelArm();
         sleep(1000);
 
@@ -149,7 +150,8 @@ public class autoRedOne8513 extends LinearOpMode {
 
 //Edited to Red at 11/28/17
         // Based on the color of the jewel, rotate the bot either CW or CCW to knock off the right jewel
-        if (robot.jewelSensor.red() > robot.jewelSensor.blue()) {
+        //Jewel Arm disabled becuase of servo issues
+          if (robot.jewelSensor.red() > robot.jewelSensor.blue()) {
             //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
             //a "Red" opMode, we want to knock the blue jewel off the table.
             telemetry.addLine("Red Wins");

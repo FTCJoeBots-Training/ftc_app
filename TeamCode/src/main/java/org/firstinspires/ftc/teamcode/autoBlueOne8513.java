@@ -35,6 +35,7 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -68,10 +69,9 @@ import java.util.Locale;
  *
  *
  */
-
-@Autonomous(name="Blue 1 - Autonomous", group="Auto")
-//Disabled
-public class autoBlueOneTest extends LinearOpMode {
+//Make sure to update the code to the phone to use the correct BLue-1
+@Autonomous(name="Blue 1 - 8513", group="Auto")
+public class autoBlueOne8513 extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareJoeBot8513 robot   = new HardwareJoeBot8513();   // Use a Pushbot's hardware
@@ -117,7 +117,7 @@ public class autoBlueOneTest extends LinearOpMode {
         telemetry.update();
 
         // Raise the clamp to a safe driving height
-        robot.liftMotor.setTargetPosition(robot.LIFT_GLYPH_ONE_POS);
+        robot.liftMotor.setTargetPosition(robot.LIFT_PLATFORM_POS);
         robot.liftMotor.setPower(.5);
         while (robot.liftMotor.isBusy()) {
             telemetry.addLine("Lift in Motion");
@@ -131,6 +131,7 @@ public class autoBlueOneTest extends LinearOpMode {
         // Need to add the VuMark Code here...
 
         // Drop the jewel arm
+        //Jewel Arm disabled becuase of servo issues
         robot.lowerJewelArm();
         sleep(1000);
 
@@ -147,6 +148,8 @@ public class autoBlueOneTest extends LinearOpMode {
 
 //Edited to BLue at 11/28/17
         // Based on the color of the jewel, rotate the bot either CW or CCW to knock off the right jewel
+        //Jewel Arm disabled becuase of servo issues
+
         if (robot.jewelSensor.red() > robot.jewelSensor.blue()) {
             //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
             //a "Red" opMode, we want to knock the blue jewel off the table.
@@ -187,7 +190,7 @@ public class autoBlueOneTest extends LinearOpMode {
 
         robot.openClamp();
         timeDrive(.15,.5);
-
+        timeDrive(-.15,.5);
         /*encoderDrive(DRIVE_SPEED, 8.0, 8.0, 30);
         robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
         robot.liftMotor.setPower(-.5);

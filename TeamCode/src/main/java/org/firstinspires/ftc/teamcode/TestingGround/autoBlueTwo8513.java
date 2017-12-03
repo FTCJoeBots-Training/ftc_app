@@ -117,7 +117,7 @@ public class autoBlueTwo8513 extends LinearOpMode {
         telemetry.update();
 
         // Raise the clamp to a safe driving height
-        robot.liftMotor.setTargetPosition(robot.LIFT_GLYPH_ONE_POS);
+        robot.liftMotor.setTargetPosition(robot.LIFT_PLATFORM_POS);
         robot.liftMotor.setPower(.5);
         while (robot.liftMotor.isBusy()) {
             telemetry.addLine("Lift in Motion");
@@ -131,6 +131,7 @@ public class autoBlueTwo8513 extends LinearOpMode {
         // Need to add the VuMark Code here...
 
         // Drop the jewel arm
+        //Jewel Arm disabled becuase of servo issues
         robot.lowerJewelArm();
         sleep(1000);
 
@@ -147,6 +148,7 @@ public class autoBlueTwo8513 extends LinearOpMode {
 
 //Edited to BLue at 11/28/17
         // Based on the color of the jewel, rotate the bot either CW or CCW to knock off the right jewel
+        //Jewel Arm disabled becuase of servo issues
         if (robot.jewelSensor.red() > robot.jewelSensor.blue()) {
             //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
             //a "Red" opMode, we want to knock the blue jewel off the table.
@@ -161,7 +163,7 @@ public class autoBlueTwo8513 extends LinearOpMode {
             telemetry.update();
             timeDrive(-.15,.5);
             robot.raiseJewelArm();
-            timeDrive(.15,.7);
+            timeDrive(.15,1.2);
         }
 
         telemetry.update();
@@ -176,11 +178,11 @@ public class autoBlueTwo8513 extends LinearOpMode {
         robot.raiseJewelArm();
         timeDrive(-.2,1.85);
         idle();
-        headingturn('l',112);
+        headingturn('l',117); //make sure that the turn for the Hearing 'l' is correct
         idle();
-        timeDrive(.2,1);
+        timeDrive(.2,1.75); //make sure that the distance is correct for the glyph placement ->1.75_Distance
         idle();
-        idle();
+        timeDrive(-.1,.15);
         idle();
         robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.liftMotor.setTargetPosition(0);
@@ -239,15 +241,15 @@ public class autoBlueTwo8513 extends LinearOpMode {
             telemetry.addData("heading: %7d ", _intheading);
             telemetry.update();
             if (leftorright == 'l') {
-                robot.motor1.setPower(-.2);
-                robot.motor2.setPower(.2);
-                robot.motor3.setPower(-.2);
-                robot.motor4.setPower(.2);
+                robot.motor1.setPower(-.08);
+                robot.motor2.setPower(.08);
+                robot.motor3.setPower(-.08);
+                robot.motor4.setPower(.08);
             } else {
-                robot.motor1.setPower(.2);
-                robot.motor2.setPower(-.2);
-                robot.motor3.setPower(.2);
-                robot.motor4.setPower(-.2);
+                robot.motor1.setPower(.08);
+                robot.motor2.setPower(-.08);
+                robot.motor3.setPower(.08);
+                robot.motor4.setPower(-.08);
             }
         }
     }

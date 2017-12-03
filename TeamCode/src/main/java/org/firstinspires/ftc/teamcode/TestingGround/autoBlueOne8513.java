@@ -35,6 +35,7 @@ package org.firstinspires.ftc.teamcode.TestingGround;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -71,7 +72,7 @@ import java.util.Locale;
  */
 
 @Autonomous(name="Blue 1 - 8513", group="Auto")
-//Disabled
+@Disabled
 public class autoBlueOne8513 extends LinearOpMode {
 
     /* Declare OpMode members. */
