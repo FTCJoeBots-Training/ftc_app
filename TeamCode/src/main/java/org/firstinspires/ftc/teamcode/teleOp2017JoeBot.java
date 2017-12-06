@@ -146,6 +146,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             }
 
             bPrevStateB = bCurrStateB;
+        //TODO WORK ON THIS \/
         */
             bCurrStateB = gamepad2.b;
 
