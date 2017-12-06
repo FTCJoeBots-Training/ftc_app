@@ -145,12 +145,29 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
             }
 
+            SWITCH CODE FOR GamePad_B
+        switch (dbButtonTarget) {
+                    case 1:
+                        dbClampTargetPos = robot.CLAMP_OPEN_POS;
+                        break;
+                    case 2:
+                        dClampTargetPos = robot.CLAMP_MID_POS;
+                        break;
+                    case 3:
+                        dClampTargetPos = robot.CLAMP_CLOSE_POS;
+                        break;
+                }//end swtich
+
+
+
             bPrevStateB = bCurrStateB;
-        //TODO WORK ON THIS \/
+
+
         */
             bCurrStateB = gamepad2.b;
 
             if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
+
 
                 // Check to see if this is the first or second button press
                 if (dbButtonTarget == 1) {
@@ -159,14 +176,14 @@ public class teleOp2017JoeBot extends LinearOpMode {
                 } else if (dbButtonTarget == 2) {
                     dClampTargetPos = robot.CLAMP_MID_POS;
 
-                } else (dbButtonTarget == 3) {
+                } else if (dbButtonTarget == 3) {
                     dClampTargetPos = robot.CLAMP_CLOSE_POS;
                 }
 
                 // Set new Lift Target for next button press.
                 dbButtonTarget += 1;
                 if (dbButtonTarget>3) { dbButtonTarget = 1; }
-                
+
             }
 
             bPrevStateB = bCurrStateB;
