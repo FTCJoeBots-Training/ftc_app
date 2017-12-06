@@ -49,7 +49,9 @@ public class teleOp2017JoeBot extends LinearOpMode {
         double max;
         double leftServoPos = 1;
         double rightServoPos = 0.3;
-        boolean bCurrStateA;
+        double dbButtonTarget = 1;
+        double dClampTargetPos = 1;
+        boolean bCurrStateA = false;
         boolean bPrevStateA = false;
         boolean bCurrStateB;
         boolean bPrevStateB = false;
@@ -64,6 +66,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
         boolean bAutomatedLiftMotion = false;
         int iLiftTargetPos = 1;
         int iRightBumperTarget = 1;
+        int iaButtonTarget = 1;
         double liftPower = .6;
 
         robot.jewelSensor.enableLed(false);
@@ -127,7 +130,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
             // Open/Close Clamps based on "B" Button Press
             // -------------------------------------------
-
+        /*
             bCurrStateB = gamepad2.b;
 
             if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
@@ -135,7 +138,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
                 if (robot.bClampOpen) {
                     //Clamp is open. Close it.
                     robot.closeClamp();
-                } else {
+                } else  {
                     //Clamp must be closed. Open it.
                     robot.openClamp();
                 }
@@ -143,6 +146,32 @@ public class teleOp2017JoeBot extends LinearOpMode {
             }
 
             bPrevStateB = bCurrStateB;
+        */
+            bCurrStateB = gamepad2.b;
+
+            if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
+
+                // Check to see if this is the first or second button press
+                if (dbButtonTarget == 1) {
+                    dClampTargetPos = robot.CLAMP_OPEN_POS;
+
+                } else if (dbButtonTarget == 2) {
+                    dClampTargetPos = robot.CLAMP_MID_POS;
+
+                } else (dbButtonTarget == 3) {
+                    dClampTargetPos = robot.CLAMP_CLOSE_POS;
+                }
+
+                // Set new Lift Target for next button press.
+                iaButtonTarget += 1;
+                if (iaButtonTarget>2) { iaButtonTarget = 1; }
+
+            }
+
+            bPrevStateA = bCurrStateA;
+
+
+
 
 
             // Rotate Clamps based on "Y" Button Press
@@ -163,6 +192,8 @@ public class teleOp2017JoeBot extends LinearOpMode {
             }
 
             bPrevStateY = bCurrStateY;
+
+
 
 
             // Check on lift state.. If automated lift motion is active, check to see if lift is
@@ -277,9 +308,71 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
             bPrevStateRB = bCurrStateRB;
 
-            // Toggle Search Mode - raise Lift to search position; Open clamp; rotate clamp
+
+
+
+
+
 
             bCurrStateA = gamepad2.a;
+
+            if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
+
+                // Check to see if this is the first or second button press
+                if (iaButtonTarget == 1) {
+                    // This is the first button press, or it has rolled over...
+                    // Set lift into Auto Mode and head for position 1
+                    bAutomatedLiftMotion = true;
+                    iLiftTargetPos = robot.LIFT_SEARCHING_POS;
+
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                    robot.liftMotor.setPower(0.6);
+
+                    // Lower Clamp and Open
+                    if (!robot.bClampDown) { robot.lowerClamp(); }
+                    if (!robot.bClampOpen) { robot.openClamp();}
+
+
+
+
+                } else if (iaButtonTarget == 2) {
+                    // Set lift into Auto Mode and head for position 2
+                    bAutomatedLiftMotion = true;
+                    iLiftTargetPos = robot.LIFT_SEARCHING_POS2;
+
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                    robot.liftMotor.setPower(0.6);
+
+                    // Lower Clamp and Open
+                    if (!robot.bClampDown) { robot.lowerClamp(); }
+                    if (!robot.bClampOpen) { robot.openClamp();}
+
+
+
+                } else {
+                    // We've received an invalid command
+                    // Don't do anything right now.. May want to add cleanup code later.
+                }
+
+                // Set new Lift Target for next button press.
+                iaButtonTarget += 1;
+                if (iaButtonTarget>2) { iaButtonTarget = 1; }
+
+            }
+
+            bPrevStateA = bCurrStateA;
+
+
+
+
+
+
+
+            // Toggle Search Mode - raise Lift to search position; Open clamp; rotate clamp
+
+            /*bCurrStateA = gamepad2.a;
 
             if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
 
@@ -303,7 +396,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
             bPrevStateA = bCurrStateA;
 
-
+*/
             // Pick up Glyphs and prepare to drive
 
             bCurrStateX = gamepad2.x;
@@ -343,6 +436,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             telemetry.addData("Lift Target: ", iLiftTargetPos);
             telemetry.addData("RB Target: ", iRightBumperTarget);
             telemetry.addData(">", "Press Stop to end test.");
+            telemetry.addData("Next Search Position", iaButtonTarget);
             telemetry.update();
             idle();
 
