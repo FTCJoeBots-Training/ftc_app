@@ -94,7 +94,7 @@ public class autoRedOneDrive extends LinearOpMode {
     static final int     LEFT_DEGREES             = -28;
     static final double     LEFT_DISTANCE           = 38.0;
     static final int     RIGHT_DEGREES            = -65;
-    static final double     RIGHT_DISTANCE          = 12.0;
+    static final double     RIGHT_DISTANCE          = 11.0;
     static final double     BLUE_WON_DISTANCE       = 31.0;
     static final double     RED_WON_DISTANCE        = 41.0;
 
