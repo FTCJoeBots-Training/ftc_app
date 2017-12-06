@@ -165,8 +165,8 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
                 // Set new Lift Target for next button press.
                 iaButtonTarget += 1;
-                if (iaButtonTarget>2) { iaButtonTarget = 1; }
-
+                if (dbButtonTarget>2) { dbButtonTarget = 1; }
+                
             }
 
             bPrevStateA = bCurrStateA;
