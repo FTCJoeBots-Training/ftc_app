@@ -206,7 +206,7 @@ public class autoBlueTwoDrive extends LinearOpMode {
         while (robot.liftMotor.isBusy()) {
             idle();
         }
-
+        headingturn('r',-120 );
 
         sleep(10000);
 

@@ -84,8 +84,9 @@ public class teleOp2017JoeBot extends LinearOpMode {
             //Drive Via "Analog Sticks" (Not Toggle)
             //Set initial motion parameters to Gamepad1 Inputs
             forward = -gamepad1.left_stick_y;
-            right = gamepad1.left_stick_x;
+            //right = gamepad1.left_stick_x;
             clockwise = gamepad1.right_stick_x;
+            right = -gamepad1.left_trigger + gamepad1.right_trigger;
 
             // Add a tuning constant "K" to tune rotate axis sensitivity
             k = .6;
@@ -156,7 +157,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
                     case 3:
                         dClampTargetPos = robot.CLAMP_CLOSE_POS;
                         break;
-                }//end swtich
+                }//end switch
 
 
 
@@ -168,18 +169,19 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
             if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
 
-
+                //Make sure that the order is Close->Mid->Open
                 // Check to see if this is the first or second button press
                 if (dbButtonTarget == 1) {
-                    dClampTargetPos = robot.CLAMP_OPEN_POS;
+                    dClampTargetPos = robot.CLAMP_CLOSE_POS;
 
                 } else if (dbButtonTarget == 2) {
                     dClampTargetPos = robot.CLAMP_MID_POS;
 
                 } else if (dbButtonTarget == 3) {
-                    dClampTargetPos = robot.CLAMP_CLOSE_POS;
+                    dClampTargetPos = robot.CLAMP_OPEN_POS;
                 }
 
+                robot.clampServo.setPosition(dClampTargetPos);
                 // Set new Lift Target for next button press.
                 dbButtonTarget += 1;
                 if (dbButtonTarget>3) { dbButtonTarget = 1; }
@@ -206,7 +208,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
                     //Clamp is up. Lower it.
                     robot.lowerClamp();
                 }
-
+                iaButtonTarget = 1;
             }
 
             bPrevStateY = bCurrStateY;
@@ -346,6 +348,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     robot.liftMotor.setTargetPosition(iLiftTargetPos);
                     robot.liftMotor.setPower(0.6);
+                    sleep(1000);
 
                     // Lower Clamp and Open
                     if (!robot.bClampDown) { robot.lowerClamp(); }
@@ -455,6 +458,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             telemetry.addData("RB Target: ", iRightBumperTarget);
             telemetry.addData(">", "Press Stop to end test.");
             telemetry.addData("Next Search Position", iaButtonTarget);
+            telemetry.addData("Current Clamp Position",robot.clampServo.getPosition());
             telemetry.update();
             idle();
 

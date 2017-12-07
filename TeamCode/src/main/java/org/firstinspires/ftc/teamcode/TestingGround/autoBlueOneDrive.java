@@ -259,7 +259,7 @@ public class autoBlueOneDrive extends LinearOpMode {
             idle();
         }
         robot.liftMotor.setPower(0);
-
+        headingturn('l', -180);
         sleep(10000);
 
 
