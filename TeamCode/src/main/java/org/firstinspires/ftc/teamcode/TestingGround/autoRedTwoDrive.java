@@ -92,7 +92,7 @@ public class autoRedTwoDrive extends LinearOpMode {
     static final int     CENTER_DEGREES           = 25;
     static final double     CENTER_DISTANCE         = 69.0;
     static final int     LEFT_DEGREES             = 29;
-    static final double     LEFT_DISTANCE           = 77;
+    static final double     LEFT_DISTANCE           = 76;
     static final int     RIGHT_DEGREES            = 5;
     static final double     RIGHT_DISTANCE          = 63;
 
@@ -287,13 +287,6 @@ public class autoRedTwoDrive extends LinearOpMode {
 //            idle();
 //        }
 //        robot.liftMotor.setPower(0);
-        robot.openClamp();
-        sleep(1000);
-        encoderDrive(DRIVE_SPEED, -9.0, -9.0, 30);
-//        headingturn(180);
-
-//        robot.openClamp();
-//        robot.lowerClamp();
 
         // Lower the clamp to 0
         robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -303,8 +296,20 @@ public class autoRedTwoDrive extends LinearOpMode {
             idle();
         }
 
+
+        robot.openClamp();
+        sleep(1000);
+        encoderDrive(DRIVE_SPEED, -10.0, -10.0, 30);
+//        headingturn(180);
+
+//        robot.openClamp();
+//        robot.lowerClamp();
+
+
+
         if (iVuMark == 1); {
-            headingturn('l', 160);
+            headingturn('l', 180);
+            stopmotors();
         }
 
 
