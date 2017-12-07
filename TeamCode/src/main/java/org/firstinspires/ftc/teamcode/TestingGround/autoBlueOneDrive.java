@@ -89,14 +89,17 @@ public class autoBlueOneDrive extends LinearOpMode {
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
-    static final double     CENTER_DEGREES           = -48;
+    static final int     CENTER_DEGREES           = -48;
     static final double     CENTER_DISTANCE         =  22.0;
     static final int     LEFT_DEGREES             = -28;
     static final double     LEFT_DISTANCE           = 38.0;
-    static final double     RIGHT_DEGREES            = -65;
+    static final int     RIGHT_DEGREES            = -65;
     static final double     RIGHT_DISTANCE          = 10.0;
+    static final double     RED_WINS_DISTANCE       = -70;
+    static final double     BLUE_WINS_DISTANCE      = -80;
 
-    int iVuMark = 0;
+    int iVuMark = 1;
+    int iJewelArm = 0;
 
 
 
@@ -208,11 +211,12 @@ public class autoBlueOneDrive extends LinearOpMode {
             //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
             //a "Red" opMode, we want to knock the blue jewel off the table.
             telemetry.addLine("Red Wins");
+            iJewelArm = 1;
             encoderDrive(.3,10,10,5);
             robot.raiseJewelArm();
-            encoderDrive(.3,-10,-10,5);
 //
         } else {
+            iJewelArm = 2;
             telemetry.addLine("Blue Wins");
             encoderDrive(.3,-10,-10,5);
             robot.raiseJewelArm();
@@ -226,29 +230,72 @@ public class autoBlueOneDrive extends LinearOpMode {
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
 
-        // Drive off the balancing stone
-        encoderDrive(DRIVE_SPEED, -80.0,- 80.0, 30);
+        // Drive off the balancing stone red
+        if (iJewelArm == 1) {
 
-//        // Turn based on vuMark
-//        if (iVuMark == 1) {
-//            headingturn('r', LEFT_DEGREES);
-//            stopmotors();
-//            encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
-//        }
+            encoderDrive(DRIVE_SPEED, RED_WINS_DISTANCE, RED_WINS_DISTANCE, 30);
+        }
 
-//        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
-//        robot.liftMotor.setPower(-.5);
-//        while (robot.liftMotor.isBusy()) {
-//            idle();
-//        }
-//        robot.liftMotor.setPower(0);
-//        robot.openClamp();
-//        sleep(1000);
-//        encoderDrive(DRIVE_SPEED, -9.0, -9.0, 30);
-//        headingturn(180);
+        // Drive off the balancing stone blue
+        if (iJewelArm == 2) {
 
-//        robot.openClamp();
-//        robot.lowerClamp();
+            encoderDrive(DRIVE_SPEED, BLUE_WINS_DISTANCE, BLUE_WINS_DISTANCE, 30);
+        }
+
+        //--------------------------------------------------------------------------------//
+        // Turn based on vuMark left + right jewel
+        if (iVuMark == 1 && iJewelArm == 1) {
+            headingturn('r', LEFT_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
+
+        }
+
+        // Turn based on vuMark left + blue jewel
+        if (iVuMark == 1 && iJewelArm == 2) {
+            headingturn('r', LEFT_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
+        }
+
+
+        //---------------------------------------------------------------------------------//
+
+        // Turn based on vuMark center + center jewel
+        if (iVuMark == 2 && iJewelArm == 1) {
+            headingturn('r', CENTER_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
+
+        }
+
+        // Turn based on vuMark center + blue jewel
+        if (iVuMark == 2 && iJewelArm == 2) {
+            headingturn('r', CENTER_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
+        }
+
+        //---------------------------------------------------------------------------------//
+
+        //---------------------------------------------------------------------------------//
+
+        // Turn based on vuMark Right + right jewel
+        if (iVuMark == 3 && iJewelArm == 1) {
+            headingturn('r', RIGHT_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
+
+        }
+
+        // Turn based on vuMark right + blue jewel
+        if (iVuMark == 3 && iJewelArm == 2) {
+            headingturn('r', RIGHT_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
+        }
+
+        //---------------------------------------------------------------------------------//;
 
 
         // Lower the clamp to 0

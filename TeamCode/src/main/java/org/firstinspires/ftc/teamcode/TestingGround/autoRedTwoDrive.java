@@ -89,14 +89,14 @@ public class autoRedTwoDrive extends LinearOpMode {
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
-    static final int     CENTER_DEGREES           = 18;
+    static final int     CENTER_DEGREES           = 25;
     static final double     CENTER_DISTANCE         = 69.0;
-    static final int     LEFT_DEGREES             = 28;
+    static final int     LEFT_DEGREES             = 29;
     static final double     LEFT_DISTANCE           = 77;
     static final int     RIGHT_DEGREES            = 5;
     static final double     RIGHT_DISTANCE          = 63;
 
-    double iVuMark = 0;
+    double iVuMark = 1;
     double iJewelArm = 0;
 
 
@@ -185,7 +185,7 @@ public class autoRedTwoDrive extends LinearOpMode {
 
         // Drop the jewel arm
         robot.lowerJewelArm();
-        sleep(1000);
+        sleep(3000);
 
 //        // Read the color of the jewel in front of the jewel arm
 //        // Raise the jewel arm
@@ -202,12 +202,13 @@ public class autoRedTwoDrive extends LinearOpMode {
 //            //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
 //            //a "Red" opMode, we want to knock the blue jewel off the table.
             telemetry.addLine("Red Wins");
-            //headingturn('r', -9);
+           iJewelArm = 1;
             encoderDrive(.3,-10,-10,5);
             robot.raiseJewelArm();
             encoderDrive(.3,10,10,5);
 
         } else {
+            iJewelArm = 2;
             telemetry.addLine("Blue Wins");
             encoderDrive(.3,10,10,5);
             robot.raiseJewelArm();
@@ -220,11 +221,13 @@ public class autoRedTwoDrive extends LinearOpMode {
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
-//LEFT RIGHT NOW
-//        robot.raiseJewelArm();
+
+
+
+        //--------------------------------------------------------------------------------//
         // Turn based on vuMark left + right jewel
         if (iVuMark == 1 && iJewelArm == 1) {
-            headingturn('r', LEFT_DEGREES);
+            headingturn('l', LEFT_DEGREES);
             stopmotors();
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
 
@@ -232,7 +235,7 @@ public class autoRedTwoDrive extends LinearOpMode {
 
         // Turn based on vuMark left + blue jewel
         if (iVuMark == 1 && iJewelArm == 2) {
-            headingturn('r', LEFT_DEGREES);
+            headingturn('l', LEFT_DEGREES);
             stopmotors();
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
         }
@@ -298,6 +301,10 @@ public class autoRedTwoDrive extends LinearOpMode {
         robot.liftMotor.setPower(.5);
         while (robot.liftMotor.isBusy()) {
             idle();
+        }
+
+        if (iVuMark == 1); {
+            headingturn('l', 160);
         }
 
 

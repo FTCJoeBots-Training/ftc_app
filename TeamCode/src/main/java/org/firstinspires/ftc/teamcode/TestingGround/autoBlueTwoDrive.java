@@ -89,7 +89,10 @@ public class autoBlueTwoDrive extends LinearOpMode {
     static final int     LEFT_DEGREES             = 28;
     static final double     LEFT_DISTANCE           = 77;
     static final int     RIGHT_DEGREES            = 5;
-    static final double     RIGHT_DISTAaqNCE          = 63;
+    static final double     RIGHT_DISTANCE          = 63;
+
+    int iVuMark = 1;
+    int iJewelArm = 0;
 
 
 
@@ -181,6 +184,60 @@ public class autoBlueTwoDrive extends LinearOpMode {
         headingturn('r', -25);
         stopmotors();
         encoderDrive(DRIVE_SPEED, -50, -50, 30);
+
+        // Turn based on vuMark left + right jewel
+        if (iVuMark == 1 && iJewelArm == 1) {
+            headingturn('r', LEFT_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
+
+        }
+
+        // Turn based on vuMark left + blue jewel
+        if (iVuMark == 1 && iJewelArm == 2) {
+            headingturn('r', LEFT_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
+        }
+
+
+        //---------------------------------------------------------------------------------//
+
+        // Turn based on vuMark center + right jewel
+        if (iVuMark == 2 && iJewelArm == 1) {
+            headingturn('r', CENTER_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
+
+        }
+
+        // Turn based on vuMark center + blue jewel
+        if (iVuMark == 2 && iJewelArm == 2) {
+            headingturn('r', CENTER_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
+        }
+
+        //---------------------------------------------------------------------------------//
+
+        //---------------------------------------------------------------------------------//
+
+        // Turn based on vuMark Right + right jewel
+        if (iVuMark == 3 && iJewelArm == 1) {
+            headingturn('r', RIGHT_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
+
+        }
+
+        // Turn based on vuMark right + blue jewel
+        if (iVuMark == 3 && iJewelArm == 2) {
+            headingturn('r', RIGHT_DEGREES);
+            stopmotors();
+            encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
+        }
+
+        //---------------------------------------------------------------------------------//
 
 
 
