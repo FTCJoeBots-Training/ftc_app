@@ -89,14 +89,14 @@ public class autoRedTwoDrive extends LinearOpMode {
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
-    static final int     CENTER_DEGREES           = 25;
+    static final int     CENTER_DEGREES           = 17;
     static final double     CENTER_DISTANCE         = 69.0;
-    static final int     LEFT_DEGREES             = 29;
+    static final int     LEFT_DEGREES             = 25;
     static final double     LEFT_DISTANCE           = 76;
     static final int     RIGHT_DEGREES            = 5;
     static final double     RIGHT_DISTANCE          = 63;
 
-    double iVuMark = 1;
+    double iVuMark = 2;
     double iJewelArm = 0;
 
 
@@ -245,7 +245,7 @@ public class autoRedTwoDrive extends LinearOpMode {
 
         // Turn based on vuMark center + center jewel
         if (iVuMark == 2 && iJewelArm == 1) {
-            headingturn('r', CENTER_DEGREES);
+            headingturn('l', CENTER_DEGREES);
             stopmotors();
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
 
@@ -253,7 +253,7 @@ public class autoRedTwoDrive extends LinearOpMode {
 
         // Turn based on vuMark center + blue jewel
         if (iVuMark == 2 && iJewelArm == 2) {
-            headingturn('r', CENTER_DEGREES);
+            headingturn('l', CENTER_DEGREES);
             stopmotors();
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
         }
@@ -307,10 +307,11 @@ public class autoRedTwoDrive extends LinearOpMode {
 
 
 
-        if (iVuMark == 1); {
+        //turn toward the glyph pit at the end of auto
             headingturn('l', 180);
             stopmotors();
-        }
+
+
 
 
         sleep(10000);
@@ -345,15 +346,15 @@ public class autoRedTwoDrive extends LinearOpMode {
             telemetry.addData("heading: %7d ",_intheading);
             telemetry.update();
             if (leftorright=='l') {
-                robot.motor1.setPower(-.1);
-                robot.motor2.setPower(.1);
-                robot.motor3.setPower(-.1);
-                robot.motor4.setPower(.1);
+                robot.motor1.setPower(-.2);
+                robot.motor2.setPower(.2);
+                robot.motor3.setPower(-.2);
+                robot.motor4.setPower(.2);
             } else {
-                robot.motor1.setPower(.1);
-                robot.motor2.setPower(-.1);
-                robot.motor3.setPower(.1);
-                robot.motor4.setPower(-.1);
+                robot.motor1.setPower(.2);
+                robot.motor2.setPower(-.2);
+                robot.motor3.setPower(.2);
+                robot.motor4.setPower(-.2);
             }
 
 

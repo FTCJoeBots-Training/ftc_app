@@ -39,9 +39,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.HardwareJoeBot;
 
 import java.util.Locale;
@@ -115,6 +119,20 @@ public class autoBlueTwoDrive extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, this);
+
+//        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+//
+//        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+//
+//        parameters.vuforiaLicenseKey = "AVzCl0v/////AAAAGcfsmNB0+Ecxi9nnFUli4RtGGZORFTsrkrZTsSaEZcnHNkxhb5NbskfqT531gL1cmgLFZ5xxeICDdBlPxxEbD4JcUvUuIdXxpVesR7/EAFZ+DTSJT3YQb0sKm2SlOlfiMf7ZdCEUaXuymCZPB4JeoYdogDUOdsOrd0BTDV2Z+CtO3eSsHWfcY6bDLh8VJKSbeFdk533EzcA26uhfhwBxYlzbOsjPSVCB66P6GbIP9/UjI3lbTNi+tpCpnOZa2gwPjoTSeEjo9ZKtkPe3a/DpLq3OMnVwVnUmsDvoW++UbtOmg9WNFC/YkN7DCtMt91uPaJPL5vOERkA+uXliC1i44IT4EyfoN1ccLaJiXMFH63DE";
+//
+//        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+//       // this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+//
+//       // VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+//       // VuforiaTrackable relicTemplate = relicTrackables.get(0);
+//        relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
+
         telemetry.addLine("Initialization Complete.");
         telemetry.update();
 
@@ -185,6 +203,9 @@ public class autoBlueTwoDrive extends LinearOpMode {
         stopmotors();
         encoderDrive(DRIVE_SPEED, -50, -50, 30);
 
+
+        //---------------------------------------------------------------------------------//
+
         // Turn based on vuMark left + right jewel
         if (iVuMark == 1 && iJewelArm == 1) {
             headingturn('r', LEFT_DEGREES);
@@ -220,8 +241,6 @@ public class autoBlueTwoDrive extends LinearOpMode {
 
         //---------------------------------------------------------------------------------//
 
-        //---------------------------------------------------------------------------------//
-
         // Turn based on vuMark Right + right jewel
         if (iVuMark == 3 && iJewelArm == 1) {
             headingturn('r', RIGHT_DEGREES);
@@ -247,6 +266,16 @@ public class autoBlueTwoDrive extends LinearOpMode {
 //            idle();
 //        }
 //        robot.liftMotor.setPower(0);
+
+        // Lower the clamp to 0
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+        robot.liftMotor.setPower(.5);
+        while (robot.liftMotor.isBusy()) {
+            idle();
+        }
+
+
         robot.openClamp();
         sleep(1000);
         encoderDrive(DRIVE_SPEED, -9.0, -9.0, 30);
@@ -256,13 +285,6 @@ public class autoBlueTwoDrive extends LinearOpMode {
 //        robot.lowerClamp();
 
 
-        // Lower the clamp to 0
-        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
-        robot.liftMotor.setPower(.5);
-        while (robot.liftMotor.isBusy()) {
-            idle();
-        }
 
 
         sleep(10000);

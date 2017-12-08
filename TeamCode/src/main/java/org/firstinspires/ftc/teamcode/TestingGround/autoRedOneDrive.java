@@ -328,6 +328,8 @@ public class autoRedOneDrive extends LinearOpMode {
         sleep(1000);
         encoderDrive(DRIVE_SPEED, -9.0, -9.0, 30);
 
+        headingturn('l', 90);
+
         sleep(10000);
 
 
