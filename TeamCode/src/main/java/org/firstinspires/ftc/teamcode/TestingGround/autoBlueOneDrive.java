@@ -230,6 +230,17 @@ public class autoBlueOneDrive extends LinearOpMode {
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
 
+
+
+
+
+
+
+
+
+        //Goten rid of the turns becuase of the testing
+        //TODO All you need to do is change the variables and add some turns and movements.
+        // TODO CRANCK OUT AS MANY TESTS AS POSSIBLE
         // Drive off the balancing stone red
         if (iJewelArm == 1) {
 
@@ -245,16 +256,12 @@ public class autoBlueOneDrive extends LinearOpMode {
         //--------------------------------------------------------------------------------//
         // Turn based on vuMark left + right jewel
         if (iVuMark == 1 && iJewelArm == 1) {
-            headingturn('r', LEFT_DEGREES);
-            stopmotors();
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
 
         }
 
         // Turn based on vuMark left + blue jewel
         if (iVuMark == 1 && iJewelArm == 2) {
-            headingturn('r', LEFT_DEGREES);
-            stopmotors();
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
         }
 
@@ -263,16 +270,12 @@ public class autoBlueOneDrive extends LinearOpMode {
 
         // Turn based on vuMark center + center jewel
         if (iVuMark == 2 && iJewelArm == 1) {
-            headingturn('r', CENTER_DEGREES);
-            stopmotors();
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
 
         }
 
         // Turn based on vuMark center + blue jewel
         if (iVuMark == 2 && iJewelArm == 2) {
-            headingturn('r', CENTER_DEGREES);
-            stopmotors();
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
         }
 
@@ -296,6 +299,19 @@ public class autoBlueOneDrive extends LinearOpMode {
         }
 
         //---------------------------------------------------------------------------------//;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // Lower the clamp to 0
@@ -438,6 +454,7 @@ public void stopmotors()
                 telemetry.addData("wheel2", "Running to %7d",  robot.motor2.getCurrentPosition());
                 telemetry.addData("wheel3", "Running to %7d",  robot.motor3.getCurrentPosition());
                 telemetry.addData("wheel4", "Running to %7d",  robot.motor4.getCurrentPosition());
+
                 //robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
                 robot.angles =robot.imu.getAngularOrientation();
