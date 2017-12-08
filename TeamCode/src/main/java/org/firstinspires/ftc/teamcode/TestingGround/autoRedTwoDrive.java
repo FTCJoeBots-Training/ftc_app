@@ -87,16 +87,16 @@ public class autoRedTwoDrive extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.5;
+    static final double     DRIVE_SPEED             = 0.55;
     static final double     TURN_SPEED              = 0.1;
     static final int     CENTER_DEGREES           = 17;
     static final double     CENTER_DISTANCE         = 69.0;
     static final int     LEFT_DEGREES             = 25;
     static final double     LEFT_DISTANCE           = 76;
     static final int     RIGHT_DEGREES            = 5;
-    static final double     RIGHT_DISTANCE          = 63;
+    static final double     RIGHT_DISTANCE          = 65;
 
-    double iVuMark = 2;
+    double iVuMark = 3;
     double iJewelArm = 0;
 
 
@@ -264,7 +264,7 @@ public class autoRedTwoDrive extends LinearOpMode {
 
         // Turn based on vuMark Right + right jewel
         if (iVuMark == 3 && iJewelArm == 1) {
-            headingturn('r', RIGHT_DEGREES);
+            headingturn('l', RIGHT_DEGREES);
             stopmotors();
             encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
 
@@ -272,7 +272,7 @@ public class autoRedTwoDrive extends LinearOpMode {
 
         // Turn based on vuMark right + blue jewel
         if (iVuMark == 3 && iJewelArm == 2) {
-            headingturn('r', RIGHT_DEGREES);
+            headingturn('l', RIGHT_DEGREES);
             stopmotors();
             encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
         }
