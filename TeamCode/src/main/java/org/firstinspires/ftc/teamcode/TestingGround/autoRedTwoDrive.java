@@ -159,8 +159,11 @@ public class autoRedTwoDrive extends LinearOpMode {
         // Read the VuMark and store the Key Column
         // Need to add the VuMark Code here...
 
-//        encoderDrive(DRIVE_SPEED, 2, 2, 10);
+        encoderDrive(DRIVE_SPEED, 2, 2, 10);
 //        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+//
+//        sleep(3000);
+
 //        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 //            //Using VuMark to determine which coluem is the key coluem
 //
@@ -178,10 +181,8 @@ public class autoRedTwoDrive extends LinearOpMode {
 //                iVuMark = 3;
 //            }
 //        }
-//
-//            sleep(5000);
-//        encoderDrive(DRIVE_SPEED, -2, -2, 10);
-//          sleep(1000);
+
+
 
         // Drop the jewel arm
         robot.lowerJewelArm();
@@ -308,7 +309,7 @@ public class autoRedTwoDrive extends LinearOpMode {
 
 
         //turn toward the glyph pit at the end of auto
-            headingturn('l', 180);
+            headingturn('l', 170);
             stopmotors();
 
 
