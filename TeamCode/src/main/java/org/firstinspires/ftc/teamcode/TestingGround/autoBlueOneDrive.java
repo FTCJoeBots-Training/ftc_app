@@ -95,8 +95,7 @@ public class autoBlueOneDrive extends LinearOpMode {
     static final double     LEFT_DISTANCE           = 38.0;
     static final int     RIGHT_DEGREES            = -65;
     static final double     RIGHT_DISTANCE          = 10.0;
-    static final double     RED_WINS_DISTANCE       = -70;
-    static final double     BLUE_WINS_DISTANCE      = -80;
+    static final double     DRIVE_DISTANCE      = -80;
 
     int iVuMark = 1;
     int iJewelArm = 0;
@@ -194,7 +193,7 @@ public class autoBlueOneDrive extends LinearOpMode {
 
         // Drop the jewel arm
         robot.lowerJewelArm();
-        sleep(1000);
+        sleep(2000);
 
 //        // Read the color of the jewel in front of the jewel arm
 //        // Raise the jewel arm
@@ -214,6 +213,7 @@ public class autoBlueOneDrive extends LinearOpMode {
             iJewelArm = 1;
             encoderDrive(.3,10,10,5);
             robot.raiseJewelArm();
+            encoderDrive(.3, 10, 10, 5);
 //
         } else {
             iJewelArm = 2;
@@ -244,23 +244,27 @@ public class autoBlueOneDrive extends LinearOpMode {
         // Drive off the balancing stone red
         if (iJewelArm == 1) {
 
-            encoderDrive(DRIVE_SPEED, RED_WINS_DISTANCE, RED_WINS_DISTANCE, 30);
+            encoderDrive(DRIVE_SPEED, DRIVE_DISTANCE, DRIVE_DISTANCE, 30);
         }
 
         // Drive off the balancing stone blue
         if (iJewelArm == 2) {
 
-            encoderDrive(DRIVE_SPEED, BLUE_WINS_DISTANCE, BLUE_WINS_DISTANCE, 30);
+            encoderDrive(DRIVE_SPEED, DRIVE_DISTANCE, DRIVE_DISTANCE, 30);
         }
 
         //--------------------------------------------------------------------------------//
         // Turn based on vuMark left + right jewel
         if (iVuMark == 1 && iJewelArm == 1) {
+            headingturn('r', LEFT_DEGREES);
+            stopmotors();
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
 
         }
 
         // Turn based on vuMark left + blue jewel
+        headingturn('r', LEFT_DEGREES);
+        stopmotors();
         if (iVuMark == 1 && iJewelArm == 2) {
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
         }
@@ -270,12 +274,16 @@ public class autoBlueOneDrive extends LinearOpMode {
 
         // Turn based on vuMark center + center jewel
         if (iVuMark == 2 && iJewelArm == 1) {
+            headingturn('r', CENTER_DEGREES);
+            stopmotors();
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
 
         }
 
         // Turn based on vuMark center + blue jewel
         if (iVuMark == 2 && iJewelArm == 2) {
+            headingturn('r', CENTER_DEGREES);
+            stopmotors();
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
         }
 
