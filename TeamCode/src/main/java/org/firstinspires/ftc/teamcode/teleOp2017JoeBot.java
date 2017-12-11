@@ -64,6 +64,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
         boolean bAutomatedLiftMotion = false;
         int iLiftTargetPos = 1;
         int iRightBumperTarget = 1;
+        int iaButtonTarget = 1;
         double liftPower = .6;
 
         robot.jewelSensor.enableLed(false);
@@ -159,6 +160,8 @@ public class teleOp2017JoeBot extends LinearOpMode {
                     //Clamp is up. Lower it.
                     robot.lowerClamp();
                 }
+
+                iaButtonTarget = 1;
 
             }
 
@@ -283,21 +286,48 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
             if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
 
-                // Would like to Raise Clamp before moving lift because it moves better vertically
-                // but can't figure out in short term how to know when lift is finished moving
-                // and search mode is active to drop and open clamp. For now, will move clamp
-                // while lift is in motion.
+                // Check to see if this is the first or second button press
+                if (iaButtonTarget == 1) {
+                    // This is the first button press, or it has rolled over...
+                    // Set lift into Auto Mode and head for position 1
+                    bAutomatedLiftMotion = true;
+                    iLiftTargetPos = robot.LIFT_SEARCHING_POS;
 
-                bAutomatedLiftMotion = true;
-                iLiftTargetPos = robot.LIFT_SEARCHING_POS;
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                    robot.liftMotor.setPower(0.6);
+                    sleep(1000);
 
-                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.liftMotor.setTargetPosition(iLiftTargetPos);
-                robot.liftMotor.setPower(0.6);
+                    // Lower Clamp and Open
+                    if (!robot.bClampDown) { robot.lowerClamp(); }
+                    if (!robot.bClampOpen) { robot.openClamp();}
 
-                // Lower Clamp and Open
-                if (!robot.bClampDown) { robot.lowerClamp(); }
-                if (!robot.bClampOpen) { robot.openClamp();}
+
+
+
+                } else if (iaButtonTarget == 2) {
+                    // Set lift into Auto Mode and head for position 2
+                    bAutomatedLiftMotion = true;
+                    iLiftTargetPos = robot.LIFT_SEARCHING_POS2;
+
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                    robot.liftMotor.setPower(0.6);
+
+                    // Lower Clamp and Open
+                    if (!robot.bClampDown) { robot.lowerClamp(); }
+                    if (!robot.bClampOpen) { robot.openClamp();}
+
+
+
+                } else {
+                    // We've received an invalid command
+                    // Don't do anything right now.. May want to add cleanup code later.
+                }
+
+                // Set new Lift Target for next button press.
+                iaButtonTarget += 1;
+                if (iaButtonTarget>2) { iaButtonTarget = 1; }
 
             }
 
