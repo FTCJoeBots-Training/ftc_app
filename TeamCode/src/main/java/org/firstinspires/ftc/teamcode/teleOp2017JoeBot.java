@@ -49,6 +49,8 @@ public class teleOp2017JoeBot extends LinearOpMode {
         double max;
         double leftServoPos = 1;
         double rightServoPos = 0.3;
+        double dbButtonTarget = 1;
+        double dClampTargetPos = 1;
         boolean bCurrStateA;
         boolean bPrevStateA = false;
         boolean bCurrStateB;
@@ -133,13 +135,22 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
             if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
 
-                if (robot.bClampOpen) {
-                    //Clamp is open. Close it.
-                    robot.closeClamp();
-                } else {
-                    //Clamp must be closed. Open it.
-                    robot.openClamp();
+                //Make sure that the order is Close->Mid->Open
+                // Check to see if this is the first or second button press
+                if (dbButtonTarget == 1) {
+                    dClampTargetPos = robot.CLAMP_CLOSE_POS;
+
+                } else if (dbButtonTarget == 2) {
+                    dClampTargetPos = robot.CLAMP_MID_POS;
+
+                } else if (dbButtonTarget == 3) {
+                    dClampTargetPos = robot.CLAMP_OPEN_POS;
                 }
+
+                robot.clampServo.setPosition(dClampTargetPos);
+                // Set new Lift Target for next button press.
+                dbButtonTarget += 1;
+                if (dbButtonTarget>3) { dbButtonTarget = 1; }
 
             }
 
