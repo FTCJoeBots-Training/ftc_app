@@ -95,10 +95,9 @@ public class autoBlueTwoDrive extends LinearOpMode {
     static final double     LEFT_DISTANCE           = 10.0;
     static final int     RIGHT_DEGREES            = -65;
     static final double     RIGHT_DISTANCE          = 10.0;
-    static final double     BLUE_WON_DISTANCE       = 31.0;
     static final double     RED_WON_DISTANCE        = 41.0;
     //---
-    int iVuMark = 0;
+    int iVuMark = 1;
     int iJewelArm = 0;
 
 
@@ -246,7 +245,7 @@ public class autoBlueTwoDrive extends LinearOpMode {
         // Drive off the balancing stone blue
         if (iJewelArm == 2) {
 
-            encoderDrive(DRIVE_SPEED, BLUE_WON_DISTANCE, BLUE_WON_DISTANCE, 30);
+            encoderDrive(DRIVE_SPEED, RED_WON_DISTANCE, RED_WON_DISTANCE, 30);
         }
 
 //
@@ -265,6 +264,8 @@ public class autoBlueTwoDrive extends LinearOpMode {
         //Took out the turns becuase of position.
         // Turn based on vuMark left + blue jewel
         if (iVuMark == 1 && iJewelArm == 2) {
+            headingturn('r', -28);
+            stopmotors();
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
         }
 
@@ -273,12 +274,16 @@ public class autoBlueTwoDrive extends LinearOpMode {
 
         // Turn based on vuMark center + right jewel
         if (iVuMark == 2 && iJewelArm == 1) {
+            headingturn('r', -48);
+            stopmotors();
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
 
         }
 
         // Turn based on vuMark center + blue jewel
         if (iVuMark == 2 && iJewelArm == 2) {
+            headingturn('r', -48);
+            stopmotors();
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
         }
 

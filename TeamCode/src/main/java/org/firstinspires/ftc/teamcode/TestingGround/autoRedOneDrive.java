@@ -90,15 +90,15 @@ public class autoRedOneDrive extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
     static final int     CENTER_DEGREES           = -48;
-    static final double     CENTER_DISTANCE         =  22.0;
+    static final double     CENTER_DISTANCE         =  28.0;
     static final int     LEFT_DEGREES             = -28;
     static final double     LEFT_DISTANCE           = 38.0;
     static final int     RIGHT_DEGREES            = -65;
-    static final double     RIGHT_DISTANCE          = 11.0;
+    static final double     RIGHT_DISTANCE          = 12.0;
     static final double     BLUE_WON_DISTANCE       = 31.0;
     static final double     RED_WON_DISTANCE        = 41.0;
 
-    int iVuMark = 1;
+    int iVuMark = 0;
     int iJewelArm = 0;
 
 
@@ -155,40 +155,51 @@ public class autoRedOneDrive extends LinearOpMode {
 
 
 //        // Raise the clamp to a safe driving height
+        telemetry.addLine("Beginning Motor Lift");
+        telemetry.addData("Current Position: ", robot.liftMotor.getCurrentPosition());
+        telemetry.addData("Target Position: ", robot.LIFT_GLYPH_ONE_POS);
+        telemetry.update();
+        sleep(1000);
+
         robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.liftMotor.setTargetPosition(robot.LIFT_GLYPH_ONE_POS);
         robot.liftMotor.setPower(.5);
         while (robot.liftMotor.isBusy()) {
+            telemetry.addData("Current Position: ", robot.liftMotor.getCurrentPosition());
+            telemetry.addData("Target Position: ", robot.LIFT_GLYPH_ONE_POS);
+            telemetry.update();
             idle();
         }
         robot.liftMotor.setPower(0);
 
         // Read the VuMark and store the Key Column
         // Need to add the VuMark Code here...
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        sleep(3000);
 
-//        encoderDrive(DRIVE_SPEED, 2, 2, 10);
-//        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-//        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-//            //Using VuMark to determine which coluem is the key coluem
-//
-//            if (vuMark == RelicRecoveryVuMark.LEFT) {
-//                telemetry.addLine("Left VuMark Discovered");
-//                telemetry.update();
-//                iVuMark = 1;
-//            } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-//                telemetry.addLine("Center VuMark Discovered");
-//                telemetry.update();
-//                iVuMark = 2;
-//            } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-//                telemetry.addLine("Right VuMark Discovered");
-//                telemetry.update();
-//                iVuMark = 3;
-//            }
-//        }
-//
-//            sleep(5000);
-//        encoderDrive(DRIVE_SPEED, -2, -2, 10);
-//            sleep(1000);
+
+        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+            //Using VuMark to determine which coluem is the key coluem
+
+            if (vuMark == RelicRecoveryVuMark.LEFT) {
+                telemetry.addLine("Left VuMark Discovered");
+                telemetry.update();
+                iVuMark = 1;
+            } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+                telemetry.addLine("Center VuMark Discovered");
+                telemetry.update();
+                iVuMark = 2;
+            } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                telemetry.addLine("Right VuMark Discovered");
+                telemetry.update();
+                iVuMark = 3;
+            } else {
+                telemetry.addLine("No VuMark Discovered");
+                telemetry.update();
+                iVuMark = 2;
+            }
+        }
+
 
 
 
@@ -251,6 +262,7 @@ public class autoRedOneDrive extends LinearOpMode {
 //        stopmotors();
 //        encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
         // Turn based on vuMark left + right jewel
+        //---------------------------------------------------------------------------------------------------//
         if (iVuMark == 1 && iJewelArm == 1) {
             headingturn('r', -28);
             stopmotors();
@@ -270,7 +282,7 @@ public class autoRedOneDrive extends LinearOpMode {
 
         // Turn based on vuMark center + right jewel
         if (iVuMark == 2 && iJewelArm == 1) {
-            headingturn('r', -42);
+            headingturn('r', -44);
             stopmotors();
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
 
@@ -278,7 +290,7 @@ public class autoRedOneDrive extends LinearOpMode {
 
         // Turn based on vuMark center + blue jewel
         if (iVuMark == 2 && iJewelArm == 2) {
-            headingturn('r', -42);
+            headingturn('r', -44);
             stopmotors();
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
         }
@@ -326,9 +338,10 @@ public class autoRedOneDrive extends LinearOpMode {
 
         robot.openClamp();
         sleep(1000);
-        encoderDrive(DRIVE_SPEED, -9.0, -9.0, 30);
-
-        headingturn('l', 90);
+           encoderDrive(DRIVE_SPEED, -9.0, -9.0, 30);
+//        headingturn('l', 0);
+//        encoderDrive(DRIVE_SPEED, 12, 12, 30);
+//        headingturn('l', 90);
 
         sleep(10000);
 
