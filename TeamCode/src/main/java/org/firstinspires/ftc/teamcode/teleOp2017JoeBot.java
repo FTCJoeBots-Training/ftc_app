@@ -84,7 +84,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             //Drive Via "Analog Sticks" (Not Toggle)
             //Set initial motion parameters to Gamepad1 Inputs
             forward = -gamepad1.left_stick_y;
-            right = gamepad1.left_stick_x;
+            right = -gamepad1.left_trigger + gamepad1.right_trigger;
             clockwise = gamepad1.right_stick_x;
 
             // Add a tuning constant "K" to tune rotate axis sensitivity

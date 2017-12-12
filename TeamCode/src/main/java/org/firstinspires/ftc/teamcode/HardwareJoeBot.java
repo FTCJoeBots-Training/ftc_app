@@ -72,8 +72,8 @@ public class HardwareJoeBot
     public static final int LIFT_STARTING_POS = 0;
     public static final int LIFT_GLYPH_ONE_POS = 1621;
     public static final int LIFT_GLYPH_TWO_POS = 3290;
-    public static final int LIFT_SEARCHING_POS = 3290;
-    public static final int LIFT_SEARCHING_POS2 = 1621;
+    public static final int LIFT_SEARCHING_POS = 1660;
+    public static final int LIFT_SEARCHING_POS2 = 3315;
     public static final double DRIVE_SPEED = .3;
 
     // Define static min/max for lift
