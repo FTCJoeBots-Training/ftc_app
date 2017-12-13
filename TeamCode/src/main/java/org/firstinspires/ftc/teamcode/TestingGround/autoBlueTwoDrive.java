@@ -92,12 +92,13 @@ public class autoBlueTwoDrive extends LinearOpMode {
     static final int     CENTER_DEGREES           = -48;
     static final double     CENTER_DISTANCE         =  39.0;
     static final int     LEFT_DEGREES             = -28;
-    static final double     LEFT_DISTANCE           = 49.0;
+    static final double     LEFT_DISTANCE           = 55.0;
     static final int     RIGHT_DEGREES            = -65;
-    static final double     RIGHT_DISTANCE          = 10.0;
+    static final double     RIGHT_DISTANCE          = 26.0;
+    static final double     RIGHT_DISTANCE_RIGHT    =36.0;
     static final double     RED_WON_DISTANCE        = 41.0;
     //---
-    int iVuMark = 0;
+    int iVuMark = 2;
     int iJewelArm = 0;
 
 
@@ -253,7 +254,7 @@ public class autoBlueTwoDrive extends LinearOpMode {
 //        encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
         // Turn based on vuMark left + right jewel
         if (iVuMark == 1 && iJewelArm == 1) {
-            headingturn('r', -126);
+            headingturn('r', -124);
             stopmotors();
 
             robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -271,7 +272,7 @@ public class autoBlueTwoDrive extends LinearOpMode {
         //Took out the turns becuase of position.
         // Turn based on vuMark left + blue jewel
         if (iVuMark == 1 && iJewelArm == 2) {
-            headingturn('r', -126);
+            headingturn('r', -124);
             stopmotors();
 
             robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -324,16 +325,32 @@ public class autoBlueTwoDrive extends LinearOpMode {
 
         // Turn based on vuMark Right + right jewel
         if (iVuMark == 3 && iJewelArm == 1) {
-            headingturn('r', -150);
+            headingturn('r', -140);
             stopmotors();
-            encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
+
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
+
+            encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE_RIGHT, RIGHT_DISTANCE_RIGHT, 30);
 
         }
 
         // Turn based on vuMark right + blue jewel
         if (iVuMark == 3 && iJewelArm == 2) {
-            headingturn('r', -150);
+            headingturn('r', -140);
             stopmotors();
+
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
+
             encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
         }
 

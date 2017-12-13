@@ -2,87 +2,88 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-import java.util.Locale;
-
 /**
- * This is NOT an opmode.
+ * This is NOT an opmode. This is a hardware class used to abstract the hardware config for the
+ * 2017 FTC Relic Recovery challenge. This file has been generalized to work for both JoeBots
+ * teams FTC 11855 and 13702.
  *
  * This hardware class assumes the following device names have been configured on the robot:
- * Note:  All names are lower case and some have single spaces between words.
  *
  * motor1 (left front)
  * motor2 (right front)
  * motor3 (left rear)
  * motor4 (right rear)
  * liftmotor (on the Modern Robotics controller) - lift glyph mechanism up/down
- * clampleft - left half of clamping mechanism
- * clampright - right half of clamping mechanism
+ * clampservo - open/close clamp
+ * clamprotate - rotate clamp mechanism up/down
  * jewelservo - rotate jewel arm up/down
  * imu - navigation features
  * jewelsensor - detect jewel colors
  *
+ * Note:  All names are lower case and some have single spaces between words.
+ *
  */
 
-
-public class HardwareJoeBot8513
+public class HardwareJoeBot11855
 {
     /* Public OpMode members. */
+
+    // Declare Motors
     public DcMotor  motor1 = null; // Left Front
     public DcMotor  motor2 = null; // Right Front
     public DcMotor  motor3 = null; // Left Rear
     public DcMotor  motor4 = null; // Right Rear
     public DcMotor  liftMotor = null;
 
-    public Servo    clampLeft = null; // left Side of Clamp
-    public Servo    clampRight = null; // right side of clamp
-    public Servo    jewelServo = null; // Jewel Arm
+    // Declare Servos
+    public Servo    clampServo = null;  // open/close clamp
+    public Servo    clampRotate = null; // rotate clamp up/down
+    public Servo    jewelServo = null;  // rotate jewel arm up/down
 
-    public static final double RIGHT_CLAMP_OPEN_POS = 0;
-    public static final double RIGHT_CLAMP_CLOSE_POS = 0.2;
-    public static final double LEFT_CLAMP_OPEN_POS = 1;
-    public static final double LEFT_CLAMP_CLOSE_POS = 0.7;
+    // Declare Sensors
+    public BNO055IMU imu;                  // The IMU sensor object
+    public ColorSensor jewelSensor = null; // Rev Robotics Color Sensor
+
+
+    // Declare static values
+    public static final double CLAMP_OPEN_POS = 0;
+    public static final double CLAMP_CLOSE_POS = 1;
+    public static final double CLAMP_DOWN_POS = 0.55;
+    public static final double CLAMP_UP_POS = .15; //This position ".25" is for 1813 to fix the consistent flicking motion during "init" faz
+    public static final double CLAMP_MID_POS = .5;
+    public static final double JEWEL_ARM_UP_POS = 0.75;
+    public static final double JEWEL_ARM_DOWN_POS = 0.02;
+    public static final int LIFT_STARTING_POS = 0;
+    public static final int LIFT_GLYPH_ONE_POS = 1621;
+    public static final int LIFT_GLYPH_TWO_POS = 3290;
+    public static final int LIFT_SEARCHING_POS = 1660;
+    public static final int LIFT_SEARCHING_POS2 = 3315;
+    public static final double DRIVE_SPEED = .3;
 
     // Define static min/max for lift
     public static final int LIFT_MIN_POSITION = 0;
-    public static final int LIFT_MAX_POSITION = 5760;
-    public static final double JEWEL_ARM_UP_POS = 0;
-    public static final double JEWEL_ARM_DOWN_POS = 0.75;
-    public static final int LIFT_STARTING_POS = 500;
-    public static final int LIFT_GLYPH_ONE_POS = 2400;
-    public static final int LIFT_GLYPH_TWO_POS = 4180;
+    public static final int LIFT_MAX_POSITION = 3600;
 
-    public ColorSensor jewelSensor = null; // Rev Robotics Color Sensor
 
+    // Variables used for tracking mechanism state
     public boolean bClampOpen = false;
+    public boolean bClampDown = false; //Is the clamp Rotated Down?
     public boolean bLiftRaised = false;
     public boolean bJewelArmUp = false;
-
-
-    // The IMU sensor object
-    public BNO055IMU imu;
 
     // Variables used for IMU tracking...
     public Orientation angles;
     public Acceleration gravity;
-
 
 
     /* local OpMode members. */
@@ -92,9 +93,8 @@ public class HardwareJoeBot8513
     // Private Members
     private LinearOpMode myOpMode;
 
-
     /* Constructor */
-    public HardwareJoeBot8513(){
+    public HardwareJoeBot11855(){
 
     }
 
@@ -112,13 +112,13 @@ public class HardwareJoeBot8513
         motor4 = hwMap.dcMotor.get("motor4");
         liftMotor = hwMap.dcMotor.get("liftmotor");
 
+        jewelSensor = hwMap.get(ColorSensor.class, "jewelsensor");
+        // Set Default Motor Directions
         motor1.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        motor2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        motor2.setDirection(DcMotor.Direction.FORWARD); // Set to FORWARD if using AndyMark motors
         motor3.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        motor4.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        liftMotor.setDirection(DcMotor.Direction.REVERSE);
-
-
+        motor4.setDirection(DcMotor.Direction.FORWARD); // Set to FORWARD if using AndyMark motors
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power
         motor1.setPower(0);
@@ -127,21 +127,21 @@ public class HardwareJoeBot8513
         motor4.setPower(0);
         liftMotor.setPower(0);
 
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
+        // Set all drive motors to run without encoders.
+        // May want to switch to  RUN_USING_ENCODERS during autonomous
         motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        // Set lift motor to run using encoder...
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Initialize the servos
-        clampLeft = hwMap.servo.get("clampleft");
-        clampRight = hwMap.servo.get("clampright");
+        clampServo = hwMap.servo.get("clampservo");
+        clampRotate = hwMap.servo.get("clamprotate");
         jewelServo = hwMap.servo.get("jewelservo");
-
 
 
         // IMU Initializaiton
@@ -166,12 +166,10 @@ public class HardwareJoeBot8513
         jewelSensor = hwMap.get(ColorSensor.class, "jewelsensor");
 
 
-
-        // Raise the JewelArm
-        // close the clamps
-        this.raiseJewelArm();
+        //Set servos to start position
+        this.raiseClamp();
         this.closeClamp();
-
+        this.raiseJewelArm();
 
 
 
@@ -208,8 +206,7 @@ public class HardwareJoeBot8513
     public void openClamp() {
 
         // Set both clamps to open position;
-        clampLeft.setPosition(LEFT_CLAMP_OPEN_POS);
-        clampRight.setPosition(RIGHT_CLAMP_OPEN_POS);
+        clampServo.setPosition(CLAMP_OPEN_POS);
         bClampOpen = true;
 
     }
@@ -223,21 +220,8 @@ public class HardwareJoeBot8513
     public void closeClamp() {
 
         // Set both clamps to open position;
-        clampLeft.setPosition(LEFT_CLAMP_CLOSE_POS);
-        clampRight.setPosition(RIGHT_CLAMP_CLOSE_POS);
+        clampServo.setPosition(CLAMP_CLOSE_POS);
         bClampOpen = false;
-
-    }
-
-    /***
-     * void setMode(DcMotor.RunMode mode ) Set all drive motors to same mode.
-     * @param mode    Desired Motor mode.
-     */
-    public void setMode(DcMotor.RunMode mode ) {
-        motor1.setMode(mode);
-        motor2.setMode(mode);
-        motor3.setMode(mode);
-        motor4.setMode(mode);
     }
 
     /**
@@ -264,5 +248,48 @@ public class HardwareJoeBot8513
 
     }
 
+    /**
+     *
+     * raiseClamp rotates clampRotate Servo to Up Position
+     *
+     */
+    public void raiseClamp() {
+
+        clampRotate.setPosition(CLAMP_UP_POS);
+        bClampDown = false;
+
+    }
+
+    /**
+     *
+     * raiseClamp rotates clampRotate Servo to Up Position
+     *
+     */
+    public void lowerClamp() {
+
+        clampRotate.setPosition(CLAMP_DOWN_POS);
+        bClampDown = true;
+
+    }
+
+
+    /***
+     * void setMode(DcMotor.RunMode mode ) Set all drive motors to same mode.
+     * @param mode    Desired Motor mode.
+     */
+    public void setMode(DcMotor.RunMode mode ) {
+        motor1.setMode(mode);
+        motor2.setMode(mode);
+        motor3.setMode(mode);
+        motor4.setMode(mode);
+    }
+
+
+
 }
+
+
+
+
+
 

@@ -1,11 +1,8 @@
-package org.firstinspires.ftc.teamcode.TestingGround;
+package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.firstinspires.ftc.teamcode.HardwareJoeBot;
 
 /**
  *import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -29,11 +26,11 @@ import org.firstinspires.ftc.teamcode.HardwareJoeBot;
  * List of issues at Comp(1)-> https://docs.google.com/a/stjoebears.com/spreadsheets/d/1r_liipKBU7GHfONdxq9E6d4f7zikcCuXwDL2bsQfwm0/edit?usp=sharing
  *G-Sheet of time VS Heading for autonomous -> https://docs.google.com/a/stjoebears.com/spreadsheets/d/1pqv0iN94fFd5KvX1YIWP7z39HgpURXsscn0zPujs1q4/edit?usp=sharing
 */
-@TeleOp(name="FORTHESCHOOLS", group="TeleOp")
-@Disabled
-public class ForTheSchools extends LinearOpMode {
+@TeleOp(name="JoeBot TeleOp 11855", group="TeleOp")
 
-    HardwareJoeBot robot = new HardwareJoeBot();
+public class teleOp2017JoeBot11855 extends LinearOpMode {
+
+    HardwareJoeBot11855 robot = new HardwareJoeBot11855();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -52,6 +49,8 @@ public class ForTheSchools extends LinearOpMode {
         double max;
         double leftServoPos = 1;
         double rightServoPos = 0.3;
+        double dbButtonTarget = 1;
+        double dClampTargetPos = 1;
         boolean bCurrStateA;
         boolean bPrevStateA = false;
         boolean bCurrStateB;
@@ -67,6 +66,7 @@ public class ForTheSchools extends LinearOpMode {
         boolean bAutomatedLiftMotion = false;
         int iLiftTargetPos = 1;
         int iRightBumperTarget = 1;
+        int iaButtonTarget = 1;
         double liftPower = .6;
 
         robot.jewelSensor.enableLed(false);
@@ -84,7 +84,7 @@ public class ForTheSchools extends LinearOpMode {
             //Drive Via "Analog Sticks" (Not Toggle)
             //Set initial motion parameters to Gamepad1 Inputs
             forward = -gamepad1.left_stick_y;
-            right = gamepad1.left_stick_x;
+            right = -gamepad1.left_trigger + gamepad1.right_trigger;
             clockwise = gamepad1.right_stick_x;
 
             // Add a tuning constant "K" to tune rotate axis sensitivity
@@ -135,13 +135,22 @@ public class ForTheSchools extends LinearOpMode {
 
             if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
 
-                if (robot.bClampOpen) {
-                    //Clamp is open. Close it.
-                    robot.closeClamp();
-                } else {
-                    //Clamp must be closed. Open it.
-                    robot.openClamp();
+                //Make sure that the order is Close->Mid->Open
+                // Check to see if this is the first or second button press
+                if (dbButtonTarget == 1) {
+                    dClampTargetPos = robot.CLAMP_CLOSE_POS;
+
+                } else if (dbButtonTarget == 2) {
+                    dClampTargetPos = robot.CLAMP_MID_POS;
+
+                } else if (dbButtonTarget == 3) {
+                    dClampTargetPos = robot.CLAMP_OPEN_POS;
                 }
+
+                robot.clampServo.setPosition(dClampTargetPos);
+                // Set new Lift Target for next button press.
+                dbButtonTarget += 1;
+                if (dbButtonTarget>3) { dbButtonTarget = 1; }
 
             }
 
@@ -162,6 +171,8 @@ public class ForTheSchools extends LinearOpMode {
                     //Clamp is up. Lower it.
                     robot.lowerClamp();
                 }
+
+                iaButtonTarget = 1;
 
             }
 
@@ -282,25 +293,52 @@ public class ForTheSchools extends LinearOpMode {
 
             // Toggle Search Mode - raise Lift to search position; Open clamp; rotate clamp
 
-            bCurrStateA = gamepad1.a;
+            bCurrStateA = gamepad2.a;
 
             if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
 
-                // Would like to Raise Clamp before moving lift because it moves better vertically
-                // but can't figure out in short term how to know when lift is finished moving
-                // and search mode is active to drop and open clamp. For now, will move clamp
-                // while lift is in motion.
+                // Check to see if this is the first or second button press
+                if (iaButtonTarget == 1) {
+                    // This is the first button press, or it has rolled over...
+                    // Set lift into Auto Mode and head for position 1
+                    bAutomatedLiftMotion = true;
+                    iLiftTargetPos = robot.LIFT_SEARCHING_POS;
 
-                bAutomatedLiftMotion = true;
-                iLiftTargetPos = robot.LIFT_SEARCHING_POS;
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                    robot.liftMotor.setPower(0.6);
+                    sleep(1000);
 
-                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.liftMotor.setTargetPosition(iLiftTargetPos);
-                robot.liftMotor.setPower(0.6);
+                    // Lower Clamp and Open
+                    if (!robot.bClampDown) { robot.lowerClamp(); }
+                    if (!robot.bClampOpen) { robot.openClamp();}
 
-                // Lower Clamp and Open
-                if (!robot.bClampDown) { robot.lowerClamp(); }
-                if (!robot.bClampOpen) { robot.openClamp();}
+
+
+
+                } else if (iaButtonTarget == 2) {
+                    // Set lift into Auto Mode and head for position 2
+                    bAutomatedLiftMotion = true;
+                    iLiftTargetPos = robot.LIFT_SEARCHING_POS2;
+
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                    robot.liftMotor.setPower(0.6);
+
+                    // Lower Clamp and Open
+                    if (!robot.bClampDown) { robot.lowerClamp(); }
+                    if (!robot.bClampOpen) { robot.openClamp();}
+
+
+
+                } else {
+                    // We've received an invalid command
+                    // Don't do anything right now.. May want to add cleanup code later.
+                }
+
+                // Set new Lift Target for next button press.
+                iaButtonTarget += 1;
+                if (iaButtonTarget>2) { iaButtonTarget = 1; }
 
             }
 

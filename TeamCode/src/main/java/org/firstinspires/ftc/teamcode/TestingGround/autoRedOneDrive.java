@@ -98,7 +98,7 @@ public class autoRedOneDrive extends LinearOpMode {
     static final double     BLUE_WON_DISTANCE       = 31.0;
     static final double     RED_WON_DISTANCE        = 41.0;
 
-    int iVuMark = 0;
+    int iVuMark = 2;
     int iJewelArm = 0;
 
 

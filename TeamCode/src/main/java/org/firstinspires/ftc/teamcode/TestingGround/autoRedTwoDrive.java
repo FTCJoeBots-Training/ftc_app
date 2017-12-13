@@ -97,7 +97,7 @@ public class autoRedTwoDrive extends LinearOpMode {
     static final int     RIGHT_DEGREES            = 5;
     static final double     RIGHT_DISTANCE          = 65;
 
-    double iVuMark = 0;
+    double iVuMark = 2;
     double iJewelArm = 0;
 
 
