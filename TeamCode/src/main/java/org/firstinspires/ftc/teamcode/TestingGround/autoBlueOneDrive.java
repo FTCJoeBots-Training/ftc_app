@@ -90,11 +90,11 @@ public class autoBlueOneDrive extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
     static final int     CENTER_DEGREES           = -48;
-    static final double     CENTER_DISTANCE         =  -22.0;
+    static final double     CENTER_DISTANCE         =  -64.0;
     static final int     LEFT_DEGREES             = -28;
-    static final double     LEFT_DISTANCE           = -38.0;
+    static final double     LEFT_DISTANCE           = -48.0;
     static final int     RIGHT_DEGREES            = -65;
-    static final double     RIGHT_DISTANCE          = 10.0;
+    static final double     RIGHT_DISTANCE          = -80.0;
     static final double     RED_WINS_DISTANCE       = -70;
     static final double     BLUE_WINS_DISTANCE      = -80;
 
@@ -166,29 +166,28 @@ public class autoBlueOneDrive extends LinearOpMode {
         // Read the VuMark and store the Key Column
         // Need to add the VuMark Code here...
 
-//        encoderDrive(DRIVE_SPEED, 2, 2, 10);
-//        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-//        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-//            //Using VuMark to determine which coluem is the key coluem
-//
-//            if (vuMark == RelicRecoveryVuMark.LEFT) {
-//                telemetry.addLine("Left VuMark Discovered");
-//                telemetry.update();
-//                iVuMark = 1;
-//            } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-//                telemetry.addLine("Center VuMark Discovered");
-//                telemetry.update();
-//                iVuMark = 2;
-//            } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-//                telemetry.addLine("Right VuMark Discovered");
-//                telemetry.update();
-//                iVuMark = 3;
-//            }
-//        }
-//
-//            sleep(5000);
-//        encoderDrive(DRIVE_SPEED, -2, -2, 10);
-//            sleep(1000);
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+            //Using VuMark to determine which coluem is the key coluem
+
+            if (vuMark == RelicRecoveryVuMark.LEFT) {
+                telemetry.addLine("Left VuMark Discovered");
+                telemetry.update();
+               iVuMark = 1;
+            } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+                telemetry.addLine("Center VuMark Discovered");
+                telemetry.update();
+                iVuMark = 2;
+            } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                telemetry.addLine("Right VuMark Discovered");
+               telemetry.update();
+             iVuMark = 3;
+            }
+        }
+
+
+     //   encoderDrive(DRIVE_SPEED, -2, -2, 10);
+//          sleep(1000);
 
 
 
@@ -214,13 +213,14 @@ public class autoBlueOneDrive extends LinearOpMode {
             iJewelArm = 1;
             encoderDrive(.3,10,10,5);
             robot.raiseJewelArm();
-//
+            encoderDrive(.3,-12,-12,7);
+
         } else {
             iJewelArm = 2;
             telemetry.addLine("Blue Wins");
             encoderDrive(.3,-10,-10,5);
             robot.raiseJewelArm();
-            encoderDrive(.3,10,10,5);
+            encoderDrive(.3,10,10,7);
         }
 
         telemetry.update();
@@ -242,108 +242,79 @@ public class autoBlueOneDrive extends LinearOpMode {
         //TODO All you need to do is change the variables and add some turns and movements.
         // TODO CRANCK OUT AS MANY TESTS AS POSSIBLE
         // Drive off the balancing stone red
-        if (iJewelArm == 1) {
 
-            encoderDrive(DRIVE_SPEED, RED_WINS_DISTANCE, RED_WINS_DISTANCE, 30);
-        }
-
-        // Drive off the balancing stone blue
-        if (iJewelArm == 2) {
-
-            encoderDrive(DRIVE_SPEED, BLUE_WINS_DISTANCE, BLUE_WINS_DISTANCE, 30);
-            headingturn('l', 50);
-        }
 
         //--------------------------------------------------------------------------------//
         // Turn based on vuMark left + right jewel
-        if (iVuMark == 1 && iJewelArm == 1) {
+        if (iVuMark == 1 ) {
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
-            headingturn('r',15);
-            encoderDrive(.1,8,8,30);
-            headingturn('l', 120);
-            sleep(1500);
+            headingturn('r',-106);
+            stopmotors();
+            sleep(1000);
+            robot.liftMotor.setTargetPosition(0);
+            robot.liftMotor.setPower(.15);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
+            robot.liftMotor.setPower(0);
+            encoderDrive(.1,16,16,30);
+            robot.clampServo.setPosition(robot.CLAMP_MID_POS);
+            sleep(100);
+            encoderDrive(.1,-20,-20,30);
             stopmotors();
 
         }
 
-        // Turn based on vuMark left + blue jewel
-        if (iVuMark == 1 && iJewelArm == 2) {
-            encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
-            headingturn('r',20);
-            encoderDrive(.15,4,4,30);
-            encoderDrive(.2,-1,-1,30);
-            headingturn('l',70);
-            encoderDrive(.15,-3,-3,30);
-            sleep(1500);
-            stopmotors();
-        }
 
 
         //---------------------------------------------------------------------------------//
         //--------------------------------------------------------------------------------//
 
         // Turn based on vuMark center + center jewel
-        if (iVuMark == 2 && iJewelArm == 1) {
+        if (iVuMark == 2 ) {
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
-            headingturn('r',20);
-            encoderDrive(.15,4,4,30);
-            encoderDrive(.2,-2,-2,30);
-            headingturn('l',70);
-            encoderDrive(.2,12,12,4);
-            sleep(1500);
+            headingturn('r',-107);
+            stopmotors();
+            sleep(100);
+            robot.liftMotor.setTargetPosition(0);
+            robot.liftMotor.setPower(.15);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
+            robot.liftMotor.setPower(0);
+            encoderDrive(.1,16,16,30);
+            robot.clampServo.setPosition(robot.CLAMP_MID_POS);
+            sleep(100);
+            encoderDrive(.1,-20,-20,30);
             stopmotors();
         }
 
         // Turn based on vuMark center + blue jewel
-        if (iVuMark == 2 && iJewelArm == 2) {
-            encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
-            headingturn('r',20);
-            encoderDrive(.2,3,3,30);
-            headingturn('l',90);
-            encoderDrive(.2,4,4,30);
-            encoderDrive(.2,-2,-2,30);
-            sleep(1500);
-            stopmotors();
-        }
 
         //---------------------------------------------------------------------------------//
 
         //---------------------------------------------------------------------------------//
 
         // Turn based on vuMark Right + right jewel
-        if (iVuMark == 3 && iJewelArm == 1) {
+        if (iVuMark == 3  ) {
             encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
-            headingturn('r',20);
-            encoderDrive(.2,7,7,30);
-            headingturn('l',15);
-            encoderDrive(.2,2,2,30);
-            encoderDrive(.2,-1,-1,30);
-            headingturn('r',180);
-            encoderDrive(.2,1,1,30);
-            encoderDrive(.2,-1,-1,-1);
-            sleep(1500);
+            headingturn('r',-107);
+            stopmotors();
+            sleep(100);
+            robot.liftMotor.setTargetPosition(0);
+            robot.liftMotor.setPower(.15);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
+            robot.liftMotor.setPower(0);
+            encoderDrive(.1,16,16,30);
+            robot.clampServo.setPosition(robot.CLAMP_MID_POS);
+            sleep(100);
+            encoderDrive(.1,-20,-20,30);
             stopmotors();
         }
 
         // Turn based on vuMark right + blue jewel
-        if (iVuMark == 3 && iJewelArm == 2) {
-            encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
-             headingturn('r',20);
-             encoderDrive(.2,7,7,30);
-             headingturn('l',15);
-             encoderDrive(.2,2,2,30);
-             encoderDrive(.2,-1,-1,30);
-             headingturn('r',180);
-             encoderDrive(.2,1,1,30);
-             encoderDrive(.2,-1,-1,-1);
-            sleep(1500);
-            stopmotors();
-        }
-
-
-
-
-
         //---------------------------------------------------------------------------------//;
 
 
@@ -500,6 +471,7 @@ public void stopmotors()
                 telemetry.addData("wheel2", "Running to %7d",  robot.motor2.getCurrentPosition());
                 telemetry.addData("wheel3", "Running to %7d",  robot.motor3.getCurrentPosition());
                 telemetry.addData("wheel4", "Running to %7d",  robot.motor4.getCurrentPosition());
+
 
                 //robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
