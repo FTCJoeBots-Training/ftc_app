@@ -90,14 +90,14 @@ public class autoBlueTwoDrive extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.1;
     static final int     CENTER_DEGREES           = -48;
-    static final double     CENTER_DISTANCE         =  10.0;
+    static final double     CENTER_DISTANCE         =  39.0;
     static final int     LEFT_DEGREES             = -28;
-    static final double     LEFT_DISTANCE           = 10.0;
+    static final double     LEFT_DISTANCE           = 49.0;
     static final int     RIGHT_DEGREES            = -65;
     static final double     RIGHT_DISTANCE          = 10.0;
     static final double     RED_WON_DISTANCE        = 41.0;
     //---
-    int iVuMark = 1;
+    int iVuMark = 0;
     int iJewelArm = 0;
 
 
@@ -138,6 +138,8 @@ public class autoBlueTwoDrive extends LinearOpMode {
 
         waitForStart();
 
+        relicTrackables.activate();
+
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
         telemetry.update();
@@ -159,8 +161,11 @@ public class autoBlueTwoDrive extends LinearOpMode {
         // Read the VuMark and store the Key Column
         // Need to add the VuMark Code here...
 
-        encoderDrive(DRIVE_SPEED, 2, 2, 10);
+
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+        sleep(3000);
+
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
             //Using VuMark to determine which coluem is the key coluem
 
@@ -180,9 +185,6 @@ public class autoBlueTwoDrive extends LinearOpMode {
         }
 
 
-        sleep(5000);
-        encoderDrive(DRIVE_SPEED, -2, -2, 10);
-        sleep(1000);
 
 
         // Drop the jewel arm
@@ -205,12 +207,14 @@ public class autoBlueTwoDrive extends LinearOpMode {
 //            //a "Red" opMode, we want to knock the blue jewel off the table.
             telemetry.addLine("Red Wins");
             //headingturn('r', -9);
+            iJewelArm = 1;
             encoderDrive(.3,10,10,5);
             robot.raiseJewelArm();
             encoderDrive(.3,-10,-10,5);
 
         } else {
             telemetry.addLine("Blue Wins");
+            iJewelArm = 2;
             encoderDrive(.3,-10,-10,5);
             robot.raiseJewelArm();
             encoderDrive(.3,10,10,5);
@@ -237,25 +241,28 @@ public class autoBlueTwoDrive extends LinearOpMode {
         // Drive off the balancing stone red
         //TODO All you need to do is change the variables and add some turns and movements.
         // TODO CRANCK OUT AS MANY TESTS AS POSSIBLE
-        if (iJewelArm == 1) {
-
-            encoderDrive(DRIVE_SPEED, RED_WON_DISTANCE, RED_WON_DISTANCE, 30);
-        }
-
-        // Drive off the balancing stone blue
-        if (iJewelArm == 2) {
-
-            encoderDrive(DRIVE_SPEED, RED_WON_DISTANCE, RED_WON_DISTANCE, 30);
-        }
+        headingturn('r', -60);
+        encoderDrive(DRIVE_SPEED, -82, -82, 30);
 
 //
+
+
+
 
         //--------------------------------------------------------------------------------//
 //        encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
         // Turn based on vuMark left + right jewel
         if (iVuMark == 1 && iJewelArm == 1) {
-            headingturn('r', -28);
+            headingturn('r', -126);
             stopmotors();
+
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
+
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
 
         }
@@ -264,8 +271,16 @@ public class autoBlueTwoDrive extends LinearOpMode {
         //Took out the turns becuase of position.
         // Turn based on vuMark left + blue jewel
         if (iVuMark == 1 && iJewelArm == 2) {
-            headingturn('r', -28);
+            headingturn('r', -126);
             stopmotors();
+
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
+
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
         }
 
@@ -274,17 +289,33 @@ public class autoBlueTwoDrive extends LinearOpMode {
 
         // Turn based on vuMark center + right jewel
         if (iVuMark == 2 && iJewelArm == 1) {
-            headingturn('r', -48);
+            headingturn('r', -133);
             stopmotors();
-            encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
+
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
+
+            encoderDrive(.35, CENTER_DISTANCE, CENTER_DISTANCE, 30);
 
         }
 
         // Turn based on vuMark center + blue jewel
         if (iVuMark == 2 && iJewelArm == 2) {
-            headingturn('r', -48);
+            headingturn('r', -133);
             stopmotors();
-            encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
+
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
+
+            encoderDrive(.35, CENTER_DISTANCE, CENTER_DISTANCE, 30);
         }
 
         //---------------------------------------------------------------------------------//
@@ -293,7 +324,7 @@ public class autoBlueTwoDrive extends LinearOpMode {
 
         // Turn based on vuMark Right + right jewel
         if (iVuMark == 3 && iJewelArm == 1) {
-            headingturn('r', -65);
+            headingturn('r', -150);
             stopmotors();
             encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
 
@@ -301,7 +332,7 @@ public class autoBlueTwoDrive extends LinearOpMode {
 
         // Turn based on vuMark right + blue jewel
         if (iVuMark == 3 && iJewelArm == 2) {
-            headingturn('r', -65);
+            headingturn('r', -150);
             stopmotors();
             encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
         }
@@ -328,12 +359,12 @@ public class autoBlueTwoDrive extends LinearOpMode {
 
 
 
-//LEFT RIGHT NOW
-    //       robot.raiseJewelArm();
-        encoderDrive(DRIVE_SPEED, 2, 2, 30);
-        headingturn('r', -25);
-        stopmotors();
-        encoderDrive(DRIVE_SPEED, -50, -50, 30);
+////LEFT RIGHT NOW
+//    //       robot.raiseJewelArm();
+//        encoderDrive(DRIVE_SPEED, 2, 2, 30);
+//        headingturn('r', -25);
+//        stopmotors();
+//        encoderDrive(DRIVE_SPEED, -50, -50, 30);
 
 
 
@@ -343,9 +374,15 @@ public class autoBlueTwoDrive extends LinearOpMode {
 //            idle();
 //        }
 //        robot.liftMotor.setPower(0);
-        robot.openClamp();
+
+
+
+        robot.clampServo.setPosition(robot.CLAMP_MID_POS);
+
+
         sleep(1000);
-        encoderDrive(DRIVE_SPEED, -9.0, -9.0, 30);
+        encoderDrive(DRIVE_SPEED, -20.0, -20.0, 30);
+        headingturn('l', 20);
 //        headingturn(180);
 
 //        robot.openClamp();
@@ -353,13 +390,8 @@ public class autoBlueTwoDrive extends LinearOpMode {
 
 
         // Lower the clamp to 0
-        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
-        robot.liftMotor.setPower(.5);
-        while (robot.liftMotor.isBusy()) {
-            idle();
-        }
-        headingturn('r',-120 );
+
+//        headingturn('r',-120 );
 
         sleep(10000);
 

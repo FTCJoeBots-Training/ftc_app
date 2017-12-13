@@ -44,6 +44,7 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
@@ -96,7 +97,7 @@ public class autoRedTwoDrive extends LinearOpMode {
     static final int     RIGHT_DEGREES            = 5;
     static final double     RIGHT_DISTANCE          = 65;
 
-    double iVuMark = 3;
+    double iVuMark = 0;
     double iJewelArm = 0;
 
 
@@ -138,6 +139,8 @@ public class autoRedTwoDrive extends LinearOpMode {
 
         waitForStart();
 
+        relicTrackables.activate();
+
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
         telemetry.update();
@@ -160,28 +163,36 @@ public class autoRedTwoDrive extends LinearOpMode {
         // Read the VuMark and store the Key Column
         // Need to add the VuMark Code here...
 
-        encoderDrive(DRIVE_SPEED, 2, 2, 10);
-//        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-//
-//        sleep(3000);
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
-//        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-//            //Using VuMark to determine which coluem is the key coluem
-//
-//            if (vuMark == RelicRecoveryVuMark.LEFT) {
-//                telemetry.addLine("Left VuMark Discovered");
-//                telemetry.update();
-//                iVuMark = 1;
-//            } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-//                telemetry.addLine("Center VuMark Discovered");
-//                telemetry.update();
-//                iVuMark = 2;
-//            } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-//                telemetry.addLine("Right VuMark Discovered");
-//                telemetry.update();
-//                iVuMark = 3;
-//            }
-//        }
+        sleep(3000);
+
+        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+            //Using VuMark to determine which coluem is the key coluem
+
+            if (vuMark == RelicRecoveryVuMark.LEFT) {
+                telemetry.addLine("Left VuMark Discovered");
+                telemetry.update();
+                iVuMark = 1;
+            } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+                telemetry.addLine("Center VuMark Discovered");
+                telemetry.update();
+                iVuMark = 2;
+            } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                telemetry.addLine("Right VuMark Discovered");
+                telemetry.update();
+                iVuMark = 3;
+            }
+            else {
+                telemetry.addLine("Cant Discover VuMark");
+                telemetry.update();
+                //center
+                iVuMark = 2;
+
+
+            }
+
+        }
 
 
 
@@ -223,6 +234,8 @@ public class autoRedTwoDrive extends LinearOpMode {
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
+
+        encoderDrive(DRIVE_SPEED, 2, 2, 30);
 
 
 
