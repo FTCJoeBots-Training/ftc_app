@@ -244,6 +244,12 @@ public class autoRedTwoDrive extends LinearOpMode {
         if (iVuMark == 1 && iJewelArm == 1) {
             headingturn('l', LEFT_DEGREES);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
 
         }
@@ -252,6 +258,12 @@ public class autoRedTwoDrive extends LinearOpMode {
         if (iVuMark == 1 && iJewelArm == 2) {
             headingturn('l', LEFT_DEGREES);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
         }
 
@@ -262,6 +274,12 @@ public class autoRedTwoDrive extends LinearOpMode {
         if (iVuMark == 2 && iJewelArm == 1) {
             headingturn('l', CENTER_DEGREES);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
 
         }
@@ -270,6 +288,12 @@ public class autoRedTwoDrive extends LinearOpMode {
         if (iVuMark == 2 && iJewelArm == 2) {
             headingturn('l', CENTER_DEGREES);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
         }
 
@@ -281,6 +305,12 @@ public class autoRedTwoDrive extends LinearOpMode {
         if (iVuMark == 3 && iJewelArm == 1) {
             headingturn('l', RIGHT_DEGREES);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
 
         }
@@ -289,6 +319,12 @@ public class autoRedTwoDrive extends LinearOpMode {
         if (iVuMark == 3 && iJewelArm == 2) {
             headingturn('l', RIGHT_DEGREES);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
         }
 
@@ -304,17 +340,12 @@ public class autoRedTwoDrive extends LinearOpMode {
 //        robot.liftMotor.setPower(0);
 
         // Lower the clamp to 0
-        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
-        robot.liftMotor.setPower(.5);
-        while (robot.liftMotor.isBusy()) {
-            idle();
-        }
 
 
-        robot.openClamp();
+
+        robot.clampServo.setPosition(robot.CLAMP_MID_POS);
         sleep(1000);
-        encoderDrive(DRIVE_SPEED, -10.0, -10.0, 30);
+        encoderDrive(DRIVE_SPEED, -16.0, -16.0, 30);
 //        headingturn(180);
 
 //        robot.openClamp();
@@ -323,8 +354,8 @@ public class autoRedTwoDrive extends LinearOpMode {
 
 
         //turn toward the glyph pit at the end of auto
-            headingturn('l', 170);
-            stopmotors();
+//            headingturn('l', 170);
+//            stopmotors();
 
 
 

@@ -94,7 +94,7 @@ public class autoRedOneDrive extends LinearOpMode {
     static final int     LEFT_DEGREES             = -28;
     static final double     LEFT_DISTANCE           = 38.0;
     static final int     RIGHT_DEGREES            = -65;
-    static final double     RIGHT_DISTANCE          = 12.0;
+    static final double     RIGHT_DISTANCE          = 13.0;
     static final double     BLUE_WON_DISTANCE       = 31.0;
     static final double     RED_WON_DISTANCE        = 41.0;
 
@@ -266,6 +266,12 @@ public class autoRedOneDrive extends LinearOpMode {
         if (iVuMark == 1 && iJewelArm == 1) {
             headingturn('r', -28);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
 
         }
@@ -274,6 +280,12 @@ public class autoRedOneDrive extends LinearOpMode {
         if (iVuMark == 1 && iJewelArm == 2) {
             headingturn('r', -28);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, LEFT_DISTANCE, LEFT_DISTANCE, 30);
         }
 
@@ -284,6 +296,12 @@ public class autoRedOneDrive extends LinearOpMode {
         if (iVuMark == 2 && iJewelArm == 1) {
             headingturn('r', -44);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
 
         }
@@ -292,6 +310,12 @@ public class autoRedOneDrive extends LinearOpMode {
         if (iVuMark == 2 && iJewelArm == 2) {
             headingturn('r', -44);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, CENTER_DISTANCE, CENTER_DISTANCE, 30);
         }
 
@@ -303,6 +327,12 @@ public class autoRedOneDrive extends LinearOpMode {
         if (iVuMark == 3 && iJewelArm == 1) {
             headingturn('r', -65);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
 
         }
@@ -311,6 +341,12 @@ public class autoRedOneDrive extends LinearOpMode {
         if (iVuMark == 3 && iJewelArm == 2) {
             headingturn('r', -65);
             stopmotors();
+            robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+            robot.liftMotor.setPower(.5);
+            while (robot.liftMotor.isBusy()) {
+                idle();
+            }
             encoderDrive(DRIVE_SPEED, RIGHT_DISTANCE, RIGHT_DISTANCE, 30);
         }
 
@@ -329,14 +365,9 @@ public class autoRedOneDrive extends LinearOpMode {
 //        robot.lowerClamp();
 
         // Lower the clamp to 0
-        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
-        robot.liftMotor.setPower(.5);
-        while (robot.liftMotor.isBusy()) {
-            idle();
-        }
 
-        robot.openClamp();
+
+        robot.clampServo.setPosition(robot.CLAMP_MID_POS);
         sleep(1000);
            encoderDrive(DRIVE_SPEED, -9.0, -9.0, 30);
 //        headingturn('l', 0);
