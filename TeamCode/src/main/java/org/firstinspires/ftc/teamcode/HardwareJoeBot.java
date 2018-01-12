@@ -55,8 +55,6 @@ public class HardwareJoeBot
     public Servo    clampServo = null;  // open/close clamp
     public Servo    clampRotate = null; // rotate clamp up/down
     public Servo    jewelServo = null;  // rotate jewel arm up/down
-    public Servo    clampServoLeft = null; //Open/close Clamp Left
-    public Servo    clampServoRight = null; //Open/close Clamp Right
 
 
     // Declare Sensors
@@ -69,20 +67,20 @@ public class HardwareJoeBot
     public static final double CLAMP_CLOSE_POS = 1;
     public static final double CLAMP_DOWN_POS = 0.45;
     public static final double CLAMP_UP_POS = .15; //This position ".25" is for 1813 to fix the consistent flicking motion during "init" faz
-    public static final double Clamp_Left_Pos_Close=0;
-    public static final double Clamp_Left_Pos=1;
-    public static final double Clamp_right_Pos_Close=0;
-    public static final double Clamp_right_Pos=1;
+
+    public static final double CLAMP_MID_POS = .5;
     public static final double JEWEL_ARM_UP_POS = 0.75;
-    public static final double JEWEL_ARM_DOWN_POS = 0.25;
-    public static final int LIFT_STARTING_POS = 500;
+    public static final double JEWEL_ARM_DOWN_POS = 0.09;
+    public static final int LIFT_STARTING_POS = 0;
     public static final int LIFT_GLYPH_ONE_POS = 2400;
     public static final int LIFT_GLYPH_TWO_POS = 4800;
-    public static final int LIFT_SEARCHING_POS = 2400;
+    public static final int LIFT_SEARCHING_POS = 2250;
+    public static final int LIFT_SEARCHING_POS2 = 4300;
+    public static final double DRIVE_SPEED = .3;
 
     // Define static min/max for lift
     public static final int LIFT_MIN_POSITION = 0;
-    public static final int LIFT_MAX_POSITION = 5760;
+    public static final int LIFT_MAX_POSITION = 4800;
 
 
     // Variables used for tracking mechanism state
@@ -235,6 +233,13 @@ public class HardwareJoeBot
         bClampOpen = false;
     }
 
+
+
+    public void  closeClampMid() {
+        //set clamp to "mid" Pos
+        clampServo.setPosition(CLAMP_MID_POS);
+        bClampOpen = false;
+    }
 
     /**
      *
