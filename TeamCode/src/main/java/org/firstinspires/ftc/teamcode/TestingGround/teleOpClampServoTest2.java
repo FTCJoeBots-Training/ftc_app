@@ -44,7 +44,7 @@ import java.util.Locale;
 
 
 @TeleOp(name="TeleOpClampServoTest", group="TeleOp")
-@Disabled
+
 public class teleOpClampServoTest2 extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -68,8 +68,8 @@ public class teleOpClampServoTest2 extends LinearOpMode {
         double power3;
         double power4;
         double max;
-        double leftServoPos = 1;
-        double rightServoPos = 0.3;
+        double leftServoPos = 0;
+        double rightServoPos = 0;
         boolean bCurrStateA;
         boolean bPrevStateA = false;
         boolean bCurrStateX;
@@ -185,10 +185,45 @@ public class teleOpClampServoTest2 extends LinearOpMode {
             }
             robot.liftMotor.setPower(0);
 
+            while (opModeIsActive() && gamepad2.dpad_left) {
+                leftServoPos +=.05;
+                robot.clampLeft.setPosition(leftServoPos);
+                sleep(200);
+                telemetry.addData("left clamp: ", leftServoPos);
+                telemetry.update();
+            }
+            while (opModeIsActive() && gamepad2.dpad_right) {
+                leftServoPos -=.05;
+                robot.clampLeft.setPosition(leftServoPos);
+                sleep(200);
+                telemetry.addData("left clamp: ", leftServoPos);
+                telemetry.update();
+            }
+
+            while (opModeIsActive() && gamepad2.left_bumper) {
+                rightServoPos +=.05;
+                robot.clampRight.setPosition(rightServoPos);
+                sleep(200);
+                telemetry.addData("right clamp: ", rightServoPos);
+                telemetry.update();
+            }
+            while (opModeIsActive() && gamepad2.right_bumper) {
+                rightServoPos -=.05;
+                robot.clampRight.setPosition(rightServoPos);
+                sleep(200);
+                telemetry.addData("right clamp: ", rightServoPos);
+                telemetry.update();
+            }
+
+
+
+
 
 
             // Display the current value
             telemetry.addData("MotorPosition: ", robot.liftMotor.getCurrentPosition());
+            telemetry.addData("left clamp: ", leftServoPos);
+            telemetry.addData("right clamp: ", rightServoPos);
             telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();
 

@@ -43,39 +43,35 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.teamcode.HardwareJoeBot;
 
 import java.util.Locale;
 
 /**
- * This file illustrates the concept of driving a path based on encoder counts.
- * It uses the common Pushbot hardware class to define the drive on the robot.
- * The code is structured as a LinearOpMode
  *
- * The code REQUIRES that you DO have encoders on the wheels,
- *   otherwise you would use: PushbotAutoDriveByTime;
+ * This is a test autonomous opMode and assumes starting the "Red One" position (on the left
+ * side of the playing field from the red driver area). The objective is to:
  *
- *  This code ALSO requires that the drive Motors have been configured such that a positive
- *  power command moves them forwards, and causes the encoders to count UP.
+ * Close the clamp on the pre-loaded glyph
+ * Raise the clamp to a safe driving height
+ * Read the VuMark and store the Key Column
+ * Drop the jewel arm
+ * Read the color of the jewel in front of the jewel arm
+ * Based on the color of the jewel, rotate the bot either CW or CCW to knock off the right jewel
+ * Raise the jewel arm
+ * Rotate back to the starting position
+ * Drive forward a set distance based on the vumark read.
+ * Rotate 90 degrees toward the CryptoLock
+ * Drive Forward, placing the glyph in the cryptolock
+ * open the clamp
+ * back up 4"
+ * rotate 180 degrees (facing the glyph pit
  *
- *   The desired path in this example is:
- *   - Drive forward for 48 inches
- *   - Spin right for 12 Inches
- *   - Drive Backwards for 24 inches
- *   - Stop and close the claw.
  *
- *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
- *  that performs the actual movement.
- *  This methods assumes that each movement is relative to the last stopping place.
- *  There are other ways to perform encoder based moves, but this method is probably the simplest.
- *  This code uses the RUN_TO_POSITION mode to enable the Motor controllers to generate the run profile
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-
-@Autonomous(name="Red 1 8513 ", group="Testing")
-@Disabled
-public class R1test8513 extends LinearOpMode {
+//Make sure to update the code to the phone to use the correct BLue-1
+@Autonomous(name="Blue 1 - 8513", group="Auto")
+public class autoBlueOne8513 extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareJoeBot8513 robot   = new HardwareJoeBot8513();   // Use a Pushbot's hardware
@@ -99,94 +95,127 @@ public class R1test8513 extends LinearOpMode {
     final double SCALE_FACTOR = 255;
 
     long intheading=0;
+
+
     @Override
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap, this);
-        /*4
-         * Initialize the drive system variables.
-         * The init() method of the hardware class does all the work here
-         */
 
-
-        // Send telemetry message to signify robot waiting;
-        //telemetry.addData("Status", "Resetting Encoders");    //
-        //telemetry.update();
-
-        robot.motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        idle();
-
-        robot.motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        // Send telemetry message to indicate successful Encoder reset
-        //telemetry.addData("Path0",  "Starting at %7d :%7d",
-        //                  robot.motor1.getCurrentPosition(),
-        //                  robot.motor2.getCurrentPosition());
-
-
-        // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        //Phone is facing the vu mark
-        //Find it using compass
-        //Read the vu mark
-        //encoder drive to cryptobox(based on vu mark
         robot.angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         telemetry.addData("heading: %7d", robot.angles);
+        telemetry.update();
 
-
-
-        robot.lowerJewelArm();
-
+        // Close the clamp on the pre-loaded glyph
+        robot.closeClamp();
         sleep(1000);
+
+        telemetry.addLine("Starting Lift");
+        telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
+        telemetry.update();
+
+        // Raise the clamp to a safe driving height
+        robot.liftMotor.setTargetPosition(robot.LIFT_PLATFORM_POS);
+        robot.liftMotor.setPower(.5);
+        while (robot.liftMotor.isBusy()) {
+            telemetry.addLine("Lift in Motion");
+            telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
+            telemetry.update();
+            idle();
+        }
+        robot.liftMotor.setPower(0);
+
+        // Read the VuMark and store the Key Column
+        // Need to add the VuMark Code here...
+
+        // Drop the jewel arm
+        //Jewel Arm disabled becuase of servo issues
+        robot.lowerJewelArm();
+        sleep(1000);
+
+        // Read the color of the jewel in front of the jewel arm
+        // Raise the jewel arm
+        telemetry.addData("Blue: ", robot.jewelSensor.blue());
+        telemetry.addData("Red: ", robot.jewelSensor.red());
+        telemetry.update();
+
+
+        telemetry.addData("Blue: ", robot.jewelSensor.blue());
+        telemetry.addData("Red: ", robot.jewelSensor.red());
+
+
+//Edited to BLue at 11/28/17
+        // Based on the color of the jewel, rotate the bot either CW or CCW to knock off the right jewel
+        //Jewel Arm disabled becuase of servo issues
+
+        if (robot.jewelSensor.red() > robot.jewelSensor.blue()) {
+            //The sensor sees more Red than Blue, so the red jewel is "in front". Since this is
+            //a "Red" opMode, we want to knock the blue jewel off the table.
+            telemetry.addLine("Red Wins");
+            telemetry.update();
+            //headingturn('r', -9);
+            timeDrive(.15,.5);
+            robot.raiseJewelArm();
+            timeDrive(-.15,.5);
+        } else {
+            telemetry.addLine("Blue Wins");
+            telemetry.update();
+            timeDrive(-.15,.5);
+            robot.raiseJewelArm();
+            timeDrive(.15,.5);
+        }
+
+        telemetry.update();
 
         Color.RGBToHSV((int) (robot.jewelSensor.red() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.green() * SCALE_FACTOR),
                 (int) (robot.jewelSensor.blue() * SCALE_FACTOR),
                 hsvValues);
-
-        telemetry.addData("Red: ", robot.jewelSensor.red());
-        telemetry.addData("Blue: ", robot.jewelSensor.blue());
-        telemetry.update();
-
-
-        if (robot.jewelSensor.red() <= 28) {
-            encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
-
-        }
-        else {
-            encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
-            encoderDrive(DRIVE_SPEED, 4.0, 4.0, 30);
-        }
+//Distance is fine-tuned for the position in corilation to the turn
         robot.raiseJewelArm();
-        sleep(500);
+        headingturn('r', -5);
+        timeDrive(-.2, 4.50);
+        //Point -79=POS RIGHT ROW
+        headingturn('r', -73);
+        stopmotors();
+       //---- Robot has turned to position
+        idle();
+        robot.liftMotor.setTargetPosition(0);
+        robot.liftMotor.setPower(-.5);
+        while (robot.liftMotor.isBusy()) {
+            idle();
+        }
 
-        encoderDrive(DRIVE_SPEED, 71.0, 71.0, 30);
-        headingturn('r', -90);
-            stopmotors();
-            encoderDrive(DRIVE_SPEED, 17.0, 17.0, 30);
-            stopmotors();
         robot.openClamp();
-        sleep(750);
+        timeDrive(.15,.5);
+        timeDrive(-.15,.5);
+        /*encoderDrive(DRIVE_SPEED, 8.0, 8.0, 30);
+        robot.liftMotor.setTargetPosition(robot.LIFT_STARTING_POS);
+        robot.liftMotor.setPower(-.5);
+        while (robot.liftMotor.isBusy()) {
+            idle();
+         }robot.liftMotor.setPower(0);
+        robot.openClamp();
+        encoderDrive(DRIVE_SPEED, -13.0, -13.0, 30);
+        headingturn(180);
+
+        robot.openClamp();
         robot.closeClamp();
-        encoderDrive(DRIVE_SPEED, 5.0, 5.0, 30);
-        encoderDrive(DRIVE_SPEED, -4.0, -4.0, 30);
-            headingturn('l', 180);
-            /*encoderDrive(DRIVE_SPEED, -260, -260.0, 30);
-            headingturn('l', 270);
-            encoderDrive(DRIVE_SPEED, -346.0, -346.0, 30);*/
 
 
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
+
+        sleep(10000);
+        */
+
+
+
+
     }
+
+
+
 
     public void headingturn (char leftorright,int targetheading)
 
@@ -209,15 +238,15 @@ public class R1test8513 extends LinearOpMode {
             telemetry.addData("heading: %7d ",_intheading);
             telemetry.update();
             if (leftorright=='l') {
-                robot.motor1.setPower(-.2);
-                robot.motor2.setPower(.2);
-                robot.motor3.setPower(-.2);
-                robot.motor4.setPower(.2);
+                robot.motor1.setPower(-.1);
+                robot.motor2.setPower(.1);
+                robot.motor3.setPower(-.1);
+                robot.motor4.setPower(.1);
             } else {
-                robot.motor1.setPower(.2);
-                robot.motor2.setPower(-.2);
-                robot.motor3.setPower(.2);
-                robot.motor4.setPower(-.2);
+                robot.motor1.setPower(.1);
+                robot.motor2.setPower(-.1);
+                robot.motor3.setPower(.1);
+                robot.motor4.setPower(-.1);
             }
 
 
@@ -261,6 +290,7 @@ public void stopmotors()
      *  2) Move runs out of time
      *  3) Driver stops the opmode running.
      */
+
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) throws InterruptedException {
@@ -341,4 +371,60 @@ public void stopmotors()
     String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
+    public void timeDrive(double speed, double timeoutS) throws InterruptedException {
+
+
+        // Ensure that the opmode is still active
+        robot.motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+
+
+
+
+            runtime.reset();
+            robot.motor1.setPower(speed);
+            robot.motor2.setPower(speed);
+            robot.motor3.setPower(speed);
+            robot.motor4.setPower(speed);
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS)) {
+
+
+                // Display it for the driver.
+                //robot.angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+                robot.angles =robot.imu.getAngularOrientation();
+                heading = formatAngle(robot.angles.angleUnit, robot.angles.firstAngle);
+
+                telemetry.addData("heading: %7d ",robot.angles.firstAngle);
+                telemetry.addData("runtime: ",runtime.seconds());
+                telemetry.addData("tagettime:",timeoutS);
+                telemetry.update();
+
+                // Allow time for other processes to run.
+                idle();
+            }
+
+            // Stop all motion;
+            robot.motor1.setPower(0);
+            robot.motor2.setPower(0);
+            robot.motor3.setPower(0);
+            robot.motor4.setPower(0);
+            // Turn off RUN_TO_POSITION
+            robot.motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //  sleep(250);   // optional pause after each move
+        }
+    }
+
 }
+

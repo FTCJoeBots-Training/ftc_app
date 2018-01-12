@@ -25,6 +25,8 @@ import java.util.Locale;
 /**
  * This is NOT an opmode.
  *
+ * 8513 Not to be used for 11855,1703.
+ *
  * This hardware class assumes the following device names have been configured on the robot:
  * Note:  All names are lower case and some have single spaces between words.
  *
@@ -68,6 +70,7 @@ public class HardwareJoeBot8513
     public static final int LIFT_STARTING_POS = 500;
     public static final int LIFT_GLYPH_ONE_POS = 2400;
     public static final int LIFT_GLYPH_TWO_POS = 4180;
+
 
     public ColorSensor jewelSensor = null; // Rev Robotics Color Sensor
 

@@ -22,7 +22,7 @@ you should be able to explain in good detail everything in this code.
 
 public class teleOpWheelTest extends LinearOpMode {
 
-    HardwareJoeBot8513 robot = new HardwareJoeBot8513();
+    HardwareJoeBot robot = new HardwareJoeBot();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -48,9 +48,9 @@ public class teleOpWheelTest extends LinearOpMode {
             while (gamepad1.b) {
                 robot.motor2.setPower(.5);
             }
-            //while (gamepad1.x) {
-              //  robot.motor3.setPower(.5);
-            //}
+            while (gamepad1.x) {
+                robot.motor3.setPower(.5);
+            }
             while (gamepad1.y) {
                 robot.motor4.setPower(.5);
             }
@@ -61,12 +61,6 @@ public class teleOpWheelTest extends LinearOpMode {
             robot.motor3.setPower(0);
             robot.motor4.setPower(0);
             idle();
-
-
-            if (gamepad1.x) {
-
-            }
-
 
 
 

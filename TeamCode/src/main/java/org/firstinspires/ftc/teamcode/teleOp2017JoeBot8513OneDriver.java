@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,7 +17,7 @@ you should be able to explain in good detail everything in this code.
 
 */
 @TeleOp(name="8513 TeleOp", group="TeleOp")
-@Disabled
+
 public class teleOp2017JoeBot8513 extends LinearOpMode {
 
     HardwareJoeBot8513 robot = new HardwareJoeBot8513();
