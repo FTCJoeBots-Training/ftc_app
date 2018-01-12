@@ -1,27 +1,39 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TestingGround;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-/*import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import org.firstinspires.ftc.teamcode.HardwareJoeBot;
 
+/**
+ *import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+ *import com.qualcomm.robotcore.hardware.DcMotor;
+ *
+ *
+ */
+
+/**
+ *Notes For this TeleOp Code. This code is for Comp and all proggramers should review over this
+ *code and understand this code for the possibility that a question may be asked related to TeleOp and
+ *you should be able to explain in good detail everything in this code.
+ *11/16/17-> Changed all gamepad's in code to correct gamepad (i.e some gamepad1's to gamepad2)
+ ***11/18/17-> Competition Notes below
+ *Notes-> Autonomous is incorrect, Not much was wrong from a software sandpoint but hardware issues were fixed
+ *Autonomous issues included: Incorrect spinning causing us to move out of destination,
+ *To much time on the down motion of the clamp and arm.
+ *These issues are still not resolved
+ * Recomendation for autonomous issues(Not Offical):Fine tune the timer on the clamp
+ * Fine tune the movements and LOWER the TIME OF MOVEMENT in autonomous.
+ * List of issues at Comp(1)-> https://docs.google.com/a/stjoebears.com/spreadsheets/d/1r_liipKBU7GHfONdxq9E6d4f7zikcCuXwDL2bsQfwm0/edit?usp=sharing
+ *G-Sheet of time VS Heading for autonomous -> https://docs.google.com/a/stjoebears.com/spreadsheets/d/1pqv0iN94fFd5KvX1YIWP7z39HgpURXsscn0zPujs1q4/edit?usp=sharing
 */
-
-/*
-Notes For this TeleOp Code. This code is for Comp and all proggramers should review over this
-code and understand this code for the possibility that a question may be asked related to TeleOp and
-you should be able to explain in good detail everything in this code.
-
-
-*/
-@TeleOp(name="8513 TeleOp", group="TeleOp")
+@TeleOp(name="FORTHESCHOOLS", group="TeleOp")
 @Disabled
-public class teleOp2017JoeBot8513 extends LinearOpMode {
+public class ForTheSchools extends LinearOpMode {
 
-    HardwareJoeBot8513 robot = new HardwareJoeBot8513();
+    HardwareJoeBot robot = new HardwareJoeBot();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -53,16 +65,16 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
         boolean bCurrStateRB;
         boolean bPrevStateRB = false;
         boolean bAutomatedLiftMotion = false;
+        int iLiftTargetPos = 1;
         int iRightBumperTarget = 1;
-        int iLiftTargetPos = 0;
-        double rightNumber = 0;
         double liftPower = .6;
 
-
-        // Make sure Clamps are open in TeleOp
-        robot.openClamp();
+        robot.jewelSensor.enableLed(false);
 
         waitForStart();
+
+        // In Teleop, we want to start with open clamp
+        robot.openClamp();
 
 
         //start of loop
@@ -77,7 +89,7 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
 
             // Add a tuning constant "K" to tune rotate axis sensitivity
             k = .6;
-            clockwise = clockwise * k;
+            clockwise = clockwise * k; //Make sure the "= Clockwise" is "= -clockwise"
 
 
             // Calculate motor power
@@ -116,12 +128,12 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
 
 
 
-            // Open/Close Clamps based on "A" Button Press
+            // Open/Close Clamps based on "B" Button Press
             // -------------------------------------------
 
-            bCurrStateA = gamepad2.a;
+            bCurrStateB = gamepad2.b;
 
-            if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
+            if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
 
                 if (robot.bClampOpen) {
                     //Clamp is open. Close it.
@@ -133,8 +145,45 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
 
             }
 
-            bPrevStateA = bCurrStateA;
+            bPrevStateB = bCurrStateB;
 
+
+            // Rotate Clamps based on "Y" Button Press
+            // -------------------------------------------
+
+            bCurrStateY = gamepad2.y;
+
+            if ((bCurrStateY == true) && (bCurrStateY != bPrevStateY)) {
+
+                if (robot.bClampDown) {
+                    //Clamp is down. Raise it.
+                    robot.raiseClamp();
+                } else {
+                    //Clamp is up. Lower it.
+                    robot.lowerClamp();
+                }
+
+            }
+
+            bPrevStateY = bCurrStateY;
+
+
+            // Check on lift state.. If automated lift motion is active, check to see if lift is
+            // near its destination. If lift motion is at destination, turn off automated lift
+            // motion.
+
+            if (bAutomatedLiftMotion) {
+                // The lift is in Auto mode. Check to see if we're near our target
+                if (Math.abs(iLiftTargetPos - robot.liftMotor.getCurrentPosition()) < 50 ) {
+                    // We're close enough to the target to shut down auto mode.
+                    robot.liftMotor.setPower(0);
+                    bAutomatedLiftMotion = false;
+
+                    // Set Motors to run without encoder
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+                }
+            }
 
 
             // Manually Lift
@@ -155,7 +204,7 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
                 // Check to see if the lift is already in auto mode. If it is, disable it.
                 if (bAutomatedLiftMotion) {
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                    robot.liftMotor.setPower(.1);
+                    robot.liftMotor.setPower(0);
                     bAutomatedLiftMotion = false;
 
                     // reset iRightBumperTarget
@@ -170,18 +219,10 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
                 }
             }
 
-            // For Testing Only -- Manually move jewel Arm
-            if (gamepad2.dpad_left && (robot.jewelServo.getPosition() > 0)) {
-                robot.jewelServo.setPosition(robot.jewelServo.getPosition() - .05);
-                sleep(200);
-            } else if (gamepad2.dpad_right && (robot.jewelServo.getPosition() < 1)) {
-                robot.jewelServo.setPosition(robot.jewelServo.getPosition() + .05);
-                sleep(200);
-            }
 
             // Left Bumper Press moves lift to "base" position
 
-            bCurrStateLB = gamepad2.left_bumper;
+           bCurrStateLB = gamepad2.left_bumper;
 
             if ((bCurrStateLB == true) && (bCurrStateLB != bPrevStateLB)) {
 
@@ -239,19 +280,77 @@ public class teleOp2017JoeBot8513 extends LinearOpMode {
 
             bPrevStateRB = bCurrStateRB;
 
+            // Toggle Search Mode - raise Lift to search position; Open clamp; rotate clamp
+
+            bCurrStateA = gamepad1.a;
+
+            if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
+
+                // Would like to Raise Clamp before moving lift because it moves better vertically
+                // but can't figure out in short term how to know when lift is finished moving
+                // and search mode is active to drop and open clamp. For now, will move clamp
+                // while lift is in motion.
+
+                bAutomatedLiftMotion = true;
+                iLiftTargetPos = robot.LIFT_SEARCHING_POS;
+
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                robot.liftMotor.setPower(0.6);
+
+                // Lower Clamp and Open
+                if (!robot.bClampDown) { robot.lowerClamp(); }
+                if (!robot.bClampOpen) { robot.openClamp();}
+
+            }
+
+            bPrevStateA = bCurrStateA;
+
+
+            // Pick up Glyphs and prepare to drive
+
+            bCurrStateX = gamepad2.x;
+
+            if ((bCurrStateX == true) && (bCurrStateX != bPrevStateX)) {
+
+                // This code should close the clamp on the glyphs, rotate the glyph clamp to the
+                // "up" position, then lower the lift to the "driving" (or "base") position
+
+                robot.closeClamp();
+                sleep(1500);
+                robot.raiseClamp();
+                sleep(500);
+
+                bAutomatedLiftMotion = true;
+                iLiftTargetPos = robot.LIFT_STARTING_POS;
+
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.liftMotor.setTargetPosition(iLiftTargetPos);
+                robot.liftMotor.setPower(0.6);
+
+
+            }
+
+            bPrevStateX = bCurrStateX;
+
+
+
+
 
 
 
             // Update Telemetry
             telemetry.addData("Clamp Open?: ", robot.bClampOpen);
-            telemetry.addData("Jewel Arm Pos: ", robot.jewelServo.getPosition());
+            telemetry.addData("Clamp Down?: ", robot.bClampDown);
             telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
             telemetry.addData("Lift Target: ", iLiftTargetPos);
-            telemetry.addData("Right Bumper: ", iRightBumperTarget);
-            telemetry.addData("Automated Lift?", bAutomatedLiftMotion);
+            telemetry.addData("RB Target: ", iRightBumperTarget);
             telemetry.addData(">", "Press Stop to end test.");
             telemetry.update();
             idle();
+
+
+
 
 
 

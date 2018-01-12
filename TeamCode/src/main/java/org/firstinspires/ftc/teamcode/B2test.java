@@ -35,6 +35,7 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -73,7 +74,7 @@ import java.util.Locale;
  */
 
 @Autonomous(name="Blue 2 twins  ", group="Testing")
-//Disabled
+@Disabled
 public class B2test extends LinearOpMode {
 
     /* Declare OpMode members. */
