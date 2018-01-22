@@ -18,7 +18,7 @@ you should be able to explain in good detail everything in this code.
 */
 @TeleOp(name="8513 TeleOp", group="TeleOp")
 
-public class teleOp2017JoeBot8513 extends LinearOpMode {
+public class teleOp2017JoeBot8513OneDriver extends LinearOpMode {
 
     HardwareJoeBot8513 robot = new HardwareJoeBot8513();
 
