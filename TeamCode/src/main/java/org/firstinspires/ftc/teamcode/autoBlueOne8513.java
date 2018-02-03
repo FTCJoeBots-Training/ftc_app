@@ -70,7 +70,8 @@ import java.util.Locale;
  *
  */
 //Make sure to update the code to the phone to use the correct BLue-1
-@Autonomous(name="Blue 1 - 8513", group="Auto")
+@Autonomous(name="8513 - Blue 1", group="Auto")
+
 public class autoBlueOne8513 extends LinearOpMode {
 
     /* Declare OpMode members. */

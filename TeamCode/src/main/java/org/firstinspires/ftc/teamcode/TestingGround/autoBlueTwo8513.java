@@ -69,7 +69,7 @@ import java.util.Locale;
  *
  */
 
-@Autonomous(name="Blue 2 - 8513", group="Auto")
+@Autonomous(name="8513 - Blue 2", group="Auto")
 //Disabled
 public class autoBlueTwo8513 extends LinearOpMode {
 

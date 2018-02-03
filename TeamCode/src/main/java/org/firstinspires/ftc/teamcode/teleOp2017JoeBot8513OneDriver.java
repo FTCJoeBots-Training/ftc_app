@@ -16,7 +16,7 @@ you should be able to explain in good detail everything in this code.
 
 
 */
-@TeleOp(name="8513 TeleOp", group="TeleOp")
+@TeleOp(name="8513 TeleOp - One Driver", group="TeleOp")
 
 public class teleOp2017JoeBot8513OneDriver extends LinearOpMode {
 
@@ -118,7 +118,7 @@ public class teleOp2017JoeBot8513OneDriver extends LinearOpMode {
             // Open/Close Clamps based on "A" Button Press
             // -------------------------------------------
 
-            bCurrStateA = gamepad2.a;
+            bCurrStateA = gamepad1.a;
 
             if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
 
@@ -139,7 +139,7 @@ public class teleOp2017JoeBot8513OneDriver extends LinearOpMode {
             // Manually Lift
             // Raise the lift manually via "D-PAD" (NOT Toggle)
             // make a if statement
-            if( gamepad2.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
+            if( gamepad1.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
                 // Check to see if the lift is already in auto mode. If it is, disable it.
                 if (bAutomatedLiftMotion) {
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -151,7 +151,7 @@ public class teleOp2017JoeBot8513OneDriver extends LinearOpMode {
 
                 }
                 robot.liftMotor.setPower(liftPower);
-            } else if (gamepad2.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
+            } else if (gamepad1.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
                 // Check to see if the lift is already in auto mode. If it is, disable it.
                 if (bAutomatedLiftMotion) {
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -171,17 +171,17 @@ public class teleOp2017JoeBot8513OneDriver extends LinearOpMode {
             }
 
             // For Testing Only -- Manually move jewel Arm
-            if (gamepad2.dpad_left && (robot.jewelServo.getPosition() > 0)) {
+            if (gamepad1.dpad_left && (robot.jewelServo.getPosition() > 0)) {
                 robot.jewelServo.setPosition(robot.jewelServo.getPosition() - .05);
                 sleep(200);
-            } else if (gamepad2.dpad_right && (robot.jewelServo.getPosition() < 1)) {
+            } else if (gamepad1.dpad_right && (robot.jewelServo.getPosition() < 1)) {
                 robot.jewelServo.setPosition(robot.jewelServo.getPosition() + .05);
                 sleep(200);
             }
 
             // Left Bumper Press moves lift to "base" position
 
-            bCurrStateLB = gamepad2.left_bumper;
+            bCurrStateLB = gamepad1.left_bumper;
 
             if ((bCurrStateLB == true) && (bCurrStateLB != bPrevStateLB)) {
 
@@ -203,7 +203,7 @@ public class teleOp2017JoeBot8513OneDriver extends LinearOpMode {
             // Right Bumper toggles between Position 1 and Position 2. First Press should be
             // Position 1
 
-            bCurrStateRB = gamepad2.right_bumper;
+            bCurrStateRB = gamepad1.right_bumper;
 
             if ((bCurrStateRB == true) && (bCurrStateRB != bPrevStateRB)) {
 

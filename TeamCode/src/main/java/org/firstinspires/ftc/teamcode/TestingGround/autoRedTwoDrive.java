@@ -75,7 +75,7 @@ import java.util.Locale;
  *
  */
 
-@Autonomous(name="Red 2 - Drive Test", group="Auto")
+@Autonomous(name="Twins - Red 2", group="Auto")
 //Disabled
 public class autoRedTwoDrive extends LinearOpMode {
 

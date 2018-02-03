@@ -26,9 +26,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * List of issues at Comp(1)-> https://docs.google.com/a/stjoebears.com/spreadsheets/d/1r_liipKBU7GHfONdxq9E6d4f7zikcCuXwDL2bsQfwm0/edit?usp=sharing
  *G-Sheet of time VS Heading for autonomous -> https://docs.google.com/a/stjoebears.com/spreadsheets/d/1pqv0iN94fFd5KvX1YIWP7z39HgpURXsscn0zPujs1q4/edit?usp=sharing
 */
-@TeleOp(name="Twins TeleOp", group="TeleOp")
+@TeleOp(name="Twins TeleOp - One Driver", group="TeleOp")
 
-public class teleOp2017JoeBot extends LinearOpMode {
+public class teleOp2017JoeBotOneDriver extends LinearOpMode {
 
     HardwareJoeBot robot = new HardwareJoeBot();
 
@@ -132,7 +132,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             // Open/Close Clamps based on "B" Button Press
             // -------------------------------------------
         /*
-            bCurrStateB = gamepad2.b;
+            bCurrStateB = gamepad1.b;
 
             if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
 
@@ -183,7 +183,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
 
         */
-            bCurrStateB = gamepad2.b;
+            bCurrStateB = gamepad1.b;
 
             if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
 
@@ -215,7 +215,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             // Rotate Clamps based on "Y" Button Press
             // -------------------------------------------
 
-            bCurrStateY = gamepad2.y;
+            bCurrStateY = gamepad1.y;
 
             if ((bCurrStateY == true) && (bCurrStateY != bPrevStateY)) {
 
@@ -256,7 +256,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             // Manually Lift
             // Raise the lift manually via "D-PAD" (NOT Toggle)
             // make a if statement
-            if( gamepad2.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
+            if( gamepad1.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
                 // Check to see if the lift is already in auto mode. If it is, disable it.
                 if (bAutomatedLiftMotion) {
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -267,7 +267,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
                     iRightBumperTarget = 1;
                 }
                 robot.liftMotor.setPower(liftPower);
-            } else if (gamepad2.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
+            } else if (gamepad1.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
                 // Check to see if the lift is already in auto mode. If it is, disable it.
                 if (bAutomatedLiftMotion) {
                     robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -289,7 +289,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
             // Left Bumper Press moves lift to "base" position
 
-           bCurrStateLB = gamepad2.left_bumper;
+           bCurrStateLB = gamepad1.left_bumper;
 
             if ((bCurrStateLB == true) && (bCurrStateLB != bPrevStateLB)) {
 
@@ -311,7 +311,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
             // Right Bumper toggles between Position 1 and Position 2. First Press should be
             // Position 1
 
-            bCurrStateRB = gamepad2.right_bumper;
+            bCurrStateRB = gamepad1.right_bumper;
 
             if ((bCurrStateRB == true) && (bCurrStateRB != bPrevStateRB)) {
 
@@ -353,7 +353,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
 
 
-            bCurrStateA = gamepad2.a;
+            bCurrStateA = gamepad1.a;
 
             if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
 
@@ -412,7 +412,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
 
             // Toggle Search Mode - raise Lift to search position; Open clamp; rotate clamp
 
-            /*bCurrStateA = gamepad2.a;
+            /*bCurrStateA = gamepad1.a;
 
             if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
 
@@ -464,7 +464,7 @@ public class teleOp2017JoeBot extends LinearOpMode {
 */
             // Pick up Glyphs and prepare to drive
 
-            bCurrStateX = gamepad2.x;
+            bCurrStateX = gamepad1.x;
 
             if ((bCurrStateX == true) && (bCurrStateX != bPrevStateX)) {
 
