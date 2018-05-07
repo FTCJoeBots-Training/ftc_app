@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * List of issues at Comp(1)-> https://docs.google.com/a/stjoebears.com/spreadsheets/d/1r_liipKBU7GHfONdxq9E6d4f7zikcCuXwDL2bsQfwm0/edit?usp=sharing
  *G-Sheet of time VS Heading for autonomous -> https://docs.google.com/a/stjoebears.com/spreadsheets/d/1pqv0iN94fFd5KvX1YIWP7z39HgpURXsscn0zPujs1q4/edit?usp=sharing
 */
-@TeleOp(name="JoeBot TeleOp 11855", group="TeleOp")
+@TeleOp(name="11855 - TeleOp", group="TeleOp")
 
 public class teleOp2017JoeBot11855 extends LinearOpMode {
 
@@ -68,6 +68,7 @@ public class teleOp2017JoeBot11855 extends LinearOpMode {
         int iRightBumperTarget = 1;
         int iaButtonTarget = 1;
         double liftPower = .6;
+        double dCurrentRotatePosition;
 
         robot.jewelSensor.enableLed(false);
 
@@ -231,6 +232,19 @@ public class teleOp2017JoeBot11855 extends LinearOpMode {
             }
 
 
+            // Manually rotate the lift based on the dpad_left/right
+
+            //Note: increasing clampRotate position lowers the clamp
+
+            dCurrentRotatePosition = robot.clampRotate.getPosition();
+            if (gamepad2.dpad_left && (dCurrentRotatePosition < robot.CLAMP_DOWN_POS)) {
+                robot.clampRotate.setPosition(dCurrentRotatePosition + 0.05);
+            }
+            if (gamepad2.dpad_right && (dCurrentRotatePosition > robot.CLAMP_UP_POS)) {
+                robot.clampRotate.setPosition(dCurrentRotatePosition - 0.05);
+            }
+
+
             // Left Bumper Press moves lift to "base" position
 
            bCurrStateLB = gamepad2.left_bumper;
@@ -378,8 +392,8 @@ public class teleOp2017JoeBot11855 extends LinearOpMode {
 
 
             // Update Telemetry
-            telemetry.addData("Clamp Open?: ", robot.bClampOpen);
-            telemetry.addData("Clamp Down?: ", robot.bClampDown);
+            telemetry.addData("dCurrentPos:", dCurrentRotatePosition);
+            telemetry.addData("ROTATE POSITION: ", robot.clampRotate.getPosition());
             telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
             telemetry.addData("Lift Target: ", iLiftTargetPos);
             telemetry.addData("RB Target: ", iRightBumperTarget);

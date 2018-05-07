@@ -56,11 +56,11 @@ public class HardwareJoeBot11855
 
 
     // Declare static values
-    public static final double CLAMP_OPEN_POS = 0;
-    public static final double CLAMP_CLOSE_POS = 1;
-    public static final double CLAMP_DOWN_POS = 0.55;
-    public static final double CLAMP_UP_POS = .15; //This position ".25" is for 1813 to fix the consistent flicking motion during "init" faz
-    public static final double CLAMP_MID_POS = .5;
+    public static final double CLAMP_OPEN_POS = 0.1;
+    public static final double CLAMP_CLOSE_POS = 0.7;
+    public static final double CLAMP_DOWN_POS = 0.54;
+    public static final double CLAMP_UP_POS = 0.2; //This position ".25" is for 1813 to fix the consistent flicking motion during "init" faz
+    public static final double CLAMP_MID_POS = 0.53;
     public static final double JEWEL_ARM_UP_POS = 0.75;
     public static final double JEWEL_ARM_DOWN_POS = 0.02;
     public static final int LIFT_STARTING_POS = 0;

@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  *Notes For this TeleOp Code. This code is for Comp and all proggramers should review over this
  *code and understand this code for the possibility that a question may be asked related to TeleOp and
  *you should be able to explain in good detail everything in this code.
- *11/16/17-> Changed all gamepad's in code to correct gamepad (i.e some gamepad1's to gamepad2)
+ *11/16/17-> Changed all gamepad's in code to correct gamepad (i.e some gamepad1's to gamepad1)
  ***11/18/17-> Competition Notes below
  *Notes-> Autonomous is incorrect, Not much was wrong from a software sandpoint but hardware issues were fixed
  *Autonomous issues included: Incorrect spinning causing us to move out of destination,
@@ -26,11 +26,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * List of issues at Comp(1)-> https://docs.google.com/a/stjoebears.com/spreadsheets/d/1r_liipKBU7GHfONdxq9E6d4f7zikcCuXwDL2bsQfwm0/edit?usp=sharing
  *G-Sheet of time VS Heading for autonomous -> https://docs.google.com/a/stjoebears.com/spreadsheets/d/1pqv0iN94fFd5KvX1YIWP7z39HgpURXsscn0zPujs1q4/edit?usp=sharing
 */
-@TeleOp(name="Twins TeleOp - One Driver", group="TeleOp")
+@TeleOp(name="11855 - TeleOp - One Driver", group="TeleOp")
 
-public class teleOp2017JoeBotOneDriver extends LinearOpMode {
+public class teleOp2017JoeBot11855OneDriver extends LinearOpMode {
 
-    HardwareJoeBot robot = new HardwareJoeBot();
+    HardwareJoeBot11855 robot = new HardwareJoeBot11855();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -68,6 +68,7 @@ public class teleOp2017JoeBotOneDriver extends LinearOpMode {
         int iRightBumperTarget = 1;
         int iaButtonTarget = 1;
         double liftPower = .6;
+        double dCurrentRotatePosition;
 
         robot.jewelSensor.enableLed(false);
 
@@ -84,7 +85,6 @@ public class teleOp2017JoeBotOneDriver extends LinearOpMode {
             //Drive Via "Analog Sticks" (Not Toggle)
             //Set initial motion parameters to Gamepad1 Inputs
             forward = -gamepad1.left_stick_y;
-            //right = gamepad1.left_stick_x;
             right = -gamepad1.left_trigger + gamepad1.right_trigger;
             clockwise = gamepad1.right_stick_x;
 
@@ -131,58 +131,7 @@ public class teleOp2017JoeBotOneDriver extends LinearOpMode {
 
             // Open/Close Clamps based on "B" Button Press
             // -------------------------------------------
-        /*
-            bCurrStateB = gamepad1.b;
 
-            if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
-
-<<<<<<< HEAD
-                if (robot.bClampOpen) {
-                    //Clamp is open. Close it.
-                    robot.closeClamp();
-                } else  {
-                    //Clamp must be closed. Open it.
-                    robot.openClamp();
-=======
-                //Make sure that the order is Close->Mid->Open
-                // Check to see if this is the first or second button press
-                if (dbButtonTarget == 1) {
-                    dClampTargetPos = robot.CLAMP_CLOSE_POS;
-
-                } else if (dbButtonTarget == 2) {
-                    dClampTargetPos = robot.CLAMP_MID_POS;
-
-                } else if (dbButtonTarget == 3) {
-                    dClampTargetPos = robot.CLAMP_OPEN_POS;
->>>>>>> JewelCode2
-                }
-
-                robot.clampServo.setPosition(dClampTargetPos);
-                // Set new Lift Target for next button press.
-                dbButtonTarget += 1;
-                if (dbButtonTarget>3) { dbButtonTarget = 1; }
-
-            }
-
-            SWITCH CODE FOR GamePad_B
-        switch (dbButtonTarget) {
-                    case 1:
-                        dbClampTargetPos = robot.CLAMP_OPEN_POS;
-                        break;
-                    case 2:
-                        dClampTargetPos = robot.CLAMP_MID_POS;
-                        break;
-                    case 3:
-                        dClampTargetPos = robot.CLAMP_CLOSE_POS;
-                        break;
-                }//end switch
-
-
-
-            bPrevStateB = bCurrStateB;
-
-
-        */
             bCurrStateB = gamepad1.b;
 
             if ((bCurrStateB == true) && (bCurrStateB != bPrevStateB)) {
@@ -207,9 +156,6 @@ public class teleOp2017JoeBotOneDriver extends LinearOpMode {
             }
 
             bPrevStateB = bCurrStateB;
-
-
-
 
 
             // Rotate Clamps based on "Y" Button Press
@@ -228,11 +174,10 @@ public class teleOp2017JoeBotOneDriver extends LinearOpMode {
                 }
 
                 iaButtonTarget = 1;
+
             }
 
             bPrevStateY = bCurrStateY;
-
-
 
 
             // Check on lift state.. If automated lift motion is active, check to see if lift is
@@ -284,6 +229,19 @@ public class teleOp2017JoeBotOneDriver extends LinearOpMode {
                 if (!bAutomatedLiftMotion) {
                     robot.liftMotor.setPower(0);
                 }
+            }
+
+
+            // Manually rotate the lift based on the dpad_left/right
+
+            //Note: increasing clampRotate position lowers the clamp
+
+            dCurrentRotatePosition = robot.clampRotate.getPosition();
+            if (gamepad1.dpad_left && (dCurrentRotatePosition < robot.CLAMP_DOWN_POS)) {
+                robot.clampRotate.setPosition(dCurrentRotatePosition + 0.05);
+            }
+            if (gamepad1.dpad_right && (dCurrentRotatePosition > robot.CLAMP_UP_POS)) {
+                robot.clampRotate.setPosition(dCurrentRotatePosition - 0.05);
             }
 
 
@@ -347,11 +305,7 @@ public class teleOp2017JoeBotOneDriver extends LinearOpMode {
 
             bPrevStateRB = bCurrStateRB;
 
-
-
-
-
-
+            // Toggle Search Mode - raise Lift to search position; Open clamp; rotate clamp
 
             bCurrStateA = gamepad1.a;
 
@@ -405,7 +359,6 @@ public class teleOp2017JoeBotOneDriver extends LinearOpMode {
             bPrevStateA = bCurrStateA;
 
 
-
             // Pick up Glyphs and prepare to drive
 
             bCurrStateX = gamepad1.x;
@@ -439,14 +392,12 @@ public class teleOp2017JoeBotOneDriver extends LinearOpMode {
 
 
             // Update Telemetry
-            telemetry.addData("Clamp Open?: ", robot.bClampOpen);
-            telemetry.addData("Clamp Down?: ", robot.bClampDown);
+            telemetry.addData("dCurrentPos:", dCurrentRotatePosition);
+            telemetry.addData("ROTATE POSITION: ", robot.clampRotate.getPosition());
             telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
             telemetry.addData("Lift Target: ", iLiftTargetPos);
             telemetry.addData("RB Target: ", iRightBumperTarget);
             telemetry.addData(">", "Press Stop to end test.");
-            telemetry.addData("Next Search Position", iaButtonTarget);
-            telemetry.addData("Current Clamp Position",robot.clampServo.getPosition());
             telemetry.update();
             idle();
 
@@ -455,6 +406,6 @@ public class teleOp2017JoeBotOneDriver extends LinearOpMode {
 
 
 
-        }//end while
+        }
     }
 }

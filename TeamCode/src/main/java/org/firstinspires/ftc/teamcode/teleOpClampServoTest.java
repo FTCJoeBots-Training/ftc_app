@@ -42,13 +42,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import java.util.Locale;
 
 
-@TeleOp(name="JaredClampTest", group="TeleOp")
-@Disabled
+@TeleOp(name="Twins Clamp/Servo Test", group="TeleOp")
+//@Disabled
 public class teleOpClampServoTest extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareJoeBot8513 robot = new HardwareJoeBot8513();     // Use a JoeBot's hardware
-
+    HardwareJoeBot robot = new HardwareJoeBot();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -67,13 +66,20 @@ public class teleOpClampServoTest extends LinearOpMode {
         double power3;
         double power4;
         double max;
-        double leftServoPos = 0;
-        double rightServoPos = 0;
+        double clampServoPos = 0;
+        double rotateServoPos = 0;
         boolean bCurrStateA;
         boolean bPrevStateA = false;
         boolean bCurrStateX;
         boolean bPrevStateX = false;
+        boolean bAutomatedLiftMotion = false;
+        int iRightBumperTarget = 0;
+        double liftPower = 0.5;
 
+
+
+        clampServoPos = robot.clampServo.getPosition();
+        rotateServoPos = robot.clampRotate.getPosition();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -122,121 +128,68 @@ public class teleOpClampServoTest extends LinearOpMode {
             robot.motor4.setPower(power4);
 
             // Code to Test start/stop position of servos... Just increase/decrease positions and read telemetry
+            // dpad left/right manages clamp; dpad up/down is lift; right/left bumpers are rotate.
 
-            bCurrStateA = gamepad1.a;
+            // Code to test ClampServo
+            if(opModeIsActive() && gamepad1.dpad_left && robot.clampServo.getPosition()>0) {
+                clampServoPos -= 0.01;
+            }
+            if (opModeIsActive() && gamepad1.dpad_right && robot.clampServo.getPosition() < 1.0) {
+                clampServoPos += 0.01;
+            }
 
-            if ((bCurrStateA == true) && (bCurrStateA != bPrevStateA)) {
+           //Code to test clampRotate
 
-                if (robot.bClampOpen) {
-                    //Clamp is open. Close it.
-                    robot.closeClamp();
-                    robot.bClampOpen = false;
-                    telemetry.addLine("Clamp is Closed");
-                } else {
-                    //Clamp must be closed. Open it.
-                    robot.openClamp();
-                    robot.bClampOpen = true;
-                    telemetry.addLine("Clamp is Open");
+            if(opModeIsActive() && gamepad1.left_bumper && robot.clampRotate.getPosition()>0) {
+                rotateServoPos -= 0.01;
+            }
+            if (opModeIsActive() && gamepad1.right_bumper && robot.clampRotate.getPosition() < 1.0) {
+                rotateServoPos += 0.01;
+            }
+
+
+
+            // Manually Lift
+            // Raise the lift manually via "D-PAD" (NOT Toggle)
+            // make a if statement
+            if( gamepad1.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
+                // Check to see if the lift is already in auto mode. If it is, disable it.
+                if (bAutomatedLiftMotion) {
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    robot.liftMotor.setPower(0);
+                    bAutomatedLiftMotion = false;
+
+                    // reset iRightBumperTarget
+                    iRightBumperTarget = 1;
                 }
+                robot.liftMotor.setPower(liftPower);
+            } else if (gamepad1.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
+                // Check to see if the lift is already in auto mode. If it is, disable it.
+                if (bAutomatedLiftMotion) {
+                    robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    robot.liftMotor.setPower(0);
+                    bAutomatedLiftMotion = false;
 
-            }
-            bPrevStateA = bCurrStateA;
-
-            // Run the lift to a pre-set position when the "x" button is pressed
-            bCurrStateX = gamepad1.x;
-
-            if ((bCurrStateX == true) && (bCurrStateX != bPrevStateX)) {
-
-                // if Clamp is up, lower it, otherwise, raise it.
-
-                if (robot.bLiftRaised) {
-                    robot.liftMotor.setTargetPosition(robot.LIFT_MIN_POSITION);
-                } else {
-                    robot.liftMotor.setTargetPosition(2880);
+                    // reset iRightBumperTarget
+                    iRightBumperTarget = 1;
                 }
-                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.liftMotor.setPower(0.5);
-
-                while (opModeIsActive() && robot.liftMotor.isBusy()) {
-                    telemetry.addData("encoder-fwd", robot.liftMotor.getCurrentPosition() + "  busy=" + robot.liftMotor.isBusy());
-                    telemetry.update();
-                    idle();
+                robot.liftMotor.setPower(-liftPower);
+            } else {
+                // Check to see if the lift is already in an automated motion. If it is not,
+                // set power to 0
+                if (!bAutomatedLiftMotion) {
+                    robot.liftMotor.setPower(0);
                 }
-                robot.liftMotor.setPower(0);
-                robot.bLiftRaised = !robot.bLiftRaised;
-
-                robot.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-            }
-
-            //Raise the lift manually
-            /*
-            while (opModeIsActive() && gamepad1.dpad_up && (robot.liftMotor.getCurrentPosition() < robot.LIFT_MAX_POSITION)) {
-                robot.liftMotor.setPower(.2);
-            }
-            robot.liftMotor.setPower(0);
-
-            //lower the lift Manually
-            while (opModeIsActive() && gamepad1.dpad_down && (robot.liftMotor.getCurrentPosition() > robot.LIFT_MIN_POSITION)) {
-                robot.liftMotor.setPower(-.2);
-            }
-            robot.liftMotor.setPower(0);
-            */
-
-
-
-
-
-
-            //.70000000002 is starting position.
-
-
-            //Moving Clamp Left to open position and closed position.
-            while (opModeIsActive() && gamepad1.dpad_up && (robot.clampRight.getPosition() <=1) ) {
-                rightServoPos += .1;
-                robot.clampRight.setPosition(rightServoPos);
-                sleep(250);
-
-            }
-            //Moving Clamp Left to closed position and open position.
-            while (opModeIsActive() && gamepad1.dpad_down && (robot.clampRight.getPosition() >=0) ) {
-                rightServoPos -=.1;
-                robot.clampRight.setPosition(rightServoPos);
-                sleep(250);
             }
 
 
-            //Moving Clamp Left to open position and closed position.
-            while (opModeIsActive() && gamepad1.dpad_left && (robot.clampLeft.getPosition() <=1) ) {
-                leftServoPos += .1;
-                robot.clampLeft.setPosition(leftServoPos);
-                sleep(250);
-
-            }
-            //Moving Clamp Left to closed position and open position.
-            while (opModeIsActive() && gamepad1.dpad_right && (robot.clampLeft.getPosition() >=0) ) {
-                leftServoPos -=.1;
-                robot.clampLeft.setPosition(leftServoPos);
-                sleep(250);
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            robot.clampRotate.setPosition(rotateServoPos);
+            robot.clampServo.setPosition(clampServoPos);
 
             // Display the current value
-            telemetry.addData("leftServoPos: ", robot.clampLeft.getPosition());
-            telemetry.addData("rightServoPos:", robot.clampRight.getPosition());
+            telemetry.addData("Clamp Servo Pos: ", robot.clampServo.getPosition());
+            telemetry.addData("Rotate Servo Pos: ", robot.clampRotate.getPosition());
+            telemetry.addData("Lift Position: ", robot.liftMotor.getCurrentPosition());
             telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();
 
